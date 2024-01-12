@@ -1,0 +1,69 @@
+﻿<Window x:Class="FinGoods.View.CardsOrderWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FinGoods.View"
+        xmlns:vm="clr-namespace:FinGoods.ViewModels"
+        xmlns:cmd="clr-namespace:FinGoods.Commands"
+        mc:Ignorable="d" Style="{StaticResource StyleWindow}"
+        WindowStartupLocation="CenterScreen"
+        Title="Набор оборудования" Height="300" Width="534">
+    <Window.DataContext>
+        <vm:CardsOrderWindowVM/>
+    </Window.DataContext>
+
+    <DockPanel>
+        <UniformGrid DockPanel.Dock="Bottom" Columns="2" Margin="10" Background="#FFFBFBFB">
+            <Button Content="OK" Margin="8" Style="{StaticResource ButtonStyleShadow}">
+                <Button.Command>
+                    <cmd:CloseDialogCommand DialogResult="True"/>
+                </Button.Command>
+            </Button>
+            <Button Content="Отменить" Margin="8" IsCancel="True" Style="{StaticResource ButtonStyleShadow}"/>
+        </UniformGrid>
+
+        <Border BorderThickness="1" BorderBrush="Gray" Margin="4" CornerRadius="3">
+            <Grid Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="HorizontalAlignment" Value="Right"/>
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                    </Style>
+                    <Style TargetType="TextBox">
+                        <Setter Property="VerticalAlignment" Value="Stretch"/>
+                        <Setter Property="Margin" Value="4,4,12,4"/>
+                        <Setter Property="TextWrapping" Value="Wrap"/>
+                    </Style>
+                </Grid.Resources>
+
+                <TextBlock Text="Счет, карта заказа" Margin="6,0"/>
+                <TextBox Text="{Binding cardOrder.c_number}" Grid.Column="1"/>
+
+                <TextBlock Text="Дата отрузки" Grid.Row="1" Margin="6,0"/>
+                <!--<TextBox Text="{Binding cardOrder.c_dateOut}" Grid.Row="1" Grid.Column="1" />-->
+                <DatePicker SelectedDate="{Binding cardOrder.c_dateOut}" Margin="4,4,12,4"
+                        Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"/>
+
+                <TextBlock Text="Заказчик" Grid.Row="2" Margin="6,0"/>
+                <TextBox Text="{Binding cardOrder.c_customer}" Grid.Row="2" Grid.Column="1" />
+
+                <TextBlock Text="Объект установки" Grid.Row="3" Margin="6,0"/>
+                <TextBox Text="{Binding cardOrder.c_objectInstall}" Grid.Row="3" Grid.Column="1" />
+            </Grid>
+        </Border>
+        
+
+
+    </DockPanel>
+</Window>

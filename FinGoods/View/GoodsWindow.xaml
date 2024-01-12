@@ -1,0 +1,80 @@
+﻿<Window x:Class="FinGoods.View.GoodsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FinGoods.View"
+        xmlns:cmd="clr-namespace:FinGoods.Commands"
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen"
+        Title="Оборудование" Height="280" Width="334">
+    <DockPanel>
+        <UniformGrid Columns="2" DockPanel.Dock="Bottom" Margin="4">
+            <Button Content="OK" Margin="2">
+                <Button.Command>
+                    <cmd:CloseDialogCommand DialogResult="True"/>
+                </Button.Command>
+            </Button>
+            <Button Content="Отменить" Margin="2" IsCancel="True"/>
+        </UniformGrid>
+        
+        <StackPanel HorizontalAlignment="Center" Margin="8">
+            <StackPanel.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Width" Value="110"/>
+                    <Setter Property="Margin" Value="2"/>
+                </Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="Width" Value="130"/>
+                    <Setter Property="Margin" Value="2"/>
+                </Style>
+
+            </StackPanel.Resources>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Тип оборудования"/>
+                <ComboBox Width="130" ItemsSource="{Binding listGoodsType}" DisplayMemberPath="gt_name"
+                          SelectedValue="{Binding goods.g_type, Mode=TwoWay}"
+                          SelectedValuePath="id"
+                          />
+            </StackPanel>
+
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Заводской номер"/>
+                <TextBox Text="{Binding goods.g_number}"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Наименование"/>
+                <TextBox Text="{Binding goods.g_name}"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Заказчик"/>
+                <TextBox Text="{Binding goods.g_customer}"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Дата отгрузки"/>
+                <TextBox Text="{Binding goods.g_dateOut}"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Объект установки"/>
+                <TextBox Text="{Binding goods.g_objectInstall}"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Опросный лист"/>
+                <TextBox Text="{Binding goods.g_questList}"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Номер шкафа"/>
+                <TextBox Text="{Binding goods.g_numberBox}"/>
+            </StackPanel>
+
+        </StackPanel>
+        
+    </DockPanel>
+</Window>
