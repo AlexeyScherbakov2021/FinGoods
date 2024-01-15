@@ -68,7 +68,6 @@ namespace FinGoods.ViewModels
             {
                 repoCO.Save();
             }
-
         }
 
         //--------------------------------------------------------------------------------
@@ -85,7 +84,6 @@ namespace FinGoods.ViewModels
                 repoCO.Save();
                 listCardOrder.Remove(SelectCard);
             }
-
         }
 
         //--------------------------------------------------------------------------------

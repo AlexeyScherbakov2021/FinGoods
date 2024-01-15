@@ -7,9 +7,20 @@ namespace FinGoods.Models
 {
     public partial class ModelBase : DbContext
     {
-        public ModelBase()
+        private static ModelBase currentBase = null;
+
+        public static ModelBase GetBase()
+        {
+            if (currentBase == null)
+                new ModelBase();
+
+            return currentBase;
+        }
+
+        private ModelBase()
             : base("name=ModelBase")
         {
+            currentBase = this;
         }
 
         public virtual DbSet<CardOrder> CardOrders { get; set; }

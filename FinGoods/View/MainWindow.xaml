@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FinGoods"
         xmlns:vm="clr-namespace:FinGoods.ViewModels"
+        xmlns:fa="http://schemas.fontawesome.com/icons/"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Name="mainWindow" Style="{StaticResource StyleWindow}"
@@ -16,8 +17,18 @@
     <DockPanel>
         <FrameworkElement x:Name="proxy" Visibility="Collapsed" DataContext="{Binding}"/>
         <ToolBarPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="2">
-            <Button Content="Добавить" Command="{Binding AddCardOrderCommand}" Margin="4" Style="{StaticResource ButtonStyleShadow}"/>
-            <Button Content="Редактировать" Command="{Binding EditCardOrderCommand}"  Margin="4" Style="{StaticResource ButtonStyleShadow}"/>
+            <Button ToolTip="Добавить набор" Command="{Binding AddCardOrderCommand}" Margin="4" Style="{StaticResource ButtonStyleShadow}">
+                <StackPanel Orientation="Horizontal">
+                    <fa:ImageAwesome Icon="Solid_Plus" Width="10" Margin="1,0" Foreground="Blue"/>
+                    <fa:ImageAwesome Icon="Solid_TruckMoving" Height="20" Foreground="Blue"/>
+                </StackPanel>
+            </Button>
+            <Button ToolTip="Редактировать набор" Command="{Binding EditCardOrderCommand}"  Margin="4" Style="{StaticResource ButtonStyleShadow}">
+                <StackPanel Orientation="Horizontal">
+                    <fa:ImageAwesome Icon="Solid_PencilAlt" Width="10" Margin="1,0" Foreground="Blue"/>
+                    <fa:ImageAwesome Icon="Solid_TruckMoving" Height="20" Foreground="Blue"/>
+                </StackPanel>
+            </Button>
         </ToolBarPanel>
        
         <Grid>

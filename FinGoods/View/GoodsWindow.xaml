@@ -5,16 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FinGoods.View"
         xmlns:cmd="clr-namespace:FinGoods.Commands"
+        Style="{StaticResource StyleWindow}"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
-        Title="Оборудование" Height="280" Width="334">
+        Title="Оборудование" Height="240" Width="400">
     <DockPanel>
         <UniformGrid Columns="2" DockPanel.Dock="Bottom" Margin="4">
-            <Button Content="OK" Margin="2">
+            <Button Content="OK" Margin="2" Style="{StaticResource ButtonStyleShadow}">
                 <Button.Command>
                     <cmd:CloseDialogCommand DialogResult="True"/>
                 </Button.Command>
             </Button>
-            <Button Content="Отменить" Margin="2" IsCancel="True"/>
+            <Button Content="Отменить" Margin="2" IsCancel="True" Style="{StaticResource ButtonStyleShadow}"/>
         </UniformGrid>
         
         <StackPanel HorizontalAlignment="Center" Margin="8">
@@ -49,25 +50,25 @@
                 <TextBox Text="{Binding goods.g_name}"/>
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal">
+            <!--<StackPanel Orientation="Horizontal">
                 <TextBlock Text="Заказчик"/>
                 <TextBox Text="{Binding goods.g_customer}"/>
-            </StackPanel>
+            </StackPanel>-->
 
-            <StackPanel Orientation="Horizontal">
+            <!--<StackPanel Orientation="Horizontal">
                 <TextBlock Text="Дата отгрузки"/>
                 <TextBox Text="{Binding goods.g_dateOut}"/>
-            </StackPanel>
+            </StackPanel>-->
 
-            <StackPanel Orientation="Horizontal">
+            <!--<StackPanel Orientation="Horizontal">
                 <TextBlock Text="Объект установки"/>
                 <TextBox Text="{Binding goods.g_objectInstall}"/>
-            </StackPanel>
+            </StackPanel>-->
 
-            <StackPanel Orientation="Horizontal">
+            <!--<StackPanel Orientation="Horizontal">
                 <TextBlock Text="Опросный лист"/>
                 <TextBox Text="{Binding goods.g_questList}"/>
-            </StackPanel>
+            </StackPanel>-->
 
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Номер шкафа"/>

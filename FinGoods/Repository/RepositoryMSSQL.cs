@@ -10,7 +10,7 @@ namespace FinGoods.Repository
 {
     internal class RepositoryMSSQL<T> where T : class, IEntity, new()
     {
-        public static readonly ModelBase BaseFG = new ModelBase();
+        public static readonly ModelBase BaseFG = ModelBase.GetBase();
         protected readonly DbSet<T> _Set;
         public virtual IQueryable<T> Items => _Set;
 

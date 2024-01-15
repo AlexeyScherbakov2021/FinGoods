@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:FinGoods.ViewModels"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:fa="http://schemas.fontawesome.com/icons/"
         xmlns:local="clr-namespace:FinGoods.View"
+        x:Name="detailWindow"
         Style="{StaticResource StyleWindow}"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         
@@ -14,9 +16,63 @@
         <vm:DetailWindowVM/>
     </Window.DataContext>
 
-    <Grid Margin="4" Grid.IsSharedSizeScope="True">
-        <FrameworkElement x:Name="proxy" Visibility="Collapsed" DataContext="{Binding}"/>
+    <DockPanel Margin="4" Grid.IsSharedSizeScope="True">
+        <FrameworkElement x:Name="proxy" Visibility="Collapsed" DataContext="{Binding}" DockPanel.Dock="Top"/>
 
+        <!--<DockPanel.Resources>
+            <Style TargetType="Button">
+                <Setter Property="Margin" Value="12,0"/>
+                <Setter Property="Background" Value="Red"/>
+            </Style>
+        </DockPanel.Resources>-->
+
+
+        <StackPanel Margin="2" DockPanel.Dock="Top" Orientation="Horizontal">
+            <StackPanel.Resources>
+                <Style TargetType="Button" BasedOn="{StaticResource ButtonStyleShadow}">
+                    <Setter Property="Margin" Value="1,0"/>
+                </Style>
+            </StackPanel.Resources>
+
+            <Button ToolTip="Добавить оборудование" Command="{Binding AddGoodsCommand}" >
+                <StackPanel Orientation="Horizontal">
+                    <fa:ImageAwesome Icon="Solid_Plus" Width="10" Margin="1,0" Foreground="Blue"/>
+                    <fa:ImageAwesome Icon="Solid_Server" Height="20" Foreground="Blue"/>
+                </StackPanel>
+            </Button>
+            <Button ToolTip="Редактировать оборудование" Command="{Binding EditGoodsCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <fa:ImageAwesome Icon="Solid_PencilAlt" Width="10" Margin="1,0" Foreground="Blue"/>
+                    <fa:ImageAwesome Icon="Solid_Server" Height="20" Foreground="Blue"/>
+                </StackPanel>
+            </Button>
+            <Button ToolTip="Удалить оборудование" Command="{Binding DelGoodsCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <fa:ImageAwesome Icon="Solid_Minus" Width="10" Margin="1,0" Foreground="Blue"/>
+                    <fa:ImageAwesome Icon="Solid_Server" Height="20" Foreground="Blue"/>
+                </StackPanel>
+            </Button>
+            <Button ToolTip="Добавить модуль" Command="{Binding AddModulCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <fa:ImageAwesome Icon="Solid_Plus" Width="10" Margin="1,0" Foreground="Blue"/>
+                    <fa:ImageAwesome Icon="Solid_Microchip" Height="20" Foreground="Blue"/>
+                </StackPanel>
+            </Button>
+            <Button ToolTip="Редактировать модуль" Command="{Binding EditModuleCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <fa:ImageAwesome Icon="Solid_PencilAlt" Width="10" Margin="1,0" Foreground="Blue"/>
+                    <fa:ImageAwesome Icon="Solid_Microchip" Height="20" Foreground="Blue"/>
+                </StackPanel>
+            </Button>
+            <Button ToolTip="Удалить модуль" Command="{Binding DelModulCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <fa:ImageAwesome Icon="Solid_Minus" Width="10" Margin="1,0" Foreground="Blue"/>
+                    <fa:ImageAwesome Icon="Solid_Microchip" Height="20" Foreground="Blue"/>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+        
+        
         <Grid Margin="4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="300" SharedSizeGroup="col1"/>
@@ -47,6 +103,9 @@
                 <TreeView.Resources>
                     <HierarchicalDataTemplate x:Key="ModuleTemplate" ItemsSource="{Binding Path=Modules}" >
                         <Border BorderThickness="0" BorderBrush="Gray" Padding="0">
+                            <Border.InputBindings>
+                                <MouseBinding Gesture="LeftDoubleClick" Command="{Binding DataContext.EditModuleCommand, ElementName=detailWindow}"/>
+                            </Border.InputBindings>
                             <Border.ContextMenu>
                                 <ContextMenu>
                                     <MenuItem Header="Редактировать модуль" Command="{Binding DataContext.EditModuleCommand, Source={x:Reference proxy}}"/>
@@ -76,9 +135,13 @@
                     <HierarchicalDataTemplate ItemsSource="{Binding Path=Modules}" 
                                           ItemTemplate="{StaticResource ModuleTemplate}">
                         <Border BorderThickness="0" BorderBrush="Gray" Padding="0">
+                            <Border.InputBindings>
+                                <MouseBinding Gesture="LeftDoubleClick" Command="{Binding DataContext.EditGoodsCommand, ElementName=detailWindow}"/>
+                            </Border.InputBindings>
+
                             <Border.ContextMenu>
                                 <ContextMenu>
-                                    <MenuItem Header="Добавить модуль" Command="{Binding DataContext.AddModulCommand, Source={x:Reference proxy}}"/>
+                                    <MenuItem Header="Добавить модуль"  Command="{Binding DataContext.AddModulCommand, Source={x:Reference proxy}}"/>
                                     <MenuItem Header="Редактиировать оборудование" Command="{Binding DataContext.EditGoodsCommand, Source={x:Reference proxy}}"/>
                                     <MenuItem Header="Удалить оборудование" Command="{Binding DataContext.DelGoodsCommand, Source={x:Reference proxy}}"/>
                                 </ContextMenu>
@@ -105,5 +168,5 @@
 
         
 
-    </Grid>
+    </DockPanel>
 </Window>
