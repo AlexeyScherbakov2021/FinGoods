@@ -7,17 +7,17 @@ using System.Threading.Tasks;
 
 namespace FinGoods.ViewModels
 {
-    internal class CardsOrderWindowVM
+    internal class ShipWindowVM
     {
-        public CardOrder cardOrder { get; set; }
+        public Shipment Ship { get; set; }
 
-        public CardsOrderWindowVM()
+        public ShipWindowVM()
         {
         }
 
-        public CardsOrderWindowVM(CardOrder co)
+        public ShipWindowVM(Shipment co)
         {
-            cardOrder = co;
+            Ship = co;
         }
     }
 

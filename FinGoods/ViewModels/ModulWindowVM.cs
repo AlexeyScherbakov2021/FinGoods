@@ -21,7 +21,7 @@ namespace FinGoods.ViewModels
         public ModulWindowVM(Module m)
         {
             module = m;
-            listModuleType = new List<ModuleType>(repoMdulType.Items);
+            listModuleType = new List<ModuleType>(repoMdulType.Items.Where(it => it.idParent == null));
         }
     }
 }

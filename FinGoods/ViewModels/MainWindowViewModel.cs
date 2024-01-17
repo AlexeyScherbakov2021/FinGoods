@@ -16,73 +16,70 @@ namespace FinGoods.ViewModels
 {
     internal class MainWindowViewModel : Observable
     {
-        private readonly RepositoryMSSQL<CardOrder> repoCO = new RepositoryMSSQL<CardOrder>();
-        public ObservableCollection<CardOrder> listCardOrder { get; set; }
+        private readonly RepositoryMSSQL<Shipment> repoShip = new RepositoryMSSQL<Shipment>();
+        public ObservableCollection<Shipment> listShip { get; set; }
 
-        public CardOrder SelectCard { get; set; }
-        //public Goods SelectGoods { get; set; }
-        //public Module SelectModule { get; set; }
-
+        public Shipment SelectShip { get; set; }
 
         public MainWindowViewModel()
         {
-            listCardOrder = new ObservableCollection<CardOrder>(repoCO.Items);
+            listShip = new ObservableCollection<Shipment>(repoShip.Items);
         }
 
         #region команды
 
         //--------------------------------------------------------------------------------
-        // Команда Добавить карту заказа
+        // Команда Добавить отгрузку
         //--------------------------------------------------------------------------------
-        public ICommand AddCardOrderCommand => new LambdaCommand(OnAddCardOrderCommandExecuted, CanAddCardOrderCommand);
-        private bool CanAddCardOrderCommand(object p) => true;
-        private void OnAddCardOrderCommandExecuted(object p)
+        public ICommand AddShipCommand => new LambdaCommand(OnAddShipCommandExecuted, CanAddShipCommand);
+        private bool CanAddShipCommand(object p) => true;
+        private void OnAddShipCommandExecuted(object p)
         {
-            CardOrder newCard = new CardOrder();
+            Shipment Ship = new Shipment();
 
-            CardsOrderWindow win = new CardsOrderWindow();
-            CardsOrderWindowVM vm = new CardsOrderWindowVM(newCard);
+            ShipWindow win = new ShipWindow();
+            ShipWindowVM vm = new ShipWindowVM(Ship);
             win.DataContext = vm;
 
             if(win.ShowDialog() == true)
             {
-                listCardOrder.Add(newCard);
-                repoCO.Add(newCard);
-                repoCO.Save();
+                listShip.Add(Ship);
+                //repoCO.Add(Ship);
+                repoShip.Save();
             }
 
         }
 
         //--------------------------------------------------------------------------------
-        // Команда Редактировать карту заказа
+        // Команда Редактировать отгрузку
         //--------------------------------------------------------------------------------
-        public ICommand EditCardOrderCommand => new LambdaCommand(OnEditCardOrderCommandExecuted, CanEditCardOrderCommand);
-        private bool CanEditCardOrderCommand(object p) => SelectCard != null;
-        private void OnEditCardOrderCommandExecuted(object p)
+        public ICommand EditShipCommand => new LambdaCommand(OnEditShipCommandExecuted, CanShipOrderCommand);
+        private bool CanShipOrderCommand(object p) => SelectShip != null;
+        private void OnEditShipCommandExecuted(object p)
         {
-            CardsOrderWindow win = new CardsOrderWindow();
-            CardsOrderWindowVM vm = new CardsOrderWindowVM(SelectCard);
+            ShipWindow win = new ShipWindow();
+            ShipWindowVM vm = new ShipWindowVM(SelectShip);
             win.DataContext = vm;
 
             if(win.ShowDialog() == true)
             {
-                repoCO.Save();
+                repoShip.Save();
             }
         }
 
         //--------------------------------------------------------------------------------
-        // Команда Удалить карту заказа
+        // Команда Удалить отгрузку
         //--------------------------------------------------------------------------------
-        public ICommand DelCardOrderCommand => new LambdaCommand(OnDelCardOrderCommandExecuted, CanDelCardOrderCommand);
-        private bool CanDelCardOrderCommand(object p) => SelectCard != null;
-        private void OnDelCardOrderCommandExecuted(object p)
+        public ICommand DelShipCommand => new LambdaCommand(OnDelShipCommandExecuted, CanDelShipCommand);
+        private bool CanDelShipCommand(object p) => SelectShip != null;
+        private void OnDelShipCommandExecuted(object p)
         {
 
-            if(MessageBox.Show($"Удалить «{SelectCard.c_number}»","Предупреждение", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            if(MessageBox.Show($"Удалить «{SelectShip.c_number}»","Предупреждение", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
-                repoCO.Delete(SelectCard.id);
-                repoCO.Save();
-                listCardOrder.Remove(SelectCard);
+                repoShip.Delete(SelectShip.id);
+                repoShip.Save();
+                listShip.Remove(SelectShip);
             }
         }
 
@@ -90,15 +87,39 @@ namespace FinGoods.ViewModels
         // Команда Открыть окно детализации
         //--------------------------------------------------------------------------------
         public ICommand OpenDetailCommand => new LambdaCommand(OnOpenDetailCommandExecuted, CanOpenDetailCommand);
-        private bool CanOpenDetailCommand(object p) => SelectCard != null;
+        private bool CanOpenDetailCommand(object p) => SelectShip != null;
         private void OnOpenDetailCommandExecuted(object p)
         {
             DetailWindow win = new DetailWindow();
-            DetailWindowVM vm = new DetailWindowVM(SelectCard.Goods, SelectCard.c_number);
+            DetailWindowVM vm = new DetailWindowVM(SelectShip.Products, SelectShip.c_number);
             win.DataContext = vm;
             win.ShowDialog();
         }
 
+
+        //--------------------------------------------------------------------------------
+        // Команда 
+        //--------------------------------------------------------------------------------
+        public ICommand FromFPCommand => new LambdaCommand(OnFromFPCommandExecuted, CanFromFPCommand);
+        private bool CanFromFPCommand(object p) => SelectShip != null;
+        private void OnFromFPCommandExecuted(object p)
+        {
+            RepositoryFP repo = new RepositoryFP();
+            repo.Load();
+        }
+
+        //--------------------------------------------------------------------------------
+        // Команда Открыть окно модулей
+        //--------------------------------------------------------------------------------
+        public ICommand OpenModulesCommand => new LambdaCommand(OnOpenModulesCommandExecuted, CanOpenModulesCommand);
+        private bool CanOpenModulesCommand(object p) => true;
+        private void OnOpenModulesCommandExecuted(object p)
+        {
+            AllModulesWindow win = new AllModulesWindow();
+            //AllModulesWindowVM vm = new AllModulesWindowVM();
+            //win.DataContext = vm;
+            win.ShowDialog();
+        }
 
 
 

@@ -1,4 +1,4 @@
-﻿<Window x:Class="FinGoods.View.CardsOrderWindow"
+﻿<Window x:Class="FinGoods.View.ShipWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -10,7 +10,7 @@
         WindowStartupLocation="CenterScreen"
         Title="Набор оборудования" Height="300" Width="534">
     <Window.DataContext>
-        <vm:CardsOrderWindowVM/>
+        <vm:ShipWindowVM/>
     </Window.DataContext>
 
     <DockPanel>

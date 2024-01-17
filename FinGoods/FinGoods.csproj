@@ -55,6 +55,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
@@ -79,12 +80,25 @@
     <Compile Include="Commands\CloseWindowCommand.cs" />
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\LambdaCommand.cs" />
+    <Compile Include="Models\IEntity.cs" />
+    <Compile Include="Models\ModelBase.cs" />
+    <Compile Include="Models\Module.cs" />
+    <Compile Include="Models\ModuleType.cs" />
+    <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\ProductType.cs" />
+    <Compile Include="Models\SetterOut.cs" />
+    <Compile Include="Models\Shipment.cs" />
+    <Compile Include="Repository\RepositoryFP.cs" />
     <Compile Include="Repository\RepositoryMSSQL.cs" />
-    <Compile Include="ViewModels\CardsOrderWindowVM.cs" />
+    <Compile Include="ViewModels\AllModulesWindowVM.cs" />
+    <Compile Include="ViewModels\ShipWindowVM.cs" />
     <Compile Include="ViewModels\DetailWindowVM.cs" />
-    <Compile Include="ViewModels\GoodsWindowVM.cs" />
+    <Compile Include="ViewModels\ProdWindowVM.cs" />
     <Compile Include="ViewModels\ModulWindowVM.cs" />
     <Compile Include="ViewModels\Observable.cs" />
+    <Compile Include="View\AllModulesWindow.xaml.cs">
+      <DependentUpon>AllModulesWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\DetailWindow.xaml.cs">
       <DependentUpon>DetailWindow.xaml</DependentUpon>
     </Compile>
@@ -103,7 +117,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\CardsOrderWindow.xaml">
+    <Page Include="View\AllModulesWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ShipWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -111,7 +129,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\GoodsWindow.xaml">
+    <Page Include="View\ProdWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -124,11 +142,11 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
-    <Compile Include="View\CardsOrderWindow.xaml.cs">
-      <DependentUpon>CardsOrderWindow.xaml</DependentUpon>
+    <Compile Include="View\ShipWindow.xaml.cs">
+      <DependentUpon>ShipWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\GoodsWindow.xaml.cs">
-      <DependentUpon>GoodsWindow.xaml</DependentUpon>
+    <Compile Include="View\ProdWindow.xaml.cs">
+      <DependentUpon>ProdWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -140,13 +158,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\CardOrder.cs" />
-    <Compile Include="Models\Goods.cs" />
-    <Compile Include="Models\GoodsType.cs" />
-    <Compile Include="Models\IEntity.cs" />
-    <Compile Include="Models\ModelBase.cs" />
-    <Compile Include="Models\Module.cs" />
-    <Compile Include="Models\ModuleType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

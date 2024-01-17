@@ -13,22 +13,14 @@ namespace FinGoods.Models
         public ModuleType()
         {
             Modules = new HashSet<Module>();
-            ChildModuleType = new HashSet<ModuleType>();
         }
 
         public int id { get; set; }
-
-        public int? idParent { get; set; }
 
         [StringLength(100)]
         public string mt_name { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Module> Modules { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ModuleType> ChildModuleType { get; set; }
-
-        public virtual ModuleType ParentModuleType { get; set; }
     }
 }

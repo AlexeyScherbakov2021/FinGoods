@@ -7,60 +7,112 @@
         xmlns:cmd="clr-namespace:FinGoods.Commands"
         xmlns:local="clr-namespace:FinGoods.View"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
+        Style="{StaticResource WindowStyle}"
         Title="Модуль" Height="198" Width="338">
     <Window.DataContext>
         <vm:ModulWindowVM/>
     </Window.DataContext>
     
     <DockPanel>
-        <UniformGrid Columns="2" DockPanel.Dock="Bottom">
-            <Button Content="OK" Margin="2">
+        <UniformGrid Columns="2" DockPanel.Dock="Bottom" Margin="4">
+            <Button Content="OK" Margin="2" Style="{StaticResource ButtonStyleShadow}">
                 <Button.Command>
                     <cmd:CloseDialogCommand DialogResult="True"/>
                 </Button.Command>
             </Button>
-            <Button Content="Отменить" Margin="2" IsCancel="True"/>
+            <Button Content="Отменить" Margin="2" IsCancel="True" Style="{StaticResource ButtonStyleShadow}"/>
         </UniformGrid>
 
-        <StackPanel HorizontalAlignment="Center" Margin="8" VerticalAlignment="Center">
-            <StackPanel.Resources>
-                <Style TargetType="TextBlock">
-                    <Setter Property="Width" Value="110"/>
-                    <Setter Property="Margin" Value="2"/>
-                </Style>
-                <Style TargetType="TextBox">
-                    <Setter Property="Width" Value="130"/>
-                    <Setter Property="Margin" Value="2"/>
-                </Style>
+        <Border BorderBrush="Gray" BorderThickness="1" Margin="6" CornerRadius="3">
+            
+            
+            
+            
+            <StackPanel HorizontalAlignment="Center"  VerticalAlignment="Center">
+                <StackPanel.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Width" Value="110"/>
+                        <Setter Property="Margin" Value="2"/>
+                    </Style>
+                    <Style TargetType="TextBox">
+                        <Setter Property="Width" Value="130"/>
+                        <Setter Property="Margin" Value="2"/>
+                    </Style>
 
-            </StackPanel.Resources>
+                </StackPanel.Resources>
 
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Тип модуля"/>
-                <ComboBox ItemsSource="{Binding listModuleType}" DisplayMemberPath="mt_name" Width="130"
-                          SelectedValuePath="id" SelectedValue="{Binding module.m_modTypeId}"/>
-            </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Тип модуля"/>
+                    <Expander Name="exDim" Header="Тип модуля" VerticalContentAlignment="Top" Height="23" 
+                              
+                              VerticalAlignment="Top" HorizontalAlignment="Left">
+                        <Grid>
+                            <TreeView Name="tvDim" ItemsSource="{Binding listModuleType}" HorizontalAlignment="Left" 
+                                      Height="120" VerticalAlignment="Top">
+                                <TreeView.ItemTemplate>
+                                    <HierarchicalDataTemplate ItemsSource="{Binding ChildModuleType}">
+                                        <TextBlock Text="{Binding mt_name}"/>
+                                    </HierarchicalDataTemplate>
+                                </TreeView.ItemTemplate>
+                            </TreeView>
+                        </Grid>
+                        <Expander.Triggers>
+                            <EventTrigger RoutedEvent="Expander.Expanded">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="exDim" Storyboard.TargetProperty="Height" To="120"
+                                                         Duration="0:0:0.5">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <ElasticEase EasingMode="EaseOut" Oscillations="0"></ElasticEase>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="Expander.Collapsed">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="exDim" Storyboard.TargetProperty="Height" To="23"
+                                                             Duration="0:0:0.5">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <ElasticEase EasingMode="EaseOut" Oscillations="0"></ElasticEase>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+                        </Expander.Triggers>
+                    </Expander>
+                    <!--<ComboBox ItemsSource="{Binding listModuleType}" DisplayMemberPath="mt_name" Width="130"
+                          SelectedValuePath="id" SelectedValue="{Binding module.m_modTypeId}">
+                    </ComboBox>-->
+                </StackPanel>
 
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Заводской номер"/>
-                <TextBox Text="{Binding module.m_number}"/>
-            </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Заводской номер"/>
+                    <TextBox Text="{Binding module.m_number}"/>
+                </StackPanel>
 
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Наименование"/>
-                <TextBox Text="{Binding module.m_name}"/>
-            </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Наименование"/>
+                    <TextBox Text="{Binding module.m_name}"/>
+                </StackPanel>
 
-            <!--<StackPanel Orientation="Horizontal">
+                <!--<StackPanel Orientation="Horizontal">
                 <TextBlock Text="Дата отгрузки"/>
                 <TextBox Text="{Binding module.m_dateEnd}"/>
             </StackPanel>-->
 
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Номер прошивки"/>
-                <TextBox Text="{Binding module.m_numberFW}"/>
-            </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Номер прошивки"/>
+                    <TextBox Text="{Binding module.m_numberFW}"/>
+                </StackPanel>
 
-        </StackPanel>
+            </StackPanel>
+        </Border>
     </DockPanel>
 </Window>

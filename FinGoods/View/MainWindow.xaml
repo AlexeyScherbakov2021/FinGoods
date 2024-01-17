@@ -8,31 +8,48 @@
         xmlns:fa="http://schemas.fontawesome.com/icons/"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
-        Name="mainWindow" Style="{StaticResource StyleWindow}"
-        Title="Отгруженные наборы оборудования" Height="750" Width="1000">
+        Name="mainWindow" Style="{StaticResource WindowStyle}"
+        Title="Отгруженные наборы оборудования" Height="750" Width="1200">
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>
 
     <DockPanel>
+        <Border DockPanel.Dock="Left"  Background="LightGray" BorderThickness="1" BorderBrush="Gray">
+            <StackPanel Margin="0,20,0,0">
+                <StackPanel.Resources>
+                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource ResourceKey=ButtonStyleShadow}">
+                        <Setter Property="Margin" Value="8"/>
+                        <Setter Property="Height" Value="50"/>
+                        <Setter Property="Padding" Value="6"/>
+                        <Setter Property="FontSize" Value="14"/>
+                        <Setter Property="FontWeight" Value="Bold"/>
+                    </Style>
+                </StackPanel.Resources>
+                <Button Content="Наборы"/>
+                <Button Content="Готовые изделия"/>
+                <Button Content="Модули" Command="{Binding OpenModulesCommand}"/>
+            </StackPanel>
+        </Border>
         <FrameworkElement x:Name="proxy" Visibility="Collapsed" DataContext="{Binding}"/>
         <ToolBarPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="2">
-            <Button ToolTip="Добавить набор" Command="{Binding AddCardOrderCommand}" Margin="4" Style="{StaticResource ButtonStyleShadow}">
+            <Button ToolTip="Добавить отгрузку" Command="{Binding AddShipCommand}" Margin="4" Style="{StaticResource ButtonStyleShadow}">
                 <StackPanel Orientation="Horizontal">
                     <fa:ImageAwesome Icon="Solid_Plus" Width="10" Margin="1,0" Foreground="Blue"/>
                     <fa:ImageAwesome Icon="Solid_TruckMoving" Height="20" Foreground="Blue"/>
                 </StackPanel>
             </Button>
-            <Button ToolTip="Редактировать набор" Command="{Binding EditCardOrderCommand}"  Margin="4" Style="{StaticResource ButtonStyleShadow}">
+            <Button ToolTip="Редактировать отгрузку" Command="{Binding EditShipCommand}"  Margin="4" Style="{StaticResource ButtonStyleShadow}">
                 <StackPanel Orientation="Horizontal">
                     <fa:ImageAwesome Icon="Solid_PencilAlt" Width="10" Margin="1,0" Foreground="Blue"/>
                     <fa:ImageAwesome Icon="Solid_TruckMoving" Height="20" Foreground="Blue"/>
                 </StackPanel>
             </Button>
+            <Button Content="Загрузка из ФП" Command="{Binding FromFPCommand}" Visibility="Collapsed"/>
         </ToolBarPanel>
-       
+
         <Grid>
-            <DataGrid ItemsSource="{Binding listCardOrder}" SelectedItem="{Binding SelectCard}" Margin="6"
+            <DataGrid ItemsSource="{Binding listShip}" SelectedItem="{Binding SelectShip}" Margin="6"
                       Style="{StaticResource DataGridStyle}" AutoGenerateColumns="False" IsReadOnly="True">
                 <DataGrid.InputBindings>
                     <MouseBinding Gesture="LeftDoubleClick" Command="{Binding DataContext.OpenDetailCommand, ElementName=mainWindow}"/>
@@ -40,17 +57,17 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Номер" Binding="{Binding c_number}"/>
                     <DataGridTextColumn Header="Заказчик" Binding="{Binding c_customer}"/>
-                    <DataGridTextColumn Header="Дата отгрузки" Binding="{Binding c_dateOut,StringFormat=dd.MM.yyyy}"/>
+                    <DataGridTextColumn Header="Дата отгрузки" Binding="{Binding c_dateOut, StringFormat=dd.MM.yyyy}"/>
                     <DataGridTextColumn Header="Объект установки" Binding="{Binding c_objectInstall}" Width="*"/>
                 </DataGrid.Columns>
 
                 <DataGrid.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="Добавить набор" Command="{Binding DataContext.AddCardOrderCommand, Source={x:Reference proxy}}"/>
+                        <MenuItem Header="Добавить набор" Command="{Binding DataContext.AddShipCommand, Source={x:Reference proxy}}"/>
                     </ContextMenu>
                 </DataGrid.ContextMenu>
             </DataGrid>
-            
+
             <!--<Grid.ColumnDefinitions>
                 <ColumnDefinition Width="28*"/>
                 <ColumnDefinition Width="50*"/>

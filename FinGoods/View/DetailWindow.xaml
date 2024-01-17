@@ -8,7 +8,7 @@
         xmlns:fa="http://schemas.fontawesome.com/icons/"
         xmlns:local="clr-namespace:FinGoods.View"
         x:Name="detailWindow"
-        Style="{StaticResource StyleWindow}"
+        Style="{StaticResource WindowStyle}"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         
         Title="{Binding Title}" Height="450" Width="700">

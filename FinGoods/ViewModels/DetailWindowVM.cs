@@ -18,17 +18,17 @@ namespace FinGoods.ViewModels
     {
 
         public string Title { get; set; }
-        public ObservableCollection<Goods> listGoods { get; set; }
-        public Goods SelectedGoods { get; set; }
+        public ObservableCollection<Product> listProd { get; set; }
+        public Product SelectedProd { get; set; }
         public Module SelectedModule { get; set; }
 
         public DetailWindowVM()
         {
         }
 
-        public DetailWindowVM(ObservableCollection<Goods> list, string name)
+        public DetailWindowVM(ObservableCollection<Product> list, string name)
         {
-            listGoods = list;
+            listProd = list;
             Title = name;
         }
 
@@ -43,16 +43,16 @@ namespace FinGoods.ViewModels
             if (p is RoutedPropertyChangedEventArgs<object> e)
             {
                 //SelectCard = null;
-                SelectedGoods = null;
+                SelectedProd = null;
                 SelectedModule = null;
 
                 //if (e.NewValue is CardOrder co)
                 //{
                 //    SelectCard = co;
                 //}
-                if (e.NewValue is Goods g)
+                if (e.NewValue is Product g)
                 {
-                    SelectedGoods = g;
+                    SelectedProd = g;
                 }
                 if (e.NewValue is Module m)
                 {
@@ -68,17 +68,17 @@ namespace FinGoods.ViewModels
         private bool CanAddGoodsCommand(object p) => true;
         private void OnAddGoodsCommandExecuted(object p)
         {
-            Goods newGoods = new Goods();
+            Product newProd = new Product();
 
             //newGoods.CardOrder = SelectCard;
-            GoodsWindow win = new GoodsWindow();
-            GoodsWindowVM vm = new GoodsWindowVM(newGoods);
+            ProdWindow win = new ProdWindow();
+            ProdWindowVM vm = new ProdWindowVM(newProd);
             win.DataContext = vm;
             if (win.ShowDialog() == true)
             {
-                listGoods.Add(newGoods);
-                RepositoryMSSQL<Goods> repo = new Repository.RepositoryMSSQL<Goods>();
-                repo.Add(newGoods, true);
+                listProd.Add(newProd);
+                RepositoryMSSQL<Product> repo = new Repository.RepositoryMSSQL<Product>();
+                repo.Add(newProd, true);
                 //repo.Save();
             }
         }
@@ -88,15 +88,15 @@ namespace FinGoods.ViewModels
         // Команда Редактировать оборудование
         //--------------------------------------------------------------------------------
         public ICommand EditGoodsCommand => new LambdaCommand(OnEditGoodsCommandExecuted, CanEditGoodsCommand);
-        private bool CanEditGoodsCommand(object p) => SelectedGoods != null;
+        private bool CanEditGoodsCommand(object p) => SelectedProd != null;
         private void OnEditGoodsCommandExecuted(object p)
         {
-            GoodsWindow win = new GoodsWindow();
-            GoodsWindowVM vm = new GoodsWindowVM(SelectedGoods);
+            ProdWindow win = new ProdWindow();
+            ProdWindowVM vm = new ProdWindowVM(SelectedProd);
             win.DataContext = vm;
             if (win.ShowDialog() == true)
             {
-                RepositoryMSSQL<Goods> repo = new Repository.RepositoryMSSQL<Goods>();
+                RepositoryMSSQL<Product> repo = new Repository.RepositoryMSSQL<Product>();
                 repo.Save();
             }
         }
@@ -105,18 +105,18 @@ namespace FinGoods.ViewModels
         // Команда Удалить оборудование
         //--------------------------------------------------------------------------------
         public ICommand DelGoodsCommand => new LambdaCommand(OnDelGoodsCommandExecuted, CanDelGoodsCommand);
-        private bool CanDelGoodsCommand(object p) => SelectedGoods != null;
+        private bool CanDelGoodsCommand(object p) => SelectedProd != null;
         private void OnDelGoodsCommandExecuted(object p)
         {
-            if (MessageBox.Show($"Удалить «{SelectedGoods.g_name}»", "Предупреждение", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            if (MessageBox.Show($"Удалить «{SelectedProd.g_name}»", "Предупреждение", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
                 RepositoryMSSQL<Module> repoMod = new RepositoryMSSQL<Module>();
-                RepositoryMSSQL<Goods> repoGoods = new RepositoryMSSQL<Goods>();
+                RepositoryMSSQL<Product> repoGoods = new RepositoryMSSQL<Product>();
 
-                while (SelectedGoods.Modules.Count > 0)
-                    repoMod.Remove(SelectedGoods.Modules[0]);
+                while (SelectedProd.Modules.Count > 0)
+                    repoMod.Remove(SelectedProd.Modules[0]);
                 
-                repoGoods.Delete(SelectedGoods);
+                repoGoods.Delete(SelectedProd);
                 repoGoods.Save();
             }
         }
@@ -126,7 +126,7 @@ namespace FinGoods.ViewModels
         // Команда Добавить модуль
         //--------------------------------------------------------------------------------
         public ICommand AddModulCommand => new LambdaCommand(OnAddModulCommandExecuted, CanAddModulCommand);
-        private bool CanAddModulCommand(object p) => SelectedGoods != null;
+        private bool CanAddModulCommand(object p) => SelectedProd != null;
         private void OnAddModulCommandExecuted(object p)
         {
             Module newMod = new Module();
@@ -137,9 +137,9 @@ namespace FinGoods.ViewModels
             win.DataContext = vm;
             if (win.ShowDialog() == true)
             {
-                SelectedGoods.Modules.Add(newMod);
-                RepositoryMSSQL<Goods> repoGoods = new RepositoryMSSQL<Goods>();
-                repoGoods.Save();
+                SelectedProd.Modules.Add(newMod);
+                RepositoryMSSQL<Product> repoProd = new RepositoryMSSQL<Product>();
+                repoProd.Save();
             }
         }
 
@@ -155,8 +155,8 @@ namespace FinGoods.ViewModels
             win.DataContext = vm;
             if (win.ShowDialog() == true)
             {
-                RepositoryMSSQL<Goods> repoGoods = new RepositoryMSSQL<Goods>();
-                repoGoods.Save();
+                RepositoryMSSQL<Product> repoProd = new RepositoryMSSQL<Product>();
+                repoProd.Save();
             }
         }
 

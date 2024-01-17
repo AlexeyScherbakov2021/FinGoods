@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace FinGoods.View
 {
     /// <summary>
-    /// Логика взаимодействия для GoodsWindow.xaml
+    /// Логика взаимодействия для CardsOrderWindow.xaml
     /// </summary>
-    public partial class GoodsWindow : Window
+    public partial class ShipWindow : Window
     {
-        public GoodsWindow()
+        public ShipWindow()
         {
             InitializeComponent();
         }

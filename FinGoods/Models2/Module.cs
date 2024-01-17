@@ -2,19 +2,15 @@ namespace FinGoods.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
     public partial class Module : IEntity
     {
-
         public int id { get; set; }
 
-        public int? idShipment { get; set; }
-
-        public int? idProduct { get; set; }
+        public int m_goodsId { get; set; }
 
         public int m_modTypeId { get; set; }
 
@@ -29,11 +25,12 @@ namespace FinGoods.Models
 
         public DateTime? m_dateEnd { get; set; }
 
+        public virtual Goods Goods { get; set; }
+
         public virtual ModuleType ModuleType { get; set; }
 
-        public virtual Product Product { get; set; }
-
-        public virtual Shipment Shipment { get; set; }
+        [NotMapped]
+        public bool IsSelected { get; set; }
 
     }
 }

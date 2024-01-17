@@ -9,6 +9,7 @@ namespace FinGoods.Models
     {
         private static ModelBase currentBase = null;
 
+
         public static ModelBase GetBase()
         {
             if (currentBase == null)
@@ -17,67 +18,22 @@ namespace FinGoods.Models
             return currentBase;
         }
 
-        private ModelBase()
+
+        public ModelBase()
             : base("name=ModelBase")
         {
             currentBase = this;
         }
 
-        public virtual DbSet<CardOrder> CardOrders { get; set; }
-        public virtual DbSet<Goods> Goods { get; set; }
-        public virtual DbSet<GoodsType> GoodsTypes { get; set; }
         public virtual DbSet<Module> Modules { get; set; }
         public virtual DbSet<ModuleType> ModuleTypes { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<ProductType> ProductTypes { get; set; }
+        public virtual DbSet<SetterOut> SetterOuts { get; set; }
+        public virtual DbSet<Shipment> Shipments { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<CardOrder>()
-                .Property(e => e.c_number)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<CardOrder>()
-                .HasMany(e => e.Goods)
-                .WithRequired(e => e.CardOrder)
-                .HasForeignKey(e => e.g_cardOrderId);
-
-            modelBuilder.Entity<Goods>()
-                .Property(e => e.g_name)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Goods>()
-                .Property(e => e.g_number)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Goods>()
-                .Property(e => e.g_numberBox)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<CardOrder>()
-                .Property(e => e.c_customer)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<CardOrder>()
-                .Property(e => e.c_questList)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<CardOrder>()
-                .Property(e => e.c_objectInstall)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Goods>()
-                .HasMany(e => e.Modules)
-                .WithRequired(e => e.Goods)
-                .HasForeignKey(e => e.m_goodsId);
-
-            modelBuilder.Entity<GoodsType>()
-                .Property(e => e.gt_name)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<GoodsType>()
-                .HasMany(e => e.Goods)
-                .WithRequired(e => e.GoodsType)
-                .HasForeignKey(e => e.g_type)
-                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Module>()
                 .Property(e => e.m_name)
@@ -100,6 +56,78 @@ namespace FinGoods.Models
                 .WithRequired(e => e.ModuleType)
                 .HasForeignKey(e => e.m_modTypeId)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<ModuleType>()
+                .HasMany(e => e.ChildModuleType)
+                .WithOptional(e => e.ParentModuleType)
+                .HasForeignKey(e => e.idParent);
+
+            modelBuilder.Entity<Product>()
+                .Property(e => e.g_name)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Product>()
+                .Property(e => e.g_number)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Product>()
+                .Property(e => e.g_numberBox)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Product>()
+                .HasMany(e => e.Modules)
+                .WithOptional(e => e.Product)
+                .HasForeignKey(e => e.idProduct);
+
+            modelBuilder.Entity<ProductType>()
+                .Property(e => e.gt_name)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<ProductType>()
+                .HasMany(e => e.Products)
+                .WithRequired(e => e.ProductType)
+                .HasForeignKey(e => e.g_ProductTypeId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<SetterOut>()
+                .Property(e => e.s_name)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SetterOut>()
+                .HasMany(e => e.Products)
+                .WithOptional(e => e.SetterOut)
+                .HasForeignKey(e => e.idSetter);
+
+            modelBuilder.Entity<Shipment>()
+                .Property(e => e.c_number)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Shipment>()
+                .Property(e => e.c_objectInstall)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Shipment>()
+                .Property(e => e.c_customer)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Shipment>()
+                .Property(e => e.c_questList)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Shipment>()
+                .HasMany(e => e.Modules)
+                .WithOptional(e => e.Shipment)
+                .HasForeignKey(e => e.idShipment);
+
+            modelBuilder.Entity<Shipment>()
+                .HasMany(e => e.Products)
+                .WithOptional(e => e.Shipment)
+                .HasForeignKey(e => e.idShipment);
+
+            modelBuilder.Entity<Shipment>()
+                .HasMany(e => e.SetterOuts)
+                .WithRequired(e => e.Shipment)
+                .HasForeignKey(e => e.id_Shipment);
         }
     }
 }
