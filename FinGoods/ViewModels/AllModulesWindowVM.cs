@@ -17,6 +17,7 @@ namespace FinGoods.ViewModels
     {
         public ObservableCollection<Module> listModules { get; set; } 
         public Module selectedModule { get; set; }
+        public Visibility isVisible { get; set; }  = Visibility.Collapsed;
 
         RepositoryMSSQL<Module> repo = new RepositoryMSSQL<Module>();
 
@@ -24,6 +25,13 @@ namespace FinGoods.ViewModels
         public AllModulesWindowVM()
         {
             listModules = new ObservableCollection<Module>(repo.Items);
+        }
+
+        public AllModulesWindowVM(Product prod) 
+        {
+            listModules = new ObservableCollection<Module>(repo.Items
+                .Where(it => it.idProduct == null && it.idShipment == null));
+            isVisible = Visibility.Visible;
         }
 
         #region Команды
@@ -79,6 +87,19 @@ namespace FinGoods.ViewModels
                 listModules.Remove(selectedModule);
             }
         }
+
+        //--------------------------------------------------------------------------------
+        // Команда Выбрать модули
+        //--------------------------------------------------------------------------------
+        //public ICommand SelectModuleCommand => new LambdaCommand(OnDelModulCommandExecuted, CanDelModulCommand);
+        //private bool CanDelModulCommand(object p) => selectedModule != null
+        //    && selectedModule.idProduct == null
+        //    && selectedModule.idShipment == null;
+        //private void OnDelModulCommandExecuted(object p)
+        //{
+
+        //}
+
         #endregion
 
     }

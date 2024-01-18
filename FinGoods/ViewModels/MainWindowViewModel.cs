@@ -116,8 +116,17 @@ namespace FinGoods.ViewModels
         private void OnOpenModulesCommandExecuted(object p)
         {
             AllModulesWindow win = new AllModulesWindow();
-            //AllModulesWindowVM vm = new AllModulesWindowVM();
-            //win.DataContext = vm;
+            win.ShowDialog();
+        }
+
+        //--------------------------------------------------------------------------------
+        // Команда Открыть окно готовых продуктов
+        //--------------------------------------------------------------------------------
+        public ICommand OpenProdCommand => new LambdaCommand(OnOpenProdCommandExecuted, CanOpenProdCommand);
+        private bool CanOpenProdCommand(object p) => true;
+        private void OnOpenProdCommandExecuted(object p)
+        {
+            AllProdWindow win = new AllProdWindow();
             win.ShowDialog();
         }
 

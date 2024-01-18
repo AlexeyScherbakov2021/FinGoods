@@ -5,9 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FinGoods.View"
         xmlns:cmd="clr-namespace:FinGoods.Commands"
-        Style="{StaticResource StyleWindow}"
+        xmlns:fa="http://schemas.fontawesome.com/icons/"
+        xmlns:vm="clr-namespace:FinGoods.ViewModels"
+        Style="{StaticResource WindowStyle}"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
-        Title="Оборудование" Height="240" Width="400">
+        Title="Оборудование" Height="400" Width="560">
+    <Window.DataContext>
+        <vm:ProdWindowVM/>
+    </Window.DataContext>
     <DockPanel>
         <UniformGrid Columns="2" DockPanel.Dock="Bottom" Margin="4">
             <Button Content="OK" Margin="2" Style="{StaticResource ButtonStyleShadow}">
@@ -17,65 +22,69 @@
             </Button>
             <Button Content="Отменить" Margin="2" IsCancel="True" Style="{StaticResource ButtonStyleShadow}"/>
         </UniformGrid>
-        
-        <StackPanel HorizontalAlignment="Center" Margin="8">
-            <StackPanel.Resources>
-                <Style TargetType="TextBlock">
-                    <Setter Property="Width" Value="110"/>
-                    <Setter Property="Margin" Value="2"/>
-                </Style>
-                <Style TargetType="TextBox">
-                    <Setter Property="Width" Value="130"/>
-                    <Setter Property="Margin" Value="2"/>
-                </Style>
 
-            </StackPanel.Resources>
+        <Border BorderBrush="Gray" BorderThickness="1" Margin="6" CornerRadius="3">
+            <Grid Margin="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="4*"/>
+                </Grid.RowDefinitions>
 
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Тип оборудования"/>
-                <ComboBox Width="130" ItemsSource="{Binding listGoodsType}" DisplayMemberPath="gt_name"
-                          SelectedValue="{Binding goods.g_type, Mode=TwoWay}"
-                          SelectedValuePath="id"
-                          />
-            </StackPanel>
+                <Grid.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Width" Value="110"/>
+                        <Setter Property="Margin" Value="4,2"/>
+                        <Setter Property="TextAlignment" Value="Right"/>
+                    </Style>
+                    <Style TargetType="TextBox">
+                        <Setter Property="Margin" Value="4,2"/>
+                    </Style>
+                </Grid.Resources>
 
+                <TextBlock Text="Тип оборудования" Grid.Row="0" Grid.Column="0"/>
+                <ComboBox ItemsSource="{Binding listProdType}" DisplayMemberPath="gt_name"
+                          SelectedValue="{Binding product.g_ProductTypeId, Mode=TwoWay}"
+                          SelectedValuePath="id"  Grid.Row="0" Grid.Column="1"
+                          Margin="4,2"/>
 
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Заводской номер"/>
-                <TextBox Text="{Binding goods.g_number}"/>
-            </StackPanel>
+                <TextBlock Text="Заводской номер" Grid.Row="1" Grid.Column="0"/>
+                <TextBox Text="{Binding product.g_number}" Grid.Row="1" Grid.Column="1"/>
 
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Наименование"/>
-                <TextBox Text="{Binding goods.g_name}"/>
-            </StackPanel>
+                <TextBlock Text="Наименование" Grid.Row="2" Grid.Column="0"/>
+                <TextBox Text="{Binding product.g_name}" Grid.Row="2" Grid.Column="1"/>
 
-            <!--<StackPanel Orientation="Horizontal">
-                <TextBlock Text="Заказчик"/>
-                <TextBox Text="{Binding goods.g_customer}"/>
-            </StackPanel>-->
+                <TextBlock Text="Номер шкафа" Grid.Row="3" Grid.Column="0"/>
+                <TextBox Text="{Binding product.g_numberBox}" Grid.Row="3" Grid.Column="1"/>
 
-            <!--<StackPanel Orientation="Horizontal">
-                <TextBlock Text="Дата отгрузки"/>
-                <TextBox Text="{Binding goods.g_dateOut}"/>
-            </StackPanel>-->
-
-            <!--<StackPanel Orientation="Horizontal">
-                <TextBlock Text="Объект установки"/>
-                <TextBox Text="{Binding goods.g_objectInstall}"/>
-            </StackPanel>-->
-
-            <!--<StackPanel Orientation="Horizontal">
-                <TextBlock Text="Опросный лист"/>
-                <TextBox Text="{Binding goods.g_questList}"/>
-            </StackPanel>-->
-
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Номер шкафа"/>
-                <TextBox Text="{Binding goods.g_numberBox}"/>
-            </StackPanel>
-
-        </StackPanel>
+                <DockPanel Grid.Row="4" Grid.ColumnSpan="2">
+                    <StackPanel DockPanel.Dock="Left" Margin="4,8">
+                        <Button Command="{Binding AddModulCommand}" Style="{StaticResource ButtonStyleShadow}">
+                            <fa:ImageAwesome Icon="Solid_Plus" Width="16" Height="16"/>
+                        </Button>
+                        <Button Command="{Binding DelModulCommand}" Style="{StaticResource ButtonStyleShadow}">
+                            <fa:ImageAwesome Icon="Solid_Minus" Width="16" Height="16"/>
+                        </Button>
+                    </StackPanel>
+                    <DataGrid ItemsSource="{Binding product.Modules}" Margin="3,8,3,2"
+                          Style="{StaticResource DataGridStyle}" AutoGenerateColumns="False"
+                          >
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Наименование" Binding="{Binding m_name}"/>
+                            <DataGridTextColumn Header="Номер" Binding="{Binding m_number}"/>
+                            <DataGridTextColumn Header="Номер прошивки" Binding="{Binding m_numberFW}"/>
+                            <DataGridTextColumn Header="Тип" Binding="{Binding ModuleType.mt_name}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </DockPanel>
+            </Grid>
+        </Border>
         
     </DockPanel>
 </Window>

@@ -27,7 +27,7 @@
                     </Style>
                 </StackPanel.Resources>
                 <Button Content="Наборы"/>
-                <Button Content="Готовые изделия"/>
+                <Button Content="Готовые изделия" Command="{Binding OpenProdCommand}"/>
                 <Button Content="Модули" Command="{Binding OpenModulesCommand}"/>
             </StackPanel>
         </Border>

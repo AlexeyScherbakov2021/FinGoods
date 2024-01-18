@@ -91,6 +91,7 @@
     <Compile Include="Repository\RepositoryFP.cs" />
     <Compile Include="Repository\RepositoryMSSQL.cs" />
     <Compile Include="ViewModels\AllModulesWindowVM.cs" />
+    <Compile Include="ViewModels\AllProdWindowVM.cs" />
     <Compile Include="ViewModels\ShipWindowVM.cs" />
     <Compile Include="ViewModels\DetailWindowVM.cs" />
     <Compile Include="ViewModels\ProdWindowVM.cs" />
@@ -98,6 +99,9 @@
     <Compile Include="ViewModels\Observable.cs" />
     <Compile Include="View\AllModulesWindow.xaml.cs">
       <DependentUpon>AllModulesWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\AllProdWindow.xaml.cs">
+      <DependentUpon>AllProdWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\DetailWindow.xaml.cs">
       <DependentUpon>DetailWindow.xaml</DependentUpon>
@@ -118,6 +122,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\AllModulesWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\AllProdWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
