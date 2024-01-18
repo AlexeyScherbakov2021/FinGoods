@@ -5,15 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:FinGoods.ViewModels"
         xmlns:cmd="clr-namespace:FinGoods.Commands"
+        xmlns:fa="http://schemas.fontawesome.com/icons/"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:local="clr-namespace:FinGoods.View"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Style="{StaticResource WindowStyle}"
+        MinHeight="240" MinWidth="400"
         Title="Модуль" Height="198" Width="338">
     <Window.DataContext>
         <vm:ModulWindowVM/>
     </Window.DataContext>
     
     <DockPanel>
+        <FrameworkElement x:Name="proxy" Visibility="Collapsed" DataContext="{Binding}"/>
+
         <UniformGrid Columns="2" DockPanel.Dock="Bottom" Margin="4">
             <Button Content="OK" Margin="2" Style="{StaticResource ButtonStyleShadow}">
                 <Button.Command>
@@ -24,95 +29,122 @@
         </UniformGrid>
 
         <Border BorderBrush="Gray" BorderThickness="1" Margin="6" CornerRadius="3">
-            
-            
-            
-            
-            <StackPanel HorizontalAlignment="Center"  VerticalAlignment="Center">
-                <StackPanel.Resources>
+
+            <Grid Margin="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Grid.Resources>
                     <Style TargetType="TextBlock">
                         <Setter Property="Width" Value="110"/>
-                        <Setter Property="Margin" Value="2"/>
+                        <Setter Property="Margin" Value="4,2"/>
+                        <Setter Property="TextAlignment" Value="Right"/>
                     </Style>
                     <Style TargetType="TextBox">
-                        <Setter Property="Width" Value="130"/>
-                        <Setter Property="Margin" Value="2"/>
+                        <!--<Setter Property="Width" Value="130"/>-->
+                        <Setter Property="Margin" Value="4,2"/>
                     </Style>
+                </Grid.Resources>
 
-                </StackPanel.Resources>
+                <TextBlock Text="Заводской номер" Grid.Row="1" Grid.Column="0"/>
+                <TextBox Text="{Binding module.m_number}" Grid.Row="1" Grid.Column="1"/>
 
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Тип модуля"/>
-                    <Expander Name="exDim" Header="Тип модуля" VerticalContentAlignment="Top" Height="23" 
-                              
+                <TextBlock Text="Наименование" Grid.Row="2" Grid.Column="0"/>
+                <TextBox Text="{Binding module.m_name}" Grid.Row="2" Grid.Column="1"/>
+
+                <TextBlock Text="Дата отгрузки" Grid.Row="3" Grid.Column="0"/>
+                <TextBox Text="{Binding module.m_dateEnd}" Grid.Row="3" Grid.Column="1"/>
+
+                <TextBlock Text="Номер прошивки" Grid.Row="4" Grid.Column="0"/>
+                <TextBox Text="{Binding module.m_numberFW}" Grid.Row="4" Grid.Column="1"/>
+
+                <TextBlock Text="Тип модуля" Grid.Row="0" Grid.Column="0"/>
+                <DockPanel  Grid.Column="1" Margin="0,0,4,0">
+                    <ToggleButton x:Name="toggle" Grid.Column="1" Grid.ColumnSpan="2" DockPanel.Dock="Right"
+                              VerticalContentAlignment="Center" Padding="2,0" IsChecked="{Binding isOpenPopup}"
+                              Margin="0,2" FocusVisualStyle="{x:Null}" 
+                              >
+                        <fa:ImageAwesome Icon="Solid_CaretDown" Width="16"/>
+                    </ToggleButton>
+                                                          
+                    <Popup Placement="Bottom" IsOpen="{Binding IsChecked, ElementName=toggle}"
+                           StaysOpen="False" PlacementTarget="{Binding ElementName=forPopup}"
+                           VerticalOffset="-1" >
+                        <TreeView Name="tvDim" ItemsSource="{Binding listModuleType}" HorizontalAlignment="Left" 
+                                      Height="150" Width="{Binding ActualWidth, ElementName=forPopup}" VerticalAlignment="Top" >
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectedItemChanged">
+                                    <i:InvokeCommandAction Command="{Binding DataContext.ToggleCommand, Source={x:Reference proxy}}" PassEventArgsToCommand="True"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <TreeView.ItemTemplate>
+                                <HierarchicalDataTemplate ItemsSource="{Binding ChildModuleType}" >
+                                    <TextBlock Text="{Binding mt_name}">
+                                        <TextBlock.InputBindings>
+                                            <MouseBinding Gesture="LeftDoubleClick" Command="{Binding DataContext.OpenPopupCommand,  Source={x:Reference proxy}}"/>
+                                        </TextBlock.InputBindings>
+                                    </TextBlock>
+                                </HierarchicalDataTemplate>
+                            </TreeView.ItemTemplate>
+                        </TreeView>
+                    </Popup>
+                    <TextBox x:Name="forPopup" Text="{Binding module.ModuleType.mt_name}" IsReadOnly="True" Margin="4,2,0,2"/>
+                </DockPanel>
+                <!--<Expander Name="exDim" Header="Тип модуля" VerticalContentAlignment="Top" Height="23" 
+                               Grid.Row="0" Grid.Column="1" Grid.RowSpan="4"
                               VerticalAlignment="Top" HorizontalAlignment="Left">
-                        <Grid>
-                            <TreeView Name="tvDim" ItemsSource="{Binding listModuleType}" HorizontalAlignment="Left" 
+                    <Grid>
+                        <TreeView Name="tvDim" ItemsSource="{Binding listModuleType}" HorizontalAlignment="Left" 
                                       Height="120" VerticalAlignment="Top">
-                                <TreeView.ItemTemplate>
-                                    <HierarchicalDataTemplate ItemsSource="{Binding ChildModuleType}">
-                                        <TextBlock Text="{Binding mt_name}"/>
-                                    </HierarchicalDataTemplate>
-                                </TreeView.ItemTemplate>
-                            </TreeView>
-                        </Grid>
-                        <Expander.Triggers>
-                            <EventTrigger RoutedEvent="Expander.Expanded">
-                                <EventTrigger.Actions>
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="exDim" Storyboard.TargetProperty="Height" To="120"
+                            <TreeView.ItemTemplate>
+                                <HierarchicalDataTemplate ItemsSource="{Binding ChildModuleType}" >
+                                    <TextBlock Text="{Binding mt_name}"/>
+                                </HierarchicalDataTemplate>
+                            </TreeView.ItemTemplate>
+                        </TreeView>
+                    </Grid>
+                    <Expander.Triggers>
+                        <EventTrigger RoutedEvent="Expander.Expanded">
+                            <EventTrigger.Actions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="exDim" Storyboard.TargetProperty="Height" To="120"
                                                          Duration="0:0:0.5">
-                                                <DoubleAnimation.EasingFunction>
-                                                    <ElasticEase EasingMode="EaseOut" Oscillations="0"></ElasticEase>
-                                                </DoubleAnimation.EasingFunction>
-                                            </DoubleAnimation>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger.Actions>
-                            </EventTrigger>
-                            <EventTrigger RoutedEvent="Expander.Collapsed">
-                                <EventTrigger.Actions>
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="exDim" Storyboard.TargetProperty="Height" To="23"
+                                            <DoubleAnimation.EasingFunction>
+                                                <ElasticEase EasingMode="EaseOut" Oscillations="0"></ElasticEase>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger.Actions>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="Expander.Collapsed">
+                            <EventTrigger.Actions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="exDim" Storyboard.TargetProperty="Height" To="23"
                                                              Duration="0:0:0.5">
-                                                <DoubleAnimation.EasingFunction>
-                                                    <ElasticEase EasingMode="EaseOut" Oscillations="0"></ElasticEase>
-                                                </DoubleAnimation.EasingFunction>
-                                            </DoubleAnimation>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger.Actions>
-                            </EventTrigger>
-                        </Expander.Triggers>
-                    </Expander>
-                    <!--<ComboBox ItemsSource="{Binding listModuleType}" DisplayMemberPath="mt_name" Width="130"
-                          SelectedValuePath="id" SelectedValue="{Binding module.m_modTypeId}">
-                    </ComboBox>-->
-                </StackPanel>
-
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Заводской номер"/>
-                    <TextBox Text="{Binding module.m_number}"/>
-                </StackPanel>
-
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Наименование"/>
-                    <TextBox Text="{Binding module.m_name}"/>
-                </StackPanel>
-
-                <!--<StackPanel Orientation="Horizontal">
-                <TextBlock Text="Дата отгрузки"/>
-                <TextBox Text="{Binding module.m_dateEnd}"/>
-            </StackPanel>-->
-
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Номер прошивки"/>
-                    <TextBox Text="{Binding module.m_numberFW}"/>
-                </StackPanel>
-
-            </StackPanel>
+                                            <DoubleAnimation.EasingFunction>
+                                                <ElasticEase EasingMode="EaseOut" Oscillations="0"></ElasticEase>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger.Actions>
+                        </EventTrigger>
+                    </Expander.Triggers>
+                </Expander>-->
+            </Grid>
+            
         </Border>
     </DockPanel>
 </Window>
