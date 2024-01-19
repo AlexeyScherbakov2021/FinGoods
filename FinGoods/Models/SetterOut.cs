@@ -1,29 +1,33 @@
 namespace FinGoods.Models
 {
+    using FinGoods.ViewModels;
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
     [Table("SetterOut")]
-    public partial class SetterOut : IEntity
+    public partial class SetterOut : Observable, IEntity
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public SetterOut()
         {
-            Products = new HashSet<Product>();
+            Products = new ObservableCollection<Product>();
         }
 
         public int id { get; set; }
 
-        public int id_Shipment { get; set; }
+        public int? id_Shipment { get; set; }
 
+        private string _s_name;
         [StringLength(150)]
-        public string s_name { get; set; }
+        public string s_name { get => _s_name; set { Set(ref _s_name, value); } }
 
+        private ObservableCollection<Product> _Products;
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Product> Products { get; set; }
+        public virtual ObservableCollection<Product> Products { get => _Products; set { Set(ref _Products, value); } }
 
         public virtual Shipment Shipment { get; set; }
     }

@@ -130,6 +130,16 @@ namespace FinGoods.ViewModels
             win.ShowDialog();
         }
 
+        //--------------------------------------------------------------------------------
+        // Команда Открыть окно наборов
+        //--------------------------------------------------------------------------------
+        public ICommand OpenSetterCommand => new LambdaCommand(OnOpenSetterCommandExecuted, CanOpenSetterCommand);
+        private bool CanOpenSetterCommand(object p) => true;
+        private void OnOpenSetterCommandExecuted(object p)
+        {
+            AllSetterWindow win = new AllSetterWindow();
+            win.ShowDialog();
+        }
 
 
         #endregion

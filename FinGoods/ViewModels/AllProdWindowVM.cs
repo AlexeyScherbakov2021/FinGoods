@@ -17,14 +17,23 @@ namespace FinGoods.ViewModels
     {
         public ObservableCollection<Product> listProduct { get; set; }
         public Product selectedProduct { get; set; }
+        public Visibility isVisible { get; set; } = Visibility.Collapsed;
 
         RepositoryMSSQL<Product> repo = new RepositoryMSSQL<Product>();
 
         public AllProdWindowVM()
         {
             listProduct = new ObservableCollection<Product>(repo.Items);
+        }
+
+        public AllProdWindowVM(SetterOut st)
+        {
+            listProduct = new ObservableCollection<Product>(repo.Items
+                .Where(it => it.idSetter == null && it.idShipment == null));
+            isVisible = Visibility.Visible;
 
         }
+
 
         #region Команды
 

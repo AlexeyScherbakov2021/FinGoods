@@ -92,6 +92,8 @@
     <Compile Include="Repository\RepositoryMSSQL.cs" />
     <Compile Include="ViewModels\AllModulesWindowVM.cs" />
     <Compile Include="ViewModels\AllProdWindowVM.cs" />
+    <Compile Include="ViewModels\AllSetterWindowVM.cs" />
+    <Compile Include="ViewModels\SetterWindowVM.cs" />
     <Compile Include="ViewModels\ShipWindowVM.cs" />
     <Compile Include="ViewModels\DetailWindowVM.cs" />
     <Compile Include="ViewModels\ProdWindowVM.cs" />
@@ -102,6 +104,9 @@
     </Compile>
     <Compile Include="View\AllProdWindow.xaml.cs">
       <DependentUpon>AllProdWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\AllSetterWindow.xaml.cs">
+      <DependentUpon>AllSetterWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\DetailWindow.xaml.cs">
       <DependentUpon>DetailWindow.xaml</DependentUpon>
@@ -129,6 +134,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\AllSetterWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SetterWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\ShipWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -150,6 +163,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="View\SetterWindow.xaml.cs">
+      <DependentUpon>SetterWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\ShipWindow.xaml.cs">
       <DependentUpon>ShipWindow.xaml</DependentUpon>
     </Compile>

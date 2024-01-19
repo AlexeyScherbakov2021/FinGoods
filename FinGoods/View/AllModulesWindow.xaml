@@ -47,8 +47,8 @@
                 <DataGridTextColumn Header="Наименование" Binding="{Binding m_name}"/>
                 <DataGridTextColumn Header="Номер прошивки" Binding="{Binding m_numberFW}"/>
                 <DataGridTextColumn Header="Тип" Binding="{Binding ModuleType.mt_name}"/>
-                <DataGridTextColumn Header="Исп." Binding="{Binding idProduct}"/>
-                <DataGridTextColumn Header="Исп." Binding="{Binding idShipment}"/>
+                <DataGridTextColumn Header="Исп.изделие" Binding="{Binding Product.g_name}"/>
+                <DataGridTextColumn Header="Исп.отгрузка" Binding="{Binding Shipment.c_number}"/>
             </DataGrid.Columns>
             <DataGrid.ContextMenu>
                 <ContextMenu>

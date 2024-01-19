@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FinGoods"
         xmlns:vm="clr-namespace:FinGoods.ViewModels"
+        xmlns:cmd="clr-namespace:FinGoods.Commands"
         xmlns:fa="http://schemas.fontawesome.com/icons/"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
@@ -26,9 +27,14 @@
                         <Setter Property="FontWeight" Value="Bold"/>
                     </Style>
                 </StackPanel.Resources>
-                <Button Content="Наборы"/>
+                <Button Content="Наборы" Command="{Binding OpenSetterCommand}"/>
                 <Button Content="Готовые изделия" Command="{Binding OpenProdCommand}"/>
                 <Button Content="Модули" Command="{Binding OpenModulesCommand}"/>
+                <Button Content="Выход" >
+                    <Button.Command>
+                        <cmd:CloseWindowCommand/>
+                    </Button.Command>
+                </Button>
             </StackPanel>
         </Border>
         <FrameworkElement x:Name="proxy" Visibility="Collapsed" DataContext="{Binding}"/>
