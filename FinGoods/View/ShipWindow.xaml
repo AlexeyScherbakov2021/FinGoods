@@ -5,13 +5,28 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FinGoods.View"
         xmlns:vm="clr-namespace:FinGoods.ViewModels"
+        xmlns:inf="clr-namespace:FinGoods.Infrastructure"
         xmlns:cmd="clr-namespace:FinGoods.Commands"
-        mc:Ignorable="d" Style="{StaticResource StyleWindow}"
+        xmlns:fa="http://schemas.fontawesome.com/icons/"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        mc:Ignorable="d" 
+        Style="{StaticResource WindowStyle}"
         WindowStartupLocation="CenterScreen"
-        Title="Набор оборудования" Height="300" Width="534">
+        MinHeight="500"
+        Title="Набор оборудования" Height="560" Width="711">
     <Window.DataContext>
         <vm:ShipWindowVM/>
     </Window.DataContext>
+
+    <Window.Resources>
+        <Style TargetType="fa:ImageAwesome">
+            <Setter Property="Width" Value="16"/>
+            <Setter Property="Height" Value="16"/>
+            <Setter Property="Foreground" Value="Blue"/>
+        </Style>
+
+    </Window.Resources>
+    
 
     <DockPanel>
         <UniformGrid DockPanel.Dock="Bottom" Columns="2" Margin="10" Background="#FFFBFBFB">
@@ -34,6 +49,7 @@
                     <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
+                    <RowDefinition Height="6*"/>
                 </Grid.RowDefinitions>
                 <Grid.Resources>
                     <Style TargetType="TextBlock">
@@ -48,18 +64,71 @@
                 </Grid.Resources>
 
                 <TextBlock Text="Счет, карта заказа" Margin="6,0"/>
-                <TextBox Text="{Binding cardOrder.c_number}" Grid.Column="1"/>
+                <TextBox Text="{Binding Ship.c_number}" Grid.Column="1"/>
 
                 <TextBlock Text="Дата отрузки" Grid.Row="1" Margin="6,0"/>
                 <!--<TextBox Text="{Binding cardOrder.c_dateOut}" Grid.Row="1" Grid.Column="1" />-->
-                <DatePicker SelectedDate="{Binding cardOrder.c_dateOut}" Margin="4,4,12,4"
+                <DatePicker SelectedDate="{Binding Ship.c_dateOut}" Margin="4,4,12,4"
                         Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"/>
 
                 <TextBlock Text="Заказчик" Grid.Row="2" Margin="6,0"/>
-                <TextBox Text="{Binding cardOrder.c_customer}" Grid.Row="2" Grid.Column="1" />
+                <TextBox Text="{Binding Ship.c_customer}" Grid.Row="2" Grid.Column="1" />
 
                 <TextBlock Text="Объект установки" Grid.Row="3" Margin="6,0"/>
-                <TextBox Text="{Binding cardOrder.c_objectInstall}" Grid.Row="3" Grid.Column="1" />
+                <TextBox Text="{Binding Ship.c_objectInstall}" Grid.Row="3" Grid.Column="1" />
+
+                <GroupBox Header="Состав отгрузки" Grid.Row="4" Grid.ColumnSpan="2" Margin="0,8,0,0" Padding="4"
+                          BorderThickness="1" BorderBrush="Gray">
+                    <DockPanel >
+                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                            <StackPanel.Resources>
+                                <Style TargetType="Button" BasedOn="{StaticResource ButtonStyleShadow}">
+                                    <Setter Property="Margin" Value="0"/>
+                                </Style>
+                            </StackPanel.Resources>
+                            <Button ToolTip="Добавить набор" Command="{Binding AddSetCommand}">
+                                <fa:ImageAwesome Icon="Solid_LayerGroup"/>
+                            </Button>
+                            <Button ToolTip="Добавить изделие" Command="{Binding AddProdCommand}">
+                                <fa:ImageAwesome Icon="Solid_Cogs"/>
+                            </Button>
+                            <Button ToolTip="Добавить модуль" Command="{Binding AddModulCommand}">
+                                <fa:ImageAwesome Icon="Solid_Microchip"/>
+                            </Button>
+                            <Button ToolTip="Удалить" Command="{Binding DeleteCommand}">
+                                <fa:ImageAwesome Icon="Solid_Times"/>
+                            </Button>
+                        </StackPanel>
+                        <TreeView ItemsSource="{Binding listComposite}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectedItemChanged">
+                                    <i:InvokeCommandAction Command="{Binding SelectItemCommand}" PassEventArgsToCommand="True"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <TreeView.Resources>
+                                <HierarchicalDataTemplate DataType="{x:Type inf:NodeSetter}" ItemsSource="{Binding Children}">
+                                    <StackPanel Orientation="Horizontal" Margin="2">
+                                        <fa:ImageAwesome Icon="Solid_LayerGroup" Width="16" Height="16" Foreground="Blue"/>
+                                        <TextBlock Text="{Binding Name}" Margin="3,0,0,0"/>
+                                    </StackPanel>
+                                </HierarchicalDataTemplate>
+                                <HierarchicalDataTemplate DataType="{x:Type inf:NodeProd}" ItemsSource="{Binding Children}">
+                                    <StackPanel Orientation="Horizontal" Margin="2">
+                                        <fa:ImageAwesome Icon="Solid_Cogs" Width="16" Height="16" Foreground="Blue"/>
+                                        <TextBlock Text="{Binding Name}" Margin="3,0,0,0"/>
+                                    </StackPanel>
+                                </HierarchicalDataTemplate>
+                                <DataTemplate DataType="{x:Type inf:NodeModul}">
+                                    <StackPanel Orientation="Horizontal" Margin="2">
+                                        <fa:ImageAwesome Icon="Solid_Microchip" Width="16" Height="16" Foreground="Blue"/>
+                                        <TextBlock Text="{Binding Name}" Margin="3,0,0,0"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </TreeView.Resources>
+                        </TreeView>
+                    </DockPanel>
+
+                </GroupBox>
             </Grid>
         </Border>
         

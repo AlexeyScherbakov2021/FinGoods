@@ -48,6 +48,7 @@
                 <DataGridTextColumn Header="Номер шкафа" Binding="{Binding g_numberBox}"/>
                 <DataGridTextColumn Header="Тип" Binding="{Binding ProductType.gt_name}"/>
                 <DataGridTextColumn Header="Исп.набор" Binding="{Binding SetterOut.s_name}"/>
+                <DataGridTextColumn Header="Исп.отгрузка" Binding="{Binding Shipment.c_number}"/>
             </DataGrid.Columns>
             <DataGrid.ContextMenu>
                 <ContextMenu>

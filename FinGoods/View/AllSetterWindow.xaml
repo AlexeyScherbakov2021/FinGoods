@@ -43,7 +43,7 @@
             </DataGrid.InputBindings>
             <DataGrid.Columns>
                 <!--<DataGridTextColumn Header="Номер" Binding="{Binding g_number}"/>-->
-                <DataGridTextColumn Header="Наименование" Binding="{Binding s_name}"/>
+                <DataGridTextColumn Header="Наименование" Binding="{Binding s_name}" Width="*"/>
                 <!--<DataGridTextColumn Header="Номер шкафа" Binding="{Binding g_numberBox}"/>-->
                 <!--<DataGridTextColumn Header="Тип" Binding="{Binding ProductType.gt_name}"/>-->
             </DataGrid.Columns>

@@ -80,6 +80,10 @@
     <Compile Include="Commands\CloseWindowCommand.cs" />
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\LambdaCommand.cs" />
+    <Compile Include="Infrastructure\INode.cs" />
+    <Compile Include="Infrastructure\NodeModul.cs" />
+    <Compile Include="Infrastructure\NodeProd.cs" />
+    <Compile Include="Infrastructure\NodeSetter.cs" />
     <Compile Include="Models\IEntity.cs" />
     <Compile Include="Models\ModelBase.cs" />
     <Compile Include="Models\Module.cs" />

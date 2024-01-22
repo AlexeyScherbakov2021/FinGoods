@@ -44,7 +44,6 @@ namespace FinGoods.ViewModels
             if(win.ShowDialog() == true)
             {
                 listShip.Add(Ship);
-                //repoCO.Add(Ship);
                 repoShip.Save();
             }
 

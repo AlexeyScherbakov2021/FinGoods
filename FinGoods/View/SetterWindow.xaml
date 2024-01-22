@@ -56,6 +56,7 @@
                 <TextBox Text="{Binding setter.s_name}" Grid.Row="2" Grid.Column="1"/>
 
                 <DockPanel Grid.Row="4" Grid.ColumnSpan="2">
+                    <TextBlock Text="Список изделий" Margin="0,8,0,0" DockPanel.Dock="Top"/>
                     <StackPanel DockPanel.Dock="Left" Margin="4,8">
                         <Button Command="{Binding AddProdCommand}" Style="{StaticResource ButtonStyleShadow}">
                             <fa:ImageAwesome Icon="Solid_Plus" Width="16" Height="16"/>
@@ -64,7 +65,7 @@
                             <fa:ImageAwesome Icon="Solid_Minus" Width="16" Height="16"/>
                         </Button>
                     </StackPanel>
-                    <DataGrid ItemsSource="{Binding setter.Products}" Margin="3,8,3,2" SelectedItem="{Binding selectProd}"
+                    <DataGrid ItemsSource="{Binding setter.Products}" Margin="3,0,3,2" SelectedItem="{Binding selectProd}"
                           Style="{StaticResource DataGridStyle}" AutoGenerateColumns="False"
                           >
                         <DataGrid.Columns>

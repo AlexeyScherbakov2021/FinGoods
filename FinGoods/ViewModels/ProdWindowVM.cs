@@ -41,7 +41,7 @@ namespace FinGoods.ViewModels
         private void OnAddModulCommandExecuted(object p)
         {
             AllModulesWindow win = new AllModulesWindow();
-            AllModulesWindowVM vm = new AllModulesWindowVM(product);
+            AllModulesWindowVM vm = new AllModulesWindowVM(true);
             win.DataContext = vm;
             if (win.ShowDialog() == true && vm.selectedModule != null)
             {

@@ -36,7 +36,7 @@ namespace FinGoods.ViewModels
         private void OnAddProdCommandExecuted(object p)
         {
             AllProdWindow win = new AllProdWindow();
-            AllProdWindowVM vm = new AllProdWindowVM(setter);
+            AllProdWindowVM vm = new AllProdWindowVM(true);
             win.DataContext = vm;
             if (win.ShowDialog() == true && vm.selectedProduct != null)
             {

@@ -9,7 +9,7 @@
         xmlns:vm="clr-namespace:FinGoods.ViewModels"
         Style="{StaticResource WindowStyle}"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
-        Title="Оборудование" Height="400" Width="560">
+        Title="Изделие" Height="400" Width="560">
     <Window.DataContext>
         <vm:ProdWindowVM/>
     </Window.DataContext>
@@ -64,6 +64,7 @@
                 <TextBox Text="{Binding product.g_numberBox}" Grid.Row="3" Grid.Column="1"/>
 
                 <DockPanel Grid.Row="4" Grid.ColumnSpan="2">
+                    <TextBlock Text="Сисок модулей" DockPanel.Dock="Top" Margin="0,8,0,0"/>
                     <StackPanel DockPanel.Dock="Left" Margin="4,8">
                         <Button Command="{Binding AddModulCommand}" Style="{StaticResource ButtonStyleShadow}">
                             <fa:ImageAwesome Icon="Solid_Plus" Width="16" Height="16"/>
@@ -72,7 +73,7 @@
                             <fa:ImageAwesome Icon="Solid_Minus" Width="16" Height="16"/>
                         </Button>
                     </StackPanel>
-                    <DataGrid ItemsSource="{Binding product.Modules}" Margin="3,8,3,2" SelectedItem="{Binding selectModul}"
+                    <DataGrid ItemsSource="{Binding product.Modules}" Margin="3,0,3,2" SelectedItem="{Binding selectModul}"
                           Style="{StaticResource DataGridStyle}" AutoGenerateColumns="False"
                           >
                         <DataGrid.Columns>

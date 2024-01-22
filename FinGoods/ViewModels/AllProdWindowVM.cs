@@ -26,7 +26,7 @@ namespace FinGoods.ViewModels
             listProduct = new ObservableCollection<Product>(repo.Items);
         }
 
-        public AllProdWindowVM(SetterOut st)
+        public AllProdWindowVM(bool isFiltr)
         {
             listProduct = new ObservableCollection<Product>(repo.Items
                 .Where(it => it.idSetter == null && it.idShipment == null));
@@ -76,8 +76,9 @@ namespace FinGoods.ViewModels
         // Команда Удалить 
         //--------------------------------------------------------------------------------
         public ICommand DelProdCommand => new LambdaCommand(OnDelProdCommandExecuted, CanDelProdCommand);
-        private bool CanDelProdCommand(object p) => selectedProduct != null
-            && selectedProduct.idShipment == null;
+        private bool CanDelProdCommand(object p) => selectedProduct != null 
+            && selectedProduct.idShipment == null
+            && selectedProduct.idSetter == null;
         private void OnDelProdCommandExecuted(object p)
         {
             if (MessageBox.Show($"Удалить «{selectedProduct.g_name}»", "Предупреждение", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)

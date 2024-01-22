@@ -27,7 +27,7 @@ namespace FinGoods.ViewModels
             listModules = new ObservableCollection<Module>(repo.Items);
         }
 
-        public AllModulesWindowVM(Product prod) 
+        public AllModulesWindowVM(bool prod) 
         {
             listModules = new ObservableCollection<Module>(repo.Items
                 .Where(it => it.idProduct == null && it.idShipment == null));

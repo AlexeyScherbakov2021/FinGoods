@@ -26,7 +26,7 @@ namespace FinGoods.ViewModels
             listSetter = new ObservableCollection<SetterOut>(repo.Items);
         }
 
-        public AllSetterWindowVM(Shipment s)
+        public AllSetterWindowVM(bool s)
         {
             listSetter = new ObservableCollection<SetterOut>(repo.Items
                 .Where(it => it.id_Shipment == null ));

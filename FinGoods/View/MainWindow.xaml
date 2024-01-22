@@ -10,7 +10,7 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Name="mainWindow" Style="{StaticResource WindowStyle}"
-        Title="Отгруженные наборы оборудования" Height="750" Width="1200">
+        Title="Отгруженное оборудование" Height="750" Width="1200">
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>
@@ -58,7 +58,7 @@
             <DataGrid ItemsSource="{Binding listShip}" SelectedItem="{Binding SelectShip}" Margin="6"
                       Style="{StaticResource DataGridStyle}" AutoGenerateColumns="False" IsReadOnly="True">
                 <DataGrid.InputBindings>
-                    <MouseBinding Gesture="LeftDoubleClick" Command="{Binding DataContext.OpenDetailCommand, ElementName=mainWindow}"/>
+                    <MouseBinding Gesture="LeftDoubleClick" Command="{Binding DataContext.EditShipCommand, ElementName=mainWindow}"/>
                 </DataGrid.InputBindings>
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Номер" Binding="{Binding c_number}"/>
