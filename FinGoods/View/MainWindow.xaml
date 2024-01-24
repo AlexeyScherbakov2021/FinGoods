@@ -21,15 +21,19 @@
                 <StackPanel.Resources>
                     <Style TargetType="{x:Type Button}" BasedOn="{StaticResource ResourceKey=ButtonStyleShadow}">
                         <Setter Property="Margin" Value="8"/>
-                        <Setter Property="Height" Value="50"/>
+                        <Setter Property="Height" Value="60"/>
                         <Setter Property="Padding" Value="6"/>
                         <Setter Property="FontSize" Value="14"/>
                         <Setter Property="FontWeight" Value="Bold"/>
+                        <Setter Property="Width" Value="140"/>
                     </Style>
                 </StackPanel.Resources>
                 <Button Content="Наборы" Command="{Binding OpenSetterCommand}"/>
                 <Button Content="Готовые изделия" Command="{Binding OpenProdCommand}"/>
                 <Button Content="Модули" Command="{Binding OpenModulesCommand}"/>
+                <Button Command="{Binding OpenTypesCommand}">
+                    <TextBlock Text="Типы изделий и модулей" TextWrapping="Wrap" TextAlignment="Center"/>
+                </Button>
                 <Button Content="Выход" >
                     <Button.Command>
                         <cmd:CloseWindowCommand/>

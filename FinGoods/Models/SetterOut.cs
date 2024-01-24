@@ -19,7 +19,7 @@ namespace FinGoods.Models
 
         public int id { get; set; }
 
-        public int? id_Shipment { get; set; }
+        public int? idShipment { get; set; }
 
         private string _s_name;
         [StringLength(150)]

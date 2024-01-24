@@ -1,6 +1,7 @@
 ﻿using FinGoods.Commands;
 using FinGoods.Infrastructure;
 using FinGoods.Models;
+using FinGoods.Repository;
 using FinGoods.View;
 using System;
 using System.Collections.Generic;
@@ -69,7 +70,6 @@ namespace FinGoods.ViewModels
             }
         }
 
-
         #region команды
 
         //--------------------------------------------------------------------------------
@@ -85,7 +85,11 @@ namespace FinGoods.ViewModels
 
             if (win.ShowDialog() == true)
             {
+                NodeSetter node = new NodeSetter(vm.selectedSetter.s_name, vm.selectedSetter);
+                listComposite.Add(node);
                 Ship.SetterOuts.Add(vm.selectedSetter);
+                RepositoryMSSQL<Shipment> repo = new RepositoryMSSQL<Shipment>();
+                repo.Save();
             }
         }
 
@@ -99,7 +103,11 @@ namespace FinGoods.ViewModels
 
             if(win.ShowDialog() == true)
             {
+                NodeProd node = new NodeProd(vm.selectedProduct.g_name, vm.selectedProduct);
+                listComposite.Add(node);
                 Ship.Products.Add(vm.selectedProduct);
+                RepositoryMSSQL<Shipment> repo = new RepositoryMSSQL<Shipment>();
+                repo.Save();
             }
         }
 
@@ -113,7 +121,11 @@ namespace FinGoods.ViewModels
 
             if(win.ShowDialog() == true)
             {
+                NodeModul node = new NodeModul(vm.selectedModule.m_name, vm.selectedModule);
+                listComposite.Add(node);
                 Ship.Modules.Add(vm.selectedModule);
+                RepositoryMSSQL<Shipment> repo = new RepositoryMSSQL<Shipment>();
+                repo.Save();
             }
         }
 
@@ -122,8 +134,22 @@ namespace FinGoods.ViewModels
         private bool CanDeleteCommand(object p) => SelectedNode != null && SelectedNode.isRoot;
         private void OnDeleteCommandExecuted(object p)
         {
-            listComposite.Remove(SelectedNode);
+            if (MessageBox.Show($"Удалить из списка «{SelectedNode.Name}»", "Предупреждение", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            {
+                if (SelectedNode.Item is SetterOut so)
+                    Ship.SetterOuts.Remove(so);
+                if (SelectedNode.Item is Product pd)
+                    Ship.Products.Remove(pd);
+                if (SelectedNode.Item is Module md)
+                    Ship.Modules.Remove(md);
+
+                RepositoryMSSQL<Shipment> repo = new RepositoryMSSQL<Shipment>();
+                repo.Save();
+
+                listComposite.Remove(SelectedNode);
+            }
         }
+
 
         public ICommand SelectItemCommand => new LambdaCommand(OnSelectItemCommandExecuted, CanSelectItemCommand);
         private bool CanSelectItemCommand(object p) => true;

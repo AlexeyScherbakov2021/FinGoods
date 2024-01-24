@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Configuration;
 using System.Data.Entity;
 using System.Linq;
 
@@ -9,18 +10,25 @@ namespace FinGoods.Models
     {
         private static ModelBase currentBase = null;
 
-
         public static ModelBase GetBase()
         {
-            if (currentBase == null)
-                new ModelBase();
+            string ConnectString;
+//#if DEBUG
+//            ConnectString = ConfigurationManager.ConnectionStrings["BaseModelLocal"].ConnectionString;
+//#endif
 
+//#if RELEASE
+            ConnectString = ConfigurationManager.ConnectionStrings["ModelBase"].ConnectionString;
+            ConnectString += ";user id=fpLoginName;password=ctcnhjt,s";
+//#endif
+
+            //App.log.WriteLineLog("Получение базы ModelBase");
+            if (currentBase == null)
+                new ModelBase(ConnectString);
             return currentBase;
         }
 
-
-        public ModelBase()
-            : base("name=ModelBase")
+        public ModelBase(string stringBase) : base(stringBase /*"name=ModelBase"*/)
         {
             currentBase = this;
         }
@@ -127,7 +135,7 @@ namespace FinGoods.Models
             modelBuilder.Entity<Shipment>()
                 .HasMany(e => e.SetterOuts)
                 .WithRequired(e => e.Shipment)
-                .HasForeignKey(e => e.id_Shipment);
+                .HasForeignKey(e => e.idShipment);
         }
     }
 }

@@ -22,7 +22,9 @@ namespace FinGoods
     {
         public MainWindow()
         {
+            //App.log.WriteLineLog("Инициализация MainWindow");
             InitializeComponent();
+            //App.log.WriteLineLog("Инициализация успешна MainWindow");
         }
 
     }

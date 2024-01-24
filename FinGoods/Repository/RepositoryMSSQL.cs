@@ -16,6 +16,7 @@ namespace FinGoods.Repository
 
         public RepositoryMSSQL()
         {
+            //App.log.WriteLineLog("Конструктор RepositoryMSSQL");
             _Set = BaseFG.Set<T>();
         }
 
@@ -51,6 +52,15 @@ namespace FinGoods.Repository
             var item = _Set.Local.FirstOrDefault(i => i.id == id) ?? new T { id = id };
             Delete(item, Autosave);
 
+        }
+
+
+        public void Undelete(T item)
+        {
+            if (item is null || item.id <= 0)
+                return;
+            
+            BaseFG.Entry(item).State = EntityState.Unchanged;
         }
 
         public void Delete(T item, bool Autosave = false) 

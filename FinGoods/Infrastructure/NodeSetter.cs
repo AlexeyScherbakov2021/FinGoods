@@ -14,7 +14,7 @@ namespace FinGoods.Infrastructure
         { 
             Name = name; 
             Item = setter;
-            isRoot = setter.id_Shipment != null;
+            isRoot = setter.idShipment != null;
         }
         public string Name { get; set; }
         public object Item { get; set; }

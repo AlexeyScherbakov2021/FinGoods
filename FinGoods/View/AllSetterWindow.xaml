@@ -29,10 +29,10 @@
             <Button Content="Редактировать" Command="{Binding EditSetCommand}"/>
             <Button Content="Удалить" Command="{Binding DelSetCommand}"/>
             <Button Content="Закрыть" Command="{StaticResource CloseDialogCommand}"/>
-            <Button Content="Выбрать" Visibility="{Binding isVisible}">
-                <Button.Command>
+            <Button Content="Выбрать" Visibility="{Binding isVisible}" Command="{Binding SelectModuleCommand}">
+                <!--<Button.Command>
                     <cmd:CloseDialogCommand  DialogResult="True"/>
-                </Button.Command>
+                </Button.Command>-->
             </Button>
         </ToolBarPanel>
 
@@ -44,7 +44,7 @@
             <DataGrid.Columns>
                 <!--<DataGridTextColumn Header="Номер" Binding="{Binding g_number}"/>-->
                 <DataGridTextColumn Header="Наименование" Binding="{Binding s_name}" Width="*"/>
-                <!--<DataGridTextColumn Header="Номер шкафа" Binding="{Binding g_numberBox}"/>-->
+                <DataGridTextColumn Header="Исп.отгрузка" Binding="{Binding Shipment.c_number}"/>
                 <!--<DataGridTextColumn Header="Тип" Binding="{Binding ProductType.gt_name}"/>-->
             </DataGrid.Columns>
             <DataGrid.ContextMenu>

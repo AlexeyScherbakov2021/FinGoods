@@ -30,6 +30,7 @@ namespace FinGoods.ViewModels
         {
             listProduct = new ObservableCollection<Product>(repo.Items
                 .Where(it => it.idSetter == null && it.idShipment == null));
+
             isVisible = Visibility.Visible;
 
         }
@@ -87,6 +88,18 @@ namespace FinGoods.ViewModels
                 listProduct.Remove(selectedProduct);
             }
         }
+
+        //--------------------------------------------------------------------------------
+        // Команда Выбрать
+        //--------------------------------------------------------------------------------
+        public ICommand SelectModuleCommand => new LambdaCommand(OnSelectModulCommandExecuted, CanSelectModulCommand);
+        private bool CanSelectModulCommand(object p) => selectedProduct != null;
+        private void OnSelectModulCommandExecuted(object p)
+        {
+            var win = App.Current.Windows.OfType<AllProdWindow>().FirstOrDefault();
+            win.DialogResult = true;
+        }
+
         #endregion
 
     }

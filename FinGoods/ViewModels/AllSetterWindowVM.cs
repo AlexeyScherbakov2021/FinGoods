@@ -29,7 +29,7 @@ namespace FinGoods.ViewModels
         public AllSetterWindowVM(bool s)
         {
             listSetter = new ObservableCollection<SetterOut>(repo.Items
-                .Where(it => it.id_Shipment == null ));
+                .Where(it => it.idShipment == null));
             isVisible = Visibility.Visible;
 
         }
@@ -84,6 +84,19 @@ namespace FinGoods.ViewModels
                 listSetter.Remove(selectedSetter);
             }
         }
+
+        //--------------------------------------------------------------------------------
+        // Команда Выбрать
+        //--------------------------------------------------------------------------------
+        public ICommand SelectModuleCommand => new LambdaCommand(OnSelectModulCommandExecuted, CanSelectModulCommand);
+        private bool CanSelectModulCommand(object p) => selectedSetter != null;
+        private void OnSelectModulCommandExecuted(object p)
+        {
+            var win = App.Current.Windows.OfType<AllSetterWindow>().FirstOrDefault();
+            win.DialogResult = true;
+        }
+
+
         #endregion
 
     }

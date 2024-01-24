@@ -29,10 +29,10 @@
             <Button Content="Редактировать" Command="{Binding EditModuleCommand}"/>
             <Button Content="Удалить" Command="{Binding DelModulCommand}"/>
             <Button Content="Закрыть" Command="{StaticResource CloseDialogCommand}"/>
-            <Button Content="Выбрать" Visibility="{Binding isVisible}">
-                <Button.Command>
+            <Button Content="Выбрать" Visibility="{Binding isVisible}" Command="{Binding SelectModuleCommand}">
+                <!--<Button.Command>
                     <cmd:CloseDialogCommand  DialogResult="True"/>
-                </Button.Command>
+                </Button.Command>-->
             </Button>
 
         </ToolBarPanel>

@@ -17,9 +17,9 @@ namespace FinGoods.View
     /// <summary>
     /// Логика взаимодействия для DetailWindow.xaml
     /// </summary>
-    public partial class DetailWindow : Window
+    public partial class TypesWindow : Window
     {
-        public DetailWindow()
+        public TypesWindow()
         {
             InitializeComponent();
         }

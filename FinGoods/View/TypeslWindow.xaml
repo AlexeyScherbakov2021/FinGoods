@@ -1,0 +1,87 @@
+﻿<Window x:Class="FinGoods.View.TypesWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:FinGoods.ViewModels"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:fa="http://schemas.fontawesome.com/icons/"
+        xmlns:cmd="clr-namespace:FinGoods.Commands"
+        xmlns:local="clr-namespace:FinGoods.View"
+        x:Name="detailWindow"
+        Style="{StaticResource WindowStyle}"
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen"
+        
+        Title="Типы изделий и модулей" Height="500" Width="656">
+    <Window.DataContext>
+        <vm:TypesWindowVM/>
+    </Window.DataContext>
+
+    <DockPanel Margin="4" >
+        <Button Content="Закрыть" Margin="80,8" Style="{StaticResource ButtonStyleShadow}" IsCancel="True" DockPanel.Dock="Bottom"/>
+        <!--<UniformGrid Columns="2" DockPanel.Dock="Bottom" Margin="4">
+            <Button Content="OK" Margin="4,0" Style="{StaticResource ButtonStyleShadow}">
+                <Button.Command>
+                    <cmd:CloseDialogCommand DialogResult="True"/>
+                </Button.Command>
+            </Button>
+            <Button Content="Отменить" Margin="4,0" Style="{StaticResource ButtonStyleShadow}" IsCancel="True"/>
+        </UniformGrid>-->
+        <!--<FrameworkElement x:Name="proxy" Visibility="Collapsed" DataContext="{Binding}" DockPanel.Dock="Top"/>-->
+
+        <!--<StackPanel Margin="2" DockPanel.Dock="Top" Orientation="Horizontal">
+            <StackPanel.Resources>
+                <Style TargetType="Button" BasedOn="{StaticResource ButtonStyleShadow}">
+                    <Setter Property="Margin" Value="1,0"/>
+                </Style>
+            </StackPanel.Resources>
+        </StackPanel>-->
+        
+        <!--<Grid Margin="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+        </Grid>-->
+        <UniformGrid Columns="2">
+            <GroupBox Header="Типы изделий" Padding="4" BorderBrush="Gray">
+                <DockPanel>
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="2" Background="LightGray">
+                        <Button Command="{Binding AddProdCommand}" Style="{StaticResource ButtonStyleShadow}">
+                            <fa:ImageAwesome Icon="Solid_Plus" Width="16"/>
+                        </Button>
+                        <Button Command="{Binding DelProdCommand}" Style="{StaticResource ButtonStyleShadow}">
+                            <fa:ImageAwesome Icon="Solid_Minus" Width="16"/>
+                        </Button>
+                    </StackPanel>
+                    <DataGrid Style="{StaticResource DataGridStyle}" ItemsSource="{Binding listProd}" 
+                          SelectedItem="{Binding SelectedProd}" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Наименование" Binding="{Binding gt_name}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </DockPanel>
+            </GroupBox>
+            <GroupBox Header="Типы модулей" Padding="4"  BorderBrush="Gray">
+                <DockPanel >
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="2" Background="LightGray">
+                        <Button Command="{Binding AddModulCommand}" Style="{StaticResource ButtonStyleShadow}">
+                            <fa:ImageAwesome Icon="Solid_Plus" Width="16"/>
+                        </Button>
+                        <Button Command="{Binding DelModulCommand}" Style="{StaticResource ButtonStyleShadow}">
+                            <fa:ImageAwesome Icon="Solid_Minus" Width="16"/>
+                        </Button>
+                    </StackPanel>
+                    <DataGrid Style="{StaticResource DataGridStyle}" ItemsSource="{Binding listModul}"
+                        SelectedItem="{Binding SelectedModule}" AutoGenerateColumns="False" >
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Наименование" Binding="{Binding mt_name}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </DockPanel>
+            </GroupBox>
+        </UniformGrid>
+    </DockPanel>
+</Window>

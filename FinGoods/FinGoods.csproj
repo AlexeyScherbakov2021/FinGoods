@@ -81,6 +81,7 @@
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\LambdaCommand.cs" />
     <Compile Include="Infrastructure\INode.cs" />
+    <Compile Include="Infrastructure\LogFile.cs" />
     <Compile Include="Infrastructure\NodeModul.cs" />
     <Compile Include="Infrastructure\NodeProd.cs" />
     <Compile Include="Infrastructure\NodeSetter.cs" />
@@ -99,7 +100,7 @@
     <Compile Include="ViewModels\AllSetterWindowVM.cs" />
     <Compile Include="ViewModels\SetterWindowVM.cs" />
     <Compile Include="ViewModels\ShipWindowVM.cs" />
-    <Compile Include="ViewModels\DetailWindowVM.cs" />
+    <Compile Include="ViewModels\TypesWindowVM.cs" />
     <Compile Include="ViewModels\ProdWindowVM.cs" />
     <Compile Include="ViewModels\ModulWindowVM.cs" />
     <Compile Include="ViewModels\Observable.cs" />
@@ -112,8 +113,8 @@
     <Compile Include="View\AllSetterWindow.xaml.cs">
       <DependentUpon>AllSetterWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\DetailWindow.xaml.cs">
-      <DependentUpon>DetailWindow.xaml</DependentUpon>
+    <Compile Include="View\TypeslWindow.xaml.cs">
+      <DependentUpon>TypeslWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ModulWindow.xaml.cs">
       <DependentUpon>ModulWindow.xaml</DependentUpon>
@@ -150,7 +151,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\DetailWindow.xaml">
+    <Page Include="View\TypeslWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -23,7 +23,9 @@ namespace FinGoods.ViewModels
 
         public MainWindowViewModel()
         {
+            //App.log.WriteLineLog("Конструктор MainWindowViewModel");
             listShip = new ObservableCollection<Shipment>(repoShip.Items);
+            //App.log.WriteLineLog("Получен список listShip");
         }
 
         #region команды
@@ -85,15 +87,15 @@ namespace FinGoods.ViewModels
         //--------------------------------------------------------------------------------
         // Команда Открыть окно детализации
         //--------------------------------------------------------------------------------
-        public ICommand OpenDetailCommand => new LambdaCommand(OnOpenDetailCommandExecuted, CanOpenDetailCommand);
-        private bool CanOpenDetailCommand(object p) => SelectShip != null;
-        private void OnOpenDetailCommandExecuted(object p)
-        {
-            DetailWindow win = new DetailWindow();
-            DetailWindowVM vm = new DetailWindowVM(SelectShip.Products, SelectShip.c_number);
-            win.DataContext = vm;
-            win.ShowDialog();
-        }
+        //public ICommand OpenDetailCommand => new LambdaCommand(OnOpenDetailCommandExecuted, CanOpenDetailCommand);
+        //private bool CanOpenDetailCommand(object p) => SelectShip != null;
+        //private void OnOpenDetailCommandExecuted(object p)
+        //{
+        //    TypesWindow win = new TypesWindow();
+        //    TypesWindowVM vm = new TypesWindowVM(SelectShip.Products, SelectShip.c_number);
+        //    win.DataContext = vm;
+        //    win.ShowDialog();
+        //}
 
 
         //--------------------------------------------------------------------------------
@@ -140,6 +142,16 @@ namespace FinGoods.ViewModels
             win.ShowDialog();
         }
 
+        //--------------------------------------------------------------------------------
+        // Команда Открыть окно наборов
+        //--------------------------------------------------------------------------------
+        public ICommand OpenTypesCommand => new LambdaCommand(OnOpenTypesCommandExecuted, CanOpenTypesCommand);
+        private bool CanOpenTypesCommand(object p) => true;
+        private void OnOpenTypesCommandExecuted(object p)
+        {
+            TypesWindow win = new TypesWindow();
+            win.ShowDialog();
+        }
 
         #endregion
 

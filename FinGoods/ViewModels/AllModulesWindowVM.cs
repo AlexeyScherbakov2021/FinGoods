@@ -89,16 +89,15 @@ namespace FinGoods.ViewModels
         }
 
         //--------------------------------------------------------------------------------
-        // Команда Выбрать модули
+        // Команда Выбрать
         //--------------------------------------------------------------------------------
-        //public ICommand SelectModuleCommand => new LambdaCommand(OnDelModulCommandExecuted, CanDelModulCommand);
-        //private bool CanDelModulCommand(object p) => selectedModule != null
-        //    && selectedModule.idProduct == null
-        //    && selectedModule.idShipment == null;
-        //private void OnDelModulCommandExecuted(object p)
-        //{
-
-        //}
+        public ICommand SelectModuleCommand => new LambdaCommand(OnSelectModulCommandExecuted, CanSelectModulCommand);
+        private bool CanSelectModulCommand(object p) => selectedModule != null;
+        private void OnSelectModulCommandExecuted(object p)
+        {
+            var win = App.Current.Windows.OfType<AllModulesWindow>().FirstOrDefault();
+            win.DialogResult = true;
+        }
 
         #endregion
 
