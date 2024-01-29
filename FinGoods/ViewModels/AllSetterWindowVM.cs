@@ -28,8 +28,12 @@ namespace FinGoods.ViewModels
 
         public AllSetterWindowVM(bool s)
         {
-            listSetter = new ObservableCollection<SetterOut>(repo.Items
-                .Where(it => it.idShipment == null));
+            //ModelBase BaseFG = ModelBase.GetBase();
+            //listSetter = new ObservableCollection<SetterOut>(BaseFG.Set<SetterOut>().Where(it => it.idShipment == null));
+            //listSetter = BaseFG.Set<SetterOut>().Local;
+
+            listSetter = new ObservableCollection<SetterOut>(repo.Items);
+            listSetter = new ObservableCollection<SetterOut>(listSetter.Where(it => it.idShipment == null));
             isVisible = Visibility.Visible;
 
         }

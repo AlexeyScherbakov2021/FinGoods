@@ -5,14 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:FinGoods.ViewModels"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:conv="clr-namespace:FinGoods.Converter"
         xmlns:fa="http://schemas.fontawesome.com/icons/"
         xmlns:cmd="clr-namespace:FinGoods.Commands"
         xmlns:local="clr-namespace:FinGoods.View"
         x:Name="detailWindow"
         Style="{StaticResource WindowStyle}"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
-        
         Title="Типы изделий и модулей" Height="500" Width="656">
+    <!--<Window.Resources>
+        <conv:VisibilityEqualConverter x:Key="VisibilityEqualConverter"/>
+    </Window.Resources>-->
     <Window.DataContext>
         <vm:TypesWindowVM/>
     </Window.DataContext>
@@ -67,19 +70,86 @@
             <GroupBox Header="Типы модулей" Padding="4"  BorderBrush="Gray">
                 <DockPanel >
                     <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="2" Background="LightGray">
-                        <Button Command="{Binding AddModulCommand}" Style="{StaticResource ButtonStyleShadow}">
+                        <Button Command="{Binding AddModulCommand}" CommandParameter="0"
+                                Style="{StaticResource ButtonStyleShadow}">
                             <fa:ImageAwesome Icon="Solid_Plus" Width="16"/>
                         </Button>
                         <Button Command="{Binding DelModulCommand}" Style="{StaticResource ButtonStyleShadow}">
                             <fa:ImageAwesome Icon="Solid_Minus" Width="16"/>
                         </Button>
                     </StackPanel>
-                    <DataGrid Style="{StaticResource DataGridStyle}" ItemsSource="{Binding listModul}"
+                    
+                    <TreeView ItemsSource="{Binding listModul}">
+                        <TreeView.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Добавить тип модуля" Command="{Binding AddModulCommand}" CommandParameter="0"/>
+                                <MenuItem Header="Добавить тип подмодуля" Command="{Binding AddModulCommand}" CommandParameter="1"/>
+                                <MenuItem Header="Редактировать тип модуля" Command="{Binding EditModuleCommand}"/>
+                                <MenuItem Header="Удалить тип модуля" Command="{Binding DelModulCommand}"/>
+                            </ContextMenu>
+                        </TreeView.ContextMenu>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectedItemChanged">
+                                <i:InvokeCommandAction Command="{Binding SelectItemCommand}" PassEventArgsToCommand="True"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <TreeView.InputBindings>
+                            <KeyBinding Key="F2" Command="{Binding EditModuleCommand}"
+                        CommandParameter="{Binding SelectedItem,RelativeSource={RelativeSource FindAncestor, AncestorType=TreeView}}"/>
+                        </TreeView.InputBindings>
+                        <TreeView.ItemTemplate>
+                            <HierarchicalDataTemplate ItemsSource="{Binding ChildModuleType}">
+                                <!--<infr:TextEditor Text="{Binding mt_name}" Margin="3,1" />-->
+                                <Grid x:Name="grid">
+                                    <TextBlock Text="{Binding mt_name}" Margin="3,1">
+                                        <TextBlock.Visibility>
+                                            <MultiBinding Converter="{conv:VisibilityEqualConverter EqualValue=Collapsed, NotEqualValue=Visible}">
+                                                <Binding/>
+                                                <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType=Window}"
+                                                        Path="DataContext.EditableModule"/>
+                                            </MultiBinding>
+                                        </TextBlock.Visibility>
+                                    </TextBlock>
+                                    <TextBox x:Name="txt" Text="{Binding mt_name, Mode=TwoWay}" Margin="1,1" 
+                                             Background="White" Foreground="White">
+                                        <TextBox.InputBindings>
+                                            <KeyBinding Key="Enter" Command="{Binding DataContext.EditModuleCommand,
+                                                            RelativeSource={RelativeSource FindAncestor,AncestorType=Window}}"
+                                                    CommandParameter="{x:Null}"/>
+                                        </TextBox.InputBindings>
+
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="LostFocus">
+                                                <i:InvokeCommandAction Command="{Binding DataContext.EditModuleCommand,
+                                                            RelativeSource={RelativeSource FindAncestor,AncestorType=Window}}"
+                                                       CommandParameter="{x:Null}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                        
+                                        <TextBox.Visibility>
+                                            <MultiBinding Converter="{conv:VisibilityEqualConverter EqualValue=Visible, NotEqualValue=Collapsed}">
+                                                <Binding/>
+                                                <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType=Window}"
+                                                        Path="DataContext.EditableModule"/>
+                                            </MultiBinding>
+                                        </TextBox.Visibility>
+                                        <TextBox.Template>
+                                            <ControlTemplate TargetType="TextBox">
+                                                <Border x:Name="PART_ContentHost"/>
+                                            </ControlTemplate>
+                                        </TextBox.Template>
+                                    </TextBox>
+                                </Grid>
+                            </HierarchicalDataTemplate>
+                        </TreeView.ItemTemplate>
+                    </TreeView>
+                    
+                    <!--<DataGrid Style="{StaticResource DataGridStyle}" ItemsSource="{Binding listModul}"
                         SelectedItem="{Binding SelectedModule}" AutoGenerateColumns="False" >
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Наименование" Binding="{Binding mt_name}" Width="*"/>
                         </DataGrid.Columns>
-                    </DataGrid>
+                    </DataGrid>-->
                 </DockPanel>
             </GroupBox>
         </UniformGrid>

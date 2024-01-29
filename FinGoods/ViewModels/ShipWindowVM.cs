@@ -29,37 +29,73 @@ namespace FinGoods.ViewModels
         {
         }
 
+
+        private void addNodeSetter(SetterOut setter)
+        {
+            NodeSetter adding = new NodeSetter(setter.s_name, setter);
+            listComposite.Add(adding);
+
+            foreach (var item2 in setter.Products)
+            {
+                NodeProd adding2 = new NodeProd(item2.g_name, item2);
+                adding.Children.Add(adding2);
+
+                foreach (var item3 in item2.Modules)
+                {
+                    NodeModul adding3 = new NodeModul(item3.m_name, item3);
+                    adding2.Children.Add(adding3);
+                }
+            }
+        }
+
+        private void addNodeProd(Product prod)
+        {
+            NodeProd adding = new NodeProd(prod.g_name, prod);
+            listComposite.Add(adding);
+
+            foreach (var item2 in prod.Modules)
+            {
+                NodeModul adding2 = new NodeModul(item2.m_name, item2);
+                adding.Children.Add(adding2);
+            }
+        }
+
+
+
         public ShipWindowVM(Shipment co)
         {
             Ship = co;
             foreach(var item in Ship.SetterOuts)
             {
-                NodeSetter adding = new NodeSetter(item.s_name, item);
-                listComposite.Add(adding);
+                addNodeSetter(item);
 
-                foreach (var item2 in item.Products)
-                {
-                    NodeProd adding2 = new NodeProd(item2.g_name, item2);
-                    adding.Children.Add(adding2);
+                //NodeSetter adding = new NodeSetter(item.s_name, item);
+                //listComposite.Add(adding);
 
-                    foreach (var item3 in item2.Modules)
-                    {
-                        NodeModul adding3 = new NodeModul(item3.m_name, item3);
-                        adding2.Children.Add(adding3);
-                    }
-                }
+                //foreach (var item2 in item.Products)
+                //{
+                //    NodeProd adding2 = new NodeProd(item2.g_name, item2);
+                //    adding.Children.Add(adding2);
+
+                //    foreach (var item3 in item2.Modules)
+                //    {
+                //        NodeModul adding3 = new NodeModul(item3.m_name, item3);
+                //        adding2.Children.Add(adding3);
+                //    }
+                //}
             }
 
             foreach (var item in Ship.Products)
             {
-                NodeProd adding = new NodeProd(item.g_name, item);
-                listComposite.Add(adding);
+                addNodeProd(item);
+                //NodeProd adding = new NodeProd(item.g_name, item);
+                //listComposite.Add(adding);
 
-                foreach (var item2 in item.Modules)
-                {
-                    NodeModul adding2 = new NodeModul(item2.m_name, item2);
-                    adding.Children.Add(adding2);
-                }
+                //foreach (var item2 in item.Modules)
+                //{
+                //    NodeModul adding2 = new NodeModul(item2.m_name, item2);
+                //    adding.Children.Add(adding2);
+                //}
 
             }
 
@@ -85,11 +121,13 @@ namespace FinGoods.ViewModels
 
             if (win.ShowDialog() == true)
             {
-                NodeSetter node = new NodeSetter(vm.selectedSetter.s_name, vm.selectedSetter);
-                listComposite.Add(node);
                 Ship.SetterOuts.Add(vm.selectedSetter);
                 RepositoryMSSQL<Shipment> repo = new RepositoryMSSQL<Shipment>();
                 repo.Save();
+
+                addNodeSetter(vm.selectedSetter);
+                //NodeSetter node = new NodeSetter(vm.selectedSetter.s_name, vm.selectedSetter);
+                //listComposite.Add(node);
             }
         }
 
@@ -103,11 +141,14 @@ namespace FinGoods.ViewModels
 
             if(win.ShowDialog() == true)
             {
-                NodeProd node = new NodeProd(vm.selectedProduct.g_name, vm.selectedProduct);
-                listComposite.Add(node);
+                //NodeProd node = new NodeProd(vm.selectedProduct.g_name, vm.selectedProduct);
+                //listComposite.Add(node);
                 Ship.Products.Add(vm.selectedProduct);
                 RepositoryMSSQL<Shipment> repo = new RepositoryMSSQL<Shipment>();
                 repo.Save();
+
+                addNodeProd(vm.selectedProduct);
+
             }
         }
 
@@ -121,11 +162,12 @@ namespace FinGoods.ViewModels
 
             if(win.ShowDialog() == true)
             {
-                NodeModul node = new NodeModul(vm.selectedModule.m_name, vm.selectedModule);
-                listComposite.Add(node);
                 Ship.Modules.Add(vm.selectedModule);
                 RepositoryMSSQL<Shipment> repo = new RepositoryMSSQL<Shipment>();
                 repo.Save();
+
+                NodeModul node = new NodeModul(vm.selectedModule.m_name, vm.selectedModule);
+                listComposite.Add(node);
             }
         }
 

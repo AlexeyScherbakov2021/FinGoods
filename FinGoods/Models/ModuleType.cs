@@ -1,33 +1,37 @@
 namespace FinGoods.Models
 {
+    using FinGoods.ViewModels;
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
     [Table("ModuleType")]
-    public partial class ModuleType : IEntity
+    public partial class ModuleType : Observable, IEntity
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public ModuleType()
         {
             Modules = new HashSet<Module>();
-            ChildModuleType = new HashSet<ModuleType>();
+            ChildModuleType = new ObservableCollection<ModuleType>();
         }
 
         public int id { get; set; }
 
         public int? idParent { get; set; }
 
+        public string _mt_name;
         [StringLength(100)]
-        public string mt_name { get; set; }
+        public string mt_name { get => _mt_name; set { Set(ref _mt_name, value); } }
+
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Module> Modules { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ModuleType> ChildModuleType { get; set; }
+        public virtual ObservableCollection<ModuleType> ChildModuleType { get; set; }
 
         public virtual ModuleType ParentModuleType { get; set; }
     }

@@ -80,11 +80,15 @@
     <Compile Include="Commands\CloseWindowCommand.cs" />
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\LambdaCommand.cs" />
+    <Compile Include="Converter\VisibilityEqualConverter.cs" />
     <Compile Include="Infrastructure\INode.cs" />
     <Compile Include="Infrastructure\LogFile.cs" />
     <Compile Include="Infrastructure\NodeModul.cs" />
     <Compile Include="Infrastructure\NodeProd.cs" />
     <Compile Include="Infrastructure\NodeSetter.cs" />
+    <Compile Include="Infrastructure\TextEditor.xaml.cs">
+      <DependentUpon>TextEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\IEntity.cs" />
     <Compile Include="Models\ModelBase.cs" />
     <Compile Include="Models\Module.cs" />
@@ -98,6 +102,7 @@
     <Compile Include="ViewModels\AllModulesWindowVM.cs" />
     <Compile Include="ViewModels\AllProdWindowVM.cs" />
     <Compile Include="ViewModels\AllSetterWindowVM.cs" />
+    <Compile Include="ViewModels\QueryNameWindowVM.cs" />
     <Compile Include="ViewModels\SetterWindowVM.cs" />
     <Compile Include="ViewModels\ShipWindowVM.cs" />
     <Compile Include="ViewModels\TypesWindowVM.cs" />
@@ -113,12 +118,19 @@
     <Compile Include="View\AllSetterWindow.xaml.cs">
       <DependentUpon>AllSetterWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\QueryNameWindow.xaml.cs">
+      <DependentUpon>QueryNameWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\TypeslWindow.xaml.cs">
       <DependentUpon>TypeslWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ModulWindow.xaml.cs">
       <DependentUpon>ModulWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="Infrastructure\TextEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Styles\Button.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -140,6 +152,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\AllSetterWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\QueryNameWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

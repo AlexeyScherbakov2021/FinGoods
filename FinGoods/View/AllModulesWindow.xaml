@@ -39,6 +39,11 @@
 
         <DataGrid x:Name="dg" ItemsSource="{Binding listModules}" SelectedItem="{Binding selectedModule}" Margin="4"
                       Style="{StaticResource DataGridStyle}" AutoGenerateColumns="False" IsReadOnly="True">
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
             <DataGrid.InputBindings>
                 <MouseBinding Gesture="LeftDoubleClick" Command="{Binding DataContext.EditModuleCommand, ElementName=dg}"/>
             </DataGrid.InputBindings>
@@ -47,8 +52,8 @@
                 <DataGridTextColumn Header="Наименование" Binding="{Binding m_name}"/>
                 <DataGridTextColumn Header="Номер прошивки" Binding="{Binding m_numberFW}"/>
                 <DataGridTextColumn Header="Тип" Binding="{Binding ModuleType.mt_name}"/>
-                <DataGridTextColumn Header="Исп.изделие" Binding="{Binding Product.g_name}"/>
-                <DataGridTextColumn Header="Исп.отгрузка" Binding="{Binding Shipment.c_number}"/>
+                <DataGridTextColumn Header="Исп. в изделии" Binding="{Binding Product.g_name}"/>
+                <DataGridTextColumn Header="Исп. в отгрузке" Binding="{Binding Shipment.c_number}"/>
             </DataGrid.Columns>
             <DataGrid.ContextMenu>
                 <ContextMenu>

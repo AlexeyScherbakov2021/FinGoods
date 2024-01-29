@@ -76,6 +76,11 @@
                     <DataGrid ItemsSource="{Binding product.Modules}" Margin="3,0,3,2" SelectedItem="{Binding selectModul}"
                           Style="{StaticResource DataGridStyle}" AutoGenerateColumns="False"
                           >
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="FontWeight" Value="Bold"/>
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Наименование" Binding="{Binding m_name}"/>
                             <DataGridTextColumn Header="Номер" Binding="{Binding m_number}"/>

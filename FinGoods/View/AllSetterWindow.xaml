@@ -44,7 +44,7 @@
             <DataGrid.Columns>
                 <!--<DataGridTextColumn Header="Номер" Binding="{Binding g_number}"/>-->
                 <DataGridTextColumn Header="Наименование" Binding="{Binding s_name}" Width="*"/>
-                <DataGridTextColumn Header="Исп.отгрузка" Binding="{Binding Shipment.c_number}"/>
+                <DataGridTextColumn Header="Исп. в отгрузке" Binding="{Binding Shipment.c_number}"/>
                 <!--<DataGridTextColumn Header="Тип" Binding="{Binding ProductType.gt_name}"/>-->
             </DataGrid.Columns>
             <DataGrid.ContextMenu>

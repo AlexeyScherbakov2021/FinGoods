@@ -18,6 +18,7 @@ namespace FinGoods.Repository
         {
             //App.log.WriteLineLog("Конструктор RepositoryMSSQL");
             _Set = BaseFG.Set<T>();
+
         }
 
         public T Get(int id)

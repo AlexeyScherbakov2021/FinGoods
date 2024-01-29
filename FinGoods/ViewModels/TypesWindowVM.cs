@@ -1,4 +1,5 @@
 ﻿using FinGoods.Commands;
+using FinGoods.Infrastructure;
 using FinGoods.Models;
 using FinGoods.Repository;
 using FinGoods.View;
@@ -26,39 +27,43 @@ namespace FinGoods.ViewModels
         private ModuleType _SelectedModule;
         public ModuleType SelectedModule { get => _SelectedModule; set { Set(ref _SelectedModule, value); } }
 
+        private ModuleType _EditableModule;
+        public ModuleType EditableModule { get => _EditableModule; set { Set(ref _EditableModule, value); } }
+
+
         private readonly RepositoryMSSQL<ProductType> repoProd = new RepositoryMSSQL<ProductType>();
         private readonly RepositoryMSSQL<ModuleType> repoModul = new RepositoryMSSQL<ModuleType>();
 
         public TypesWindowVM()
         {
             listProd = new ObservableCollection<ProductType>(repoProd.Items);
-            listModul = new ObservableCollection<ModuleType>(repoModul.Items);
+            listModul = new ObservableCollection<ModuleType>(repoModul.Items.Where(it => it.idParent == null));
         }
 
 
         //--------------------------------------------------------------------------------
         // Команда 
         //--------------------------------------------------------------------------------
-        //public ICommand SelectItemCommand => new LambdaCommand(OnSelectItemCommandExecuted, CanSelectItemCommand);
-        //private bool CanSelectItemCommand(object p) => true;
-        //private void OnSelectItemCommandExecuted(object p)
-        //{
-        //    if (p is RoutedPropertyChangedEventArgs<object> e)
-        //    {
-        //        //SelectCard = null;
-        //        SelectedProd = null;
-        //        SelectedModule = null;
+        public ICommand SelectItemCommand => new LambdaCommand(OnSelectItemCommandExecuted, CanSelectItemCommand);
+        private bool CanSelectItemCommand(object p) => true;
+        private void OnSelectItemCommandExecuted(object p)
+        {
+            if (p is RoutedPropertyChangedEventArgs<object> e)
+            {
+                ////SelectCard = null;
+                //SelectedProd = null;
+                //SelectedModule = null;
 
-        //        if (e.NewValue is Product g)
-        //        {
-        //            SelectedProd = g;
-        //        }
-        //        if (e.NewValue is Module m)
-        //        {
-        //            SelectedModule = m;
-        //        }
-        //    }
-        //}
+                //if (e.NewValue is Product g)
+                //{
+                //    SelectedProd = g;
+                //}
+                if (e.NewValue is ModuleType m)
+                {
+                    SelectedModule = m;
+                }
+            }
+        }
 
         //--------------------------------------------------------------------------------
         // Команда Добавить оборудование
@@ -67,11 +72,19 @@ namespace FinGoods.ViewModels
         private bool CanAddProdCommand(object p) => true;
         private void OnAddProdCommandExecuted(object p)
         {
-            ProductType newProdType = new ProductType();
-            newProdType.gt_name = "Новый тип";
-            repoProd.Add(newProdType, true);
-            listProd.Add(newProdType);
-            SelectedProd = listProd.Last();
+            QueryNameWindow win = new QueryNameWindow();
+            QueryNameWindowVM vm = win.DataContext as QueryNameWindowVM;
+            vm.Title = "Наименование типа изделия";
+
+            if (win.ShowDialog() == true && !string.IsNullOrEmpty(vm.Name))
+            {
+                ProductType newProdType = new ProductType();
+                newProdType.gt_name = vm.Name;
+                repoProd.Add(newProdType, true);
+                listProd.Add(newProdType);
+                SelectedProd = listProd.Last();
+            }
+
         }
 
 
@@ -112,25 +125,56 @@ namespace FinGoods.ViewModels
         // Команда Добавить модуль
         //--------------------------------------------------------------------------------
         public ICommand AddModulCommand => new LambdaCommand(OnAddModulCommandExecuted, CanAddModulCommand);
-        private bool CanAddModulCommand(object p) => SelectedProd != null;
+        private bool CanAddModulCommand(object p) => true;
         private void OnAddModulCommandExecuted(object p)
         {
-            ModuleType newMod = new ModuleType();
-            newMod.mt_name = "Новый млодуль";
-            repoModul.Add(newMod, true);
-            listModul.Add(newMod);
-            _SelectedModule = listModul.Last();
+            string param = p.ToString();
 
+            QueryNameWindow win = new QueryNameWindow();
+            QueryNameWindowVM vm = win.DataContext as QueryNameWindowVM;
+            vm.Title = "Наименование типа модуля";
+
+            if(win.ShowDialog() == true && !string.IsNullOrEmpty(vm.Name))
+            {
+                ModuleType newMod = new ModuleType();
+                newMod.mt_name = vm.Name;
+
+                if (SelectedModule != null && param == "1")
+                {
+                    SelectedModule.ChildModuleType.Add(newMod);
+                    repoModul.Save();
+                }
+                else if(param == "0")
+                {
+                    repoModul.Add(newMod, true);
+                    listModul.Add(newMod);
+                    _SelectedModule = listModul.Last();
+                }
+            }
         }
 
         //--------------------------------------------------------------------------------
         // Команда Редактировать модуль
         //--------------------------------------------------------------------------------
-        //public ICommand EditModuleCommand => new LambdaCommand(OnEditModuleCommandExecuted, CanEditModuleCommand);
-        //private bool CanEditModuleCommand(object p) => SelectedModule != null;
-        //private void OnEditModuleCommandExecuted(object p)
-        //{
-        //}
+        public ICommand EditModuleCommand => new LambdaCommand(OnEditModuleCommandExecuted, CanEditModuleCommand);
+        private bool CanEditModuleCommand(object p) => SelectedModule != null;
+        private void OnEditModuleCommandExecuted(object p)
+        {
+            QueryNameWindow win = new QueryNameWindow();
+            QueryNameWindowVM vm = win.DataContext as QueryNameWindowVM;
+            vm.Title = "Наименование типа модуля";
+            vm.Name = SelectedModule.mt_name;
+            if (win.ShowDialog() == true && !string.IsNullOrEmpty(vm.Name))
+            {
+                SelectedModule.mt_name = vm.Name;
+                repoModul.Save();
+            }
+
+            //if (p == null)
+            //    EditableModule = null;
+            //else
+            //    EditableModule = SelectedModule;
+        }
 
         //--------------------------------------------------------------------------------
         // Команда Удалить модуль
@@ -143,8 +187,12 @@ namespace FinGoods.ViewModels
             {
                 try
                 {
-                    repoModul.Delete(SelectedModule, true);
-                    listModul.Remove(SelectedModule);
+                    bool isRoot = SelectedModule.ParentModuleType == null;
+
+                    repoModul.Delete(SelectedModule);
+                    if (isRoot)
+                        listModul.Remove(SelectedModule);
+                    repoModul.Save();
                 }
                 catch
                 {
@@ -153,7 +201,5 @@ namespace FinGoods.ViewModels
                 }
             }
         }
-
-
     }
 }

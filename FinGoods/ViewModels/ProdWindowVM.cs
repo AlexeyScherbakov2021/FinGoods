@@ -16,6 +16,7 @@ namespace FinGoods.ViewModels
     {
         public Product product { get; set; }
         private readonly RepositoryMSSQL<ProductType> repoGT = new RepositoryMSSQL<ProductType>();
+        private readonly RepositoryMSSQL<Module> repoModul = new RepositoryMSSQL<Module>();
         public List<ProductType> listProdType { get; set; }
         public Module selectModul { get; set; }
 
@@ -46,6 +47,8 @@ namespace FinGoods.ViewModels
             if (win.ShowDialog() == true && vm.selectedModule != null)
             {
                 product.Modules.Add(vm.selectedModule);
+                vm.selectedModule.Product = product;
+                repoModul.Save();
             }
         }
 
@@ -58,7 +61,9 @@ namespace FinGoods.ViewModels
         {
             if (MessageBox.Show($"Удалить «{selectModul.m_name}»", "Предупреждение", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
+                selectModul.Product = null;
                 product.Modules.Remove(selectModul);
+                repoModul.Save();
             }
 
         }
