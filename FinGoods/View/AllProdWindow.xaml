@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:FinGoods.View"
         xmlns:vm="clr-namespace:FinGoods.ViewModels"
         xmlns:cmd="clr-namespace:FinGoods.Commands"
+        xmlns:fa="http://schemas.fontawesome.com/icons/"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Style="{StaticResource WindowStyle}"
@@ -26,14 +27,38 @@
                     <Setter Property="FontWeight" Value="Bold"/>
                 </Style>
             </ToolBarPanel.Resources>
-            <Button Content="Добавить" Command="{Binding AddProdCommand}"/>
-            <Button Content="Редактировать" Command="{Binding EditProdCommand}"/>
-            <Button Content="Удалить" Command="{Binding DelProdCommand}"/>
-            <Button Content="Закрыть" Command="{StaticResource CloseDialogCommand}"/>
-            <Button Content="Выбрать" Visibility="{Binding isVisible}" Command="{Binding SelectModuleCommand}">
+            <Button ToolTip="Выбрать" Visibility="{Binding isVisible}" Command="{Binding SelectModuleCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <fa:ImageAwesome Icon="Solid_Download" Width="14" Foreground="Blue"/>
+                    <TextBlock Text="Выбрать" Margin="4,0,0,0"/>
+                </StackPanel>
                 <!--<Button.Command>
                     <cmd:CloseDialogCommand  DialogResult="True"/>
                 </Button.Command>-->
+            </Button>
+            <Button ToolTip="Добавить" Command="{Binding AddProdCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <fa:ImageAwesome Icon="Solid_Plus" Width="14" Foreground="Blue"/>
+                    <TextBlock Text="Добавить" Margin="4,0,0,0"/>
+                </StackPanel>
+            </Button>
+            <Button ToolTip="Редактировать" Command="{Binding EditProdCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <fa:ImageAwesome Icon="Solid_PencilAlt" Width="14" Foreground="Blue"/>
+                    <TextBlock Text="Редактировать" Margin="4,0,0,0"/>
+                </StackPanel>
+            </Button>
+            <Button ToolTip="Удалить" Command="{Binding DelProdCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <fa:ImageAwesome Icon="Solid_Minus" Width="14" Foreground="Blue"/>
+                    <TextBlock Text="Удалить" Margin="4,0,0,0"/>
+                </StackPanel>
+            </Button>
+            <Button ToolTip="Закрыть" Command="{StaticResource CloseDialogCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <fa:ImageAwesome Icon="Solid_DoorOpen" Width="14" Foreground="Blue"/>
+                    <TextBlock Text="Закрыть" Margin="4,0,0,0"/>
+                </StackPanel>
             </Button>
         </ToolBarPanel>
 
@@ -57,9 +82,21 @@
             </DataGrid.Columns>
             <DataGrid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Добавить" Command="{Binding DataContext.AddProdCommand, Source={x:Reference proxy}}"/>
-                    <MenuItem Header="Редактировать" Command="{Binding DataContext.EditProdCommand, Source={x:Reference proxy}}"/>
-                    <MenuItem Header="Удалить" Command="{Binding DataContext.DelProdCommand, Source={x:Reference proxy}}"/>
+                    <MenuItem Header="Добавить" Command="{Binding DataContext.AddProdCommand, Source={x:Reference proxy}}">
+                        <MenuItem.Icon>
+                            <fa:ImageAwesome Icon="Solid_Plus" Width="14" Foreground="Blue"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Редактировать" Command="{Binding DataContext.EditProdCommand, Source={x:Reference proxy}}">
+                        <MenuItem.Icon>
+                            <fa:ImageAwesome Icon="Solid_PencilAlt" Width="14" Foreground="Blue"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Удалить" Command="{Binding DataContext.DelProdCommand, Source={x:Reference proxy}}">
+                        <MenuItem.Icon>
+                            <fa:ImageAwesome Icon="Solid_Minus" Width="14" Foreground="Blue"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
                 </ContextMenu>
             </DataGrid.ContextMenu>
         </DataGrid>

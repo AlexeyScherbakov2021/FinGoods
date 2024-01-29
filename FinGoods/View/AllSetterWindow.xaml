@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:FinGoods.ViewModels"
         xmlns:cmd="clr-namespace:FinGoods.Commands"
+        xmlns:fa="http://schemas.fontawesome.com/icons/"
         xmlns:local="clr-namespace:FinGoods.View"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
@@ -25,19 +26,48 @@
                     <Setter Property="FontWeight" Value="Bold"/>
                 </Style>
             </ToolBarPanel.Resources>
-            <Button Content="Добавить" Command="{Binding AddSetCommand}"/>
-            <Button Content="Редактировать" Command="{Binding EditSetCommand}"/>
-            <Button Content="Удалить" Command="{Binding DelSetCommand}"/>
-            <Button Content="Закрыть" Command="{StaticResource CloseDialogCommand}"/>
-            <Button Content="Выбрать" Visibility="{Binding isVisible}" Command="{Binding SelectModuleCommand}">
+            <Button ToolTip="Выбрать" Visibility="{Binding isVisible}" Command="{Binding SelectModuleCommand}">
                 <!--<Button.Command>
                     <cmd:CloseDialogCommand  DialogResult="True"/>
                 </Button.Command>-->
+                <StackPanel Orientation="Horizontal">
+                    <fa:ImageAwesome Icon="Solid_Download" Width="14" Foreground="Blue"/>
+                    <TextBlock Text="Выбрать" Margin="4,0,0,0"/>
+                </StackPanel>
+            </Button>
+            <Button ToolTip="Добавить" Command="{Binding AddSetCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <fa:ImageAwesome Icon="Solid_Plus" Width="14" Foreground="Blue"/>
+                    <TextBlock Text="Добавить" Margin="4,0,0,0"/>
+                </StackPanel>
+            </Button>
+            <Button ToolTip="Редактировать" Command="{Binding EditSetCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <fa:ImageAwesome Icon="Solid_PencilAlt" Width="14" Foreground="Blue"/>
+                    <TextBlock Text="Редактировать" Margin="4,0,0,0"/>
+                </StackPanel>
+            </Button>
+            <Button ToolTip="Удалить" Command="{Binding DelSetCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <fa:ImageAwesome Icon="Solid_Minus" Width="14" Foreground="Blue"/>
+                    <TextBlock Text="Удалить" Margin="4,0,0,0"/>
+                </StackPanel>
+            </Button>
+            <Button ToolTip="Закрыть" Command="{StaticResource CloseDialogCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <fa:ImageAwesome Icon="Solid_DoorOpen" Width="14" Foreground="Blue"/>
+                    <TextBlock Text="Закрыть" Margin="4,0,0,0"/>
+                </StackPanel>
             </Button>
         </ToolBarPanel>
 
         <DataGrid x:Name="dg" ItemsSource="{Binding listSetter}" SelectedItem="{Binding selectedSetter}" Margin="4"
                       Style="{StaticResource DataGridStyle}" AutoGenerateColumns="False" IsReadOnly="True">
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
             <DataGrid.InputBindings>
                 <MouseBinding Gesture="LeftDoubleClick" Command="{Binding DataContext.EditSetCommand, ElementName=dg}"/>
             </DataGrid.InputBindings>
@@ -49,9 +79,22 @@
             </DataGrid.Columns>
             <DataGrid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Добавить" Command="{Binding DataContext.AddSetCommand, Source={x:Reference proxy}}"/>
-                    <MenuItem Header="Редактировать" Command="{Binding DataContext.EditSetCommand, Source={x:Reference proxy}}"/>
-                    <MenuItem Header="Удалить" Command="{Binding DataContext.DelSetCommand, Source={x:Reference proxy}}"/>
+                    <MenuItem Header="Добавить" Command="{Binding DataContext.AddSetCommand, Source={x:Reference proxy}}">
+                        <MenuItem.Icon>
+                            <fa:ImageAwesome Icon="Solid_Plus" Width="14" Foreground="Blue"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Редактировать" Command="{Binding DataContext.EditSetCommand, Source={x:Reference proxy}}">
+                        <MenuItem.Icon>
+                            <fa:ImageAwesome Icon="Solid_PencilAlt" Width="14" Foreground="Blue"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Удалить" Command="{Binding DataContext.DelSetCommand, Source={x:Reference proxy}}">
+                        <MenuItem.Icon>
+                            <fa:ImageAwesome Icon="Solid_Minus" Width="14" Foreground="Blue"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    
                 </ContextMenu>
             </DataGrid.ContextMenu>
         </DataGrid>

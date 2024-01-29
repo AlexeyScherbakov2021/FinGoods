@@ -8,7 +8,7 @@
     <ProjectGuid>{1C879DD1-2D22-4CDB-B823-90452DFF6D43}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>FinGoods</RootNamespace>
-    <AssemblyName>FinGoods</AssemblyName>
+    <AssemblyName>Отгруженная продукция</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

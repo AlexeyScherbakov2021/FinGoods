@@ -53,10 +53,10 @@
                 <DockPanel>
                     <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="2" Background="LightGray">
                         <Button Command="{Binding AddProdCommand}" Style="{StaticResource ButtonStyleShadow}">
-                            <fa:ImageAwesome Icon="Solid_Plus" Width="16"/>
+                            <fa:ImageAwesome Icon="Solid_Plus" Width="16" Foreground="Blue"/>
                         </Button>
                         <Button Command="{Binding DelProdCommand}" Style="{StaticResource ButtonStyleShadow}">
-                            <fa:ImageAwesome Icon="Solid_Minus" Width="16"/>
+                            <fa:ImageAwesome Icon="Solid_Minus" Width="16" Foreground="Blue"/>
                         </Button>
                     </StackPanel>
                     <DataGrid Style="{StaticResource DataGridStyle}" ItemsSource="{Binding listProd}" 
@@ -72,20 +72,36 @@
                     <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="2" Background="LightGray">
                         <Button Command="{Binding AddModulCommand}" CommandParameter="0"
                                 Style="{StaticResource ButtonStyleShadow}">
-                            <fa:ImageAwesome Icon="Solid_Plus" Width="16"/>
+                            <fa:ImageAwesome Icon="Solid_Plus" Width="16" Foreground="Blue"/>
                         </Button>
                         <Button Command="{Binding DelModulCommand}" Style="{StaticResource ButtonStyleShadow}">
-                            <fa:ImageAwesome Icon="Solid_Minus" Width="16"/>
+                            <fa:ImageAwesome Icon="Solid_Minus" Width="16" Foreground="Blue"/>
                         </Button>
                     </StackPanel>
                     
                     <TreeView ItemsSource="{Binding listModul}">
                         <TreeView.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Добавить тип модуля" Command="{Binding AddModulCommand}" CommandParameter="0"/>
-                                <MenuItem Header="Добавить тип подмодуля" Command="{Binding AddModulCommand}" CommandParameter="1"/>
-                                <MenuItem Header="Редактировать тип модуля" Command="{Binding EditModuleCommand}"/>
-                                <MenuItem Header="Удалить тип модуля" Command="{Binding DelModulCommand}"/>
+                                <MenuItem Header="Добавить тип модуля" Command="{Binding AddModulCommand}" CommandParameter="0">
+                                    <MenuItem.Icon>
+                                        <fa:ImageAwesome Icon="Solid_Plus" Width="14" Foreground="Blue"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Добавить тип подмодуля" Command="{Binding AddModulCommand}" CommandParameter="1">
+                                    <MenuItem.Icon>
+                                        <fa:ImageAwesome Icon="Solid_Plus" Width="14" Foreground="Blue"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Редактировать тип модуля" Command="{Binding EditModuleCommand}">
+                                    <MenuItem.Icon>
+                                        <fa:ImageAwesome Icon="Solid_PencilAlt" Width="14" Foreground="Blue"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Удалить тип модуля" Command="{Binding DelModulCommand}">
+                                    <MenuItem.Icon>
+                                        <fa:ImageAwesome Icon="Solid_Minus" Width="14" Foreground="Blue"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
                             </ContextMenu>
                         </TreeView.ContextMenu>
                         <i:Interaction.Triggers>

@@ -10,7 +10,7 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Name="mainWindow" Style="{StaticResource WindowStyle}"
-        Title="Отгруженное оборудование" Height="750" Width="1200">
+        Title="Отгруженная продукция" Height="750" Width="1200">
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>
@@ -45,13 +45,19 @@
         <ToolBarPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="2">
             <Button ToolTip="Добавить отгрузку" Command="{Binding AddShipCommand}" Margin="4" Style="{StaticResource ButtonStyleShadow}">
                 <StackPanel Orientation="Horizontal">
-                    <fa:ImageAwesome Icon="Solid_Plus" Width="10" Margin="1,0" Foreground="Blue"/>
+                    <fa:ImageAwesome Icon="Solid_Plus" Width="10" Margin="2,0,6,0" Foreground="Blue"/>
                     <fa:ImageAwesome Icon="Solid_TruckLoading" Height="20" Foreground="Blue"/>
                 </StackPanel>
             </Button>
             <Button ToolTip="Редактировать отгрузку" Command="{Binding EditShipCommand}"  Margin="4" Style="{StaticResource ButtonStyleShadow}">
                 <StackPanel Orientation="Horizontal">
-                    <fa:ImageAwesome Icon="Solid_PencilAlt" Width="10" Margin="1,0" Foreground="Blue"/>
+                    <fa:ImageAwesome Icon="Solid_PencilAlt" Width="10" Margin="2,0,6,0" Foreground="Blue"/>
+                    <fa:ImageAwesome Icon="Solid_TruckLoading" Height="20" Foreground="Blue"/>
+                </StackPanel>
+            </Button>
+            <Button ToolTip="Удалить отгрузку" Command="{Binding DelShipCommand}"  Margin="4" Style="{StaticResource ButtonStyleShadow}">
+                <StackPanel Orientation="Horizontal">
+                    <fa:ImageAwesome Icon="Solid_Minus" Width="10" Margin="2,0,6,0" Foreground="Blue"/>
                     <fa:ImageAwesome Icon="Solid_TruckLoading" Height="20" Foreground="Blue"/>
                 </StackPanel>
             </Button>
@@ -78,7 +84,21 @@
 
                 <DataGrid.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="Добавить набор" Command="{Binding DataContext.AddShipCommand, Source={x:Reference proxy}}"/>
+                        <MenuItem Header="Добавить отгрузку" Command="{Binding DataContext.AddShipCommand, Source={x:Reference proxy}}">
+                            <MenuItem.Icon>
+                                    <fa:ImageAwesome Icon="Solid_Plus" Width="10" Foreground="Blue"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Редактировать отгрузку" Command="{Binding DataContext.EditShipCommand, Source={x:Reference proxy}}">
+                            <MenuItem.Icon>
+                                <fa:ImageAwesome Icon="Solid_PencilAlt" Width="10" Foreground="Blue"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Удалить отгрузку" Command="{Binding DataContext.DelShipCommand, Source={x:Reference proxy}}">
+                            <MenuItem.Icon>
+                                <fa:ImageAwesome Icon="Solid_Minus" Width="10" Foreground="Blue"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
                     </ContextMenu>
                 </DataGrid.ContextMenu>
             </DataGrid>

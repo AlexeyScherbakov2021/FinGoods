@@ -13,7 +13,7 @@
         Style="{StaticResource WindowStyle}"
         WindowStartupLocation="CenterScreen"
         MinHeight="500"
-        Title="Набор оборудования" Height="560" Width="711">
+        Title="Состав отгрузки" Height="560" Width="711">
     <Window.DataContext>
         <vm:ShipWindowVM/>
     </Window.DataContext>
