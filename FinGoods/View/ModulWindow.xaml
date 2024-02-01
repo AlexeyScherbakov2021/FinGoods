@@ -10,8 +10,8 @@
         xmlns:local="clr-namespace:FinGoods.View"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Style="{StaticResource WindowStyle}"
-        MinHeight="240" MinWidth="400"
-        Title="Модуль" Height="198" Width="338">
+        MinHeight="300" MinWidth="400"
+        Title="Модуль" Height="300" Width="440">
     <Window.DataContext>
         <vm:ModulWindowVM/>
     </Window.DataContext>
@@ -46,29 +46,41 @@
                 <Grid.Resources>
                     <Style TargetType="TextBlock">
                         <Setter Property="Width" Value="110"/>
-                        <Setter Property="Margin" Value="4,2"/>
+                        <Setter Property="Margin" Value="4,4"/>
                         <Setter Property="TextAlignment" Value="Right"/>
+                        <Setter Property="VerticalAlignment" Value="Center"/>
                     </Style>
                     <Style TargetType="TextBox">
-                        <!--<Setter Property="Width" Value="130"/>-->
-                        <Setter Property="Margin" Value="4,2"/>
+                        <Setter Property="Margin" Value="4,6"/>
                     </Style>
                 </Grid.Resources>
 
                 <TextBlock Text="Заводской номер" Grid.Row="1" Grid.Column="0"/>
-                <TextBox Text="{Binding module.m_number}" Grid.Row="1" Grid.Column="1"/>
+
+                <DockPanel Grid.Row="1" Grid.Column="1">
+                    <Button Content="№" DockPanel.Dock="Right" Width="28" Margin="0,6,4,6" 
+                            ToolTip="Генерировать номер" Command="{Binding GenNumCommand}"
+                            Style="{StaticResource ButtonStyleShadow}"/>
+                    <TextBox Text="{Binding module.m_number}" Margin="4,6,0,6"/>
+                </DockPanel>
 
                 <TextBlock Text="Наименование" Grid.Row="2" Grid.Column="0"/>
                 <TextBox Text="{Binding module.m_name}" Grid.Row="2" Grid.Column="1"/>
 
-                <TextBlock Text="Дата отгрузки" Grid.Row="3" Grid.Column="0"/>
-                <TextBox Text="{Binding module.m_dateEnd}" Grid.Row="3" Grid.Column="1"/>
+                <TextBlock Text="Дата изготовления" Grid.Row="3" Grid.Column="0"/>
+                <!--<TextBox Text="{Binding module.m_dateCreate}" Grid.Row="3" Grid.Column="1"/>-->
+                <DatePicker SelectedDate="{Binding module.m_dateCreate}" Margin="4,2" 
+                        Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Padding="2,2,2,0">
+                    <DatePicker.Resources>
+                        <Style TargetType="TextBlock"/>
+                    </DatePicker.Resources>
+                </DatePicker>
 
                 <TextBlock Text="Номер прошивки" Grid.Row="4" Grid.Column="0"/>
                 <TextBox Text="{Binding module.m_numberFW}" Grid.Row="4" Grid.Column="1"/>
 
                 <TextBlock Text="Тип модуля" Grid.Row="0" Grid.Column="0"/>
-                <DockPanel  Grid.Column="1" Margin="0,0,4,0">
+                <DockPanel  Grid.Column="1" Margin="0,6,4,6">
                     <ToggleButton x:Name="toggle" Grid.Column="1" Grid.ColumnSpan="2" DockPanel.Dock="Right"
                               VerticalContentAlignment="Center" Padding="2,0" IsChecked="{Binding isOpenPopup}"
                               Margin="0,2" FocusVisualStyle="{x:Null}" 
@@ -80,7 +92,7 @@
                            StaysOpen="False" PlacementTarget="{Binding ElementName=forPopup}"
                            VerticalOffset="-1" >
                         <TreeView Name="tvDim" ItemsSource="{Binding listModuleType}" HorizontalAlignment="Left" 
-                                      Height="150" Width="{Binding ActualWidth, ElementName=forPopup}" VerticalAlignment="Top" >
+                                      Height="350" Width="{Binding ActualWidth, ElementName=forPopup}" VerticalAlignment="Top" >
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="SelectedItemChanged">
                                     <i:InvokeCommandAction Command="{Binding DataContext.ToggleCommand, Source={x:Reference proxy}}" PassEventArgsToCommand="True"/>

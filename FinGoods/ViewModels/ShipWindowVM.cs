@@ -23,6 +23,8 @@ namespace FinGoods.ViewModels
         public Shipment Ship { get; set; }
         public ObservableCollection<INode> listComposite { get; set; } = new ObservableCollection<INode>();
 
+        //public ObservableCollection<string> listContract { get; set; }
+
         public INode SelectedNode;
 
         public ShipWindowVM()
@@ -121,6 +123,11 @@ namespace FinGoods.ViewModels
 
             if (win.ShowDialog() == true)
             {
+                foreach(var item in vm.selectedSetter.Products)
+                {
+                    item.g_number = ProdWindowVM.CreateSerialNumber(item, Ship.c_number.Substring(0, 6));
+                }
+
                 Ship.SetterOuts.Add(vm.selectedSetter);
                 RepositoryMSSQL<Shipment> repo = new RepositoryMSSQL<Shipment>();
                 repo.Save();
@@ -143,6 +150,8 @@ namespace FinGoods.ViewModels
             {
                 //NodeProd node = new NodeProd(vm.selectedProduct.g_name, vm.selectedProduct);
                 //listComposite.Add(node);
+                vm.selectedProduct.g_number = 
+                    ProdWindowVM.CreateSerialNumber(vm.selectedProduct, Ship.c_number.Substring(0, 6));
                 Ship.Products.Add(vm.selectedProduct);
                 RepositoryMSSQL<Shipment> repo = new RepositoryMSSQL<Shipment>();
                 repo.Save();
@@ -202,6 +211,17 @@ namespace FinGoods.ViewModels
                 SelectedNode = e.NewValue as INode;
             }
         }
+
+        //--------------------------------------------------------------------------------
+        // Команда Список заказов из ФП
+        //--------------------------------------------------------------------------------
+        public ICommand SelectContractCommand => new LambdaCommand(OnSelectContractCommandExecuted, CanSelectContractCommand);
+        private bool CanSelectContractCommand(object p) => true;
+        private void OnSelectContractCommandExecuted(object p)
+        {
+            Ship.c_number = (p as MouseButtonEventArgs).Source.ToString();
+        }
+
 
 
         #endregion

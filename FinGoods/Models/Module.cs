@@ -7,6 +7,7 @@ namespace FinGoods.Models
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
+    using System.Data.SqlTypes;
 
     public partial class Module : Observable, IEntity
     {
@@ -31,6 +32,7 @@ namespace FinGoods.Models
         public string m_numberFW { get => _m_numberFW; set { Set(ref _m_numberFW, value); } }
 
         public DateTime? m_dateEnd { get; set; }
+        public DateTime? m_dateCreate { get; set; }
 
         private ModuleType _ModuleType;
         public virtual ModuleType ModuleType { get => _ModuleType; set { Set(ref _ModuleType, value); } }

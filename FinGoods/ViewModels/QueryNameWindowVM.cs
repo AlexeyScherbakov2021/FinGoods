@@ -13,5 +13,8 @@ namespace FinGoods.ViewModels
 
         private string _Name;
         public string Name { get => _Name; set { Set(ref _Name, value); } }
+
+        private int? _Number;
+        public int? Number { get => _Number; set { Set(ref _Number, value); } }
     }
 }

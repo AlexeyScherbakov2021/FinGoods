@@ -55,17 +55,8 @@ namespace FinGoods.ViewModels
             {
                 setter.Products.Remove(selectProd);
             }
-
         }
 
-        //--------------------------------------------------------------------------------
-        // Команда Добавить модули
-        //--------------------------------------------------------------------------------
-        //public ICommand SelectModulesCommand => new LambdaCommand(OnSelectModulesCommandExecuted, CanSelectModulesCommand);
-        //private bool CanSelectModulesCommand(object p) => true;
-        //private void OnSelectModulesCommandExecuted(object p)
-        //{
-        //}
 
         #endregion
 

@@ -138,6 +138,7 @@ namespace FinGoods.ViewModels
             {
                 ModuleType newMod = new ModuleType();
                 newMod.mt_name = vm.Name;
+                newMod.mt_number = vm.Number;
 
                 if (SelectedModule != null && param == "1")
                 {
@@ -164,9 +165,11 @@ namespace FinGoods.ViewModels
             QueryNameWindowVM vm = win.DataContext as QueryNameWindowVM;
             vm.Title = "Наименование типа модуля";
             vm.Name = SelectedModule.mt_name;
+            vm.Number = SelectedModule.mt_number;
             if (win.ShowDialog() == true && !string.IsNullOrEmpty(vm.Name))
             {
                 SelectedModule.mt_name = vm.Name;
+                SelectedModule.mt_number = vm.Number;
                 repoModul.Save();
             }
 

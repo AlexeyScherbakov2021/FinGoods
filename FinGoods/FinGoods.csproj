@@ -95,6 +95,7 @@
     <Compile Include="Models\ModuleType.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\ProductType.cs" />
+    <Compile Include="Models\SerialNumber.cs" />
     <Compile Include="Models\SetterOut.cs" />
     <Compile Include="Models\Shipment.cs" />
     <Compile Include="Repository\RepositoryFP.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="ViewModels\AllModulesWindowVM.cs" />
     <Compile Include="ViewModels\AllProdWindowVM.cs" />
     <Compile Include="ViewModels\AllSetterWindowVM.cs" />
+    <Compile Include="ViewModels\ContractsUCVM.cs" />
     <Compile Include="ViewModels\QueryNameWindowVM.cs" />
     <Compile Include="ViewModels\SetterWindowVM.cs" />
     <Compile Include="ViewModels\ShipWindowVM.cs" />
@@ -117,6 +119,9 @@
     </Compile>
     <Compile Include="View\AllSetterWindow.xaml.cs">
       <DependentUpon>AllSetterWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ContractsUC.xaml.cs">
+      <DependentUpon>ContractsUC.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\QueryNameWindow.xaml.cs">
       <DependentUpon>QueryNameWindow.xaml</DependentUpon>
@@ -152,6 +157,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\AllSetterWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ContractsUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

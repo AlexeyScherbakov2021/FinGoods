@@ -9,7 +9,7 @@
         xmlns:vm="clr-namespace:FinGoods.ViewModels"
         Style="{StaticResource WindowStyle}"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
-        Title="Изделие" Height="400" Width="560">
+        Title="Изделие" Height="500" Width="600">
     <Window.DataContext>
         <vm:ProdWindowVM/>
     </Window.DataContext>
@@ -34,17 +34,19 @@
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="1*"/>
-                    <RowDefinition Height="4*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="6*"/>
                 </Grid.RowDefinitions>
 
                 <Grid.Resources>
                     <Style TargetType="TextBlock">
                         <Setter Property="Width" Value="110"/>
-                        <Setter Property="Margin" Value="4,2"/>
+                        <Setter Property="Margin" Value="4,4"/>
+                        <Setter Property="VerticalAlignment" Value="Center"/>
                         <Setter Property="TextAlignment" Value="Right"/>
                     </Style>
                     <Style TargetType="TextBox">
-                        <Setter Property="Margin" Value="4,2"/>
+                        <Setter Property="Margin" Value="4,4"/>
                     </Style>
                 </Grid.Resources>
 
@@ -52,10 +54,15 @@
                 <ComboBox ItemsSource="{Binding listProdType}" DisplayMemberPath="gt_name"
                           SelectedValue="{Binding product.g_ProductTypeId, Mode=TwoWay}"
                           SelectedValuePath="id"  Grid.Row="0" Grid.Column="1"
-                          Margin="4,2"/>
+                          Margin="4,4"/>
 
                 <TextBlock Text="Заводской номер" Grid.Row="1" Grid.Column="0"/>
-                <TextBox Text="{Binding product.g_number}" Grid.Row="1" Grid.Column="1"/>
+                <DockPanel Grid.Column="1" Grid.Row="1">
+                    <Button Content="№" DockPanel.Dock="Right" Width="28" Margin="0,6,4,6" 
+                            ToolTip="Генерировать номер" Command="{Binding GenNumCommand}"
+                            Style="{StaticResource ButtonStyleShadow}"/>
+                    <TextBox Text="{Binding product.g_number}" Margin="4,6,0,6"/>
+                </DockPanel>
 
                 <TextBlock Text="Наименование" Grid.Row="2" Grid.Column="0"/>
                 <TextBox Text="{Binding product.g_name}" Grid.Row="2" Grid.Column="1"/>
@@ -63,7 +70,15 @@
                 <TextBlock Text="Номер шкафа" Grid.Row="3" Grid.Column="0"/>
                 <TextBox Text="{Binding product.g_numberBox}" Grid.Row="3" Grid.Column="1"/>
 
-                <DockPanel Grid.Row="4" Grid.ColumnSpan="2">
+                <TextBlock Text="Дата регистрации" Grid.Row="4" Grid.Column="0"/>
+                <DatePicker SelectedDate="{Binding product.g_dateRegister}" Grid.Row="4" 
+                            Grid.Column="1" VerticalAlignment="Center" Margin="4,0,4,0">
+                    <DatePicker.Resources>
+                        <Style TargetType="TextBlock"/>
+                    </DatePicker.Resources>
+                </DatePicker>
+
+                <DockPanel Grid.Row="5" Grid.ColumnSpan="2">
                     <TextBlock Text="Сисок модулей" DockPanel.Dock="Top" Margin="0,8,0,0"/>
                     <StackPanel DockPanel.Dock="Left" Margin="4,8">
                         <Button Command="{Binding AddModulCommand}" Style="{StaticResource ButtonStyleShadow}">

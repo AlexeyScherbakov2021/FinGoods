@@ -20,6 +20,8 @@ namespace FinGoods.ViewModels
         public List<ProductType> listProdType { get; set; }
         public Module selectModul { get; set; }
 
+        //private int generated_number = 0;
+
         public ProdWindowVM()
         {
         }
@@ -67,6 +69,57 @@ namespace FinGoods.ViewModels
             }
 
         }
+
+        //--------------------------------------------------------------------------------
+        // Команда Генерировать номер
+        //--------------------------------------------------------------------------------
+        public ICommand GenNumCommand => new LambdaCommand(OnGenNumCommandExecuted, CanGenNumCommand);
+        private bool CanGenNumCommand(object p) => product?.g_dateRegister != null;
+        private void OnGenNumCommandExecuted(object p)
+        {
+
+            RepositoryMSSQL<SerialNumber> repoGen = new RepositoryMSSQL<SerialNumber>();
+            var serialLine = repoGen.Items.Where(it => it.kind_number == KindNumber.Production
+                    && it.year_number == product.g_dateRegister.Value.Year).FirstOrDefault();
+
+            if (serialLine == null)
+            {
+                serialLine = new SerialNumber()
+                {
+                    gen_number = 0,
+                    kind_number = KindNumber.Production,
+                    year_number = product.g_dateRegister.Value.Year
+                };
+
+                repoGen.Add(serialLine);
+            }
+
+            if (product.g_generatedNumber == 0)
+            {
+                serialLine.gen_number++;
+                product.g_generatedNumber = serialLine.gen_number;
+            }
+
+            product.g_number =
+                //product.ProductType.gt_number.ToString()
+                //+ product.g_dateRegister?.ToString("yy")
+                //+ "xxxxx"
+                //+ generated_number.ToString();
+
+            CreateSerialNumber(product, "xx-xxx");
+        }
+
+
+        public static string CreateSerialNumber(Product product, string NumberKZ)
+        {
+            return
+                product.ProductType.gt_number.ToString()
+                + product.g_dateRegister?.ToString("yy")
+                + NumberKZ.Substring(0, 2) + NumberKZ.Substring(3,3)
+                + product.g_generatedNumber.ToString();
+        }
+
+
 
         //--------------------------------------------------------------------------------
         // Команда Добавить модули

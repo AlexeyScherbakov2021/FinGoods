@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FinGoods.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,15 @@ namespace FinGoods.View
         public ShipWindow()
         {
             InitializeComponent();
+        }
+
+        private void ContractsUC_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            ShipWindowVM vm = (DataContext as ShipWindowVM);
+            ContractsUCVM vmContr = contract.DataContext as ContractsUCVM;
+            e.Source = vmContr.selectContract;
+            vm.SelectContractCommand.Execute(e);
+            popup.IsOpen = false;
         }
     }
 }

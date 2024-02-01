@@ -39,6 +39,7 @@ namespace FinGoods.Models
         public virtual DbSet<ProductType> ProductTypes { get; set; }
         public virtual DbSet<SetterOut> SetterOuts { get; set; }
         public virtual DbSet<Shipment> Shipments { get; set; }
+        public virtual DbSet<SerialNumber> SerialNumbers { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

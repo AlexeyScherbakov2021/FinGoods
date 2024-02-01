@@ -25,16 +25,45 @@
                         <Setter Property="Padding" Value="6"/>
                         <Setter Property="FontSize" Value="14"/>
                         <Setter Property="FontWeight" Value="Bold"/>
-                        <Setter Property="Width" Value="140"/>
+                        <Setter Property="Width" Value="160"/>
+                    </Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Margin" Value="8,0"/>
+                        <Setter Property="Width" Value="110"/>
+                        <Setter Property="TextWrapping" Value="Wrap"/>
+                        <Setter Property="TextAlignment" Value="Center"/>
                     </Style>
                 </StackPanel.Resources>
-                <Button Content="Наборы" Command="{Binding OpenSetterCommand}"/>
-                <Button Content="Готовые изделия" Command="{Binding OpenProdCommand}"/>
-                <Button Content="Модули" Command="{Binding OpenModulesCommand}"/>
-                <Button Command="{Binding OpenTypesCommand}">
-                    <TextBlock Text="Типы изделий и модулей" TextWrapping="Wrap" TextAlignment="Center"/>
+                <Button ToolTip="Работа с наборами" Command="{Binding OpenSetterCommand}">
+                    <StackPanel Orientation="Horizontal" >
+                        <fa:ImageAwesome Icon="Solid_LayerGroup" Width="30" Foreground="Blue" DockPanel.Dock="Left"/>
+                        <TextBlock Text="Наборы" VerticalAlignment="Center"/>
+                    </StackPanel>
                 </Button>
-                <Button Content="Выход" >
+                <Button ToolTip="Работа с готовыми изделиями" Command="{Binding OpenProdCommand}">
+                    <DockPanel>
+                        <fa:ImageAwesome Icon="Solid_Cogs" Width="30" Foreground="Blue"/>
+                        <TextBlock Text="Готовые изделия" VerticalAlignment="Center"/>
+                    </DockPanel>
+                </Button>
+                <Button ToolTip="Работа с модулями" Command="{Binding OpenModulesCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <fa:ImageAwesome Icon="Solid_Microchip" Width="30" Foreground="Blue"/>
+                        <TextBlock Text="Модули" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+                <Button Command="{Binding OpenTypesCommand}">
+                    <DockPanel>
+                        <fa:ImageAwesome Icon="Solid_Pallet" Width="30" Foreground="Blue" DockPanel.Dock="Left"/>
+                        <TextBlock Text="Типы изделий и модулей" TextAlignment="Center"/>
+                    </DockPanel>
+                </Button>
+                <Button ToolTip="Закрыть программу" >
+                    <StackPanel Orientation="Horizontal">
+                        <fa:ImageAwesome Icon="Solid_PowerOff" Width="30" Foreground="Blue"/>
+                        <TextBlock Text="Выход" VerticalAlignment="Center"/>
+                    </StackPanel>
+
                     <Button.Command>
                         <cmd:CloseWindowCommand/>
                     </Button.Command>

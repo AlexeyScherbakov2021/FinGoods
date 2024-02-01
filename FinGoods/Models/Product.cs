@@ -37,6 +37,10 @@ namespace FinGoods.Models
         [StringLength(40)]
         public string g_numberBox { get => _g_numberBox; set { Set(ref _g_numberBox, value); } }
 
+        public DateTime? g_dateRegister { get; set; }
+
+        public int g_generatedNumber { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ObservableCollection<Module> Modules { get; set; }
 

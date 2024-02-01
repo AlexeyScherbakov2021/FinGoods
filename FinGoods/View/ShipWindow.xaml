@@ -64,10 +64,21 @@
                 </Grid.Resources>
 
                 <TextBlock Text="Счет, карта заказа" Margin="6,0"/>
-                <TextBox Text="{Binding Ship.c_number}" Grid.Column="1"/>
+                <!--IsOpen="{Binding IsChecked, ElementName=toggle}"-->
+                <DockPanel  Grid.Column="1">
+                    <ToggleButton Content="..." x:Name="toggle"  DockPanel.Dock="Right" Width="38" 
+                                  Margin="0,4,12,4" ToolTip="Выбрать из списка ФП"/>
+                    <Popup x:Name="popup" Placement="Bottom" IsOpen="{Binding IsChecked, ElementName=toggle}"
+                           StaysOpen="False" PlacementTarget="{Binding ElementName=forPopup}"
+                           VerticalOffset="-1" PopupAnimation="Scroll">
+                        <Border BorderThickness="1" BorderBrush="Gray" >
+                            <local:ContractsUC x:Name="contract" Width="600" Height="400" PreviewMouseDoubleClick="ContractsUC_PreviewMouseDoubleClick" />
+                        </Border>
+                    </Popup>
+                    <TextBox x:Name="forPopup" Text="{Binding Ship.c_number}" Margin="4,4,0,4"/>
+                </DockPanel>
 
                 <TextBlock Text="Дата отрузки" Grid.Row="1" Margin="6,0"/>
-                <!--<TextBox Text="{Binding cardOrder.c_dateOut}" Grid.Row="1" Grid.Column="1" />-->
                 <DatePicker SelectedDate="{Binding Ship.c_dateOut}" Margin="4,4,12,4"
                         Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"/>
 

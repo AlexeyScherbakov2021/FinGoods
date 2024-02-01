@@ -57,6 +57,37 @@ namespace FinGoods.ViewModels
                 selectedModule = (ModuleType)e.NewValue;
             }
         }
+
+        //--------------------------------------------------------------------------------
+        // Команда Генерировать номер
+        //--------------------------------------------------------------------------------
+        public ICommand GenNumCommand => new LambdaCommand(OnGenNumCommandExecuted, CanGenNumCommand);
+        private bool CanGenNumCommand(object p) => module?.m_dateCreate != null;
+        private void OnGenNumCommandExecuted(object p)
+        {
+
+            RepositoryMSSQL<SerialNumber> repoGen = new RepositoryMSSQL<SerialNumber>();
+            var serialLine = repoGen.Items.Where(it => it.kind_number == KindNumber.Module
+                    && it.year_number == module.m_dateCreate.Value.Year).FirstOrDefault();
+
+            if (serialLine == null)
+            {
+                serialLine = new SerialNumber() { 
+                    gen_number = 0, kind_number = KindNumber.Module, year_number = module.m_dateCreate.Value.Year
+                };
+
+                repoGen.Add(serialLine);
+            }
+
+            serialLine.gen_number++;
+
+            module.m_number =
+                module.ModuleType.mt_number.ToString()
+                + module.m_dateCreate?.ToString("yy")
+                + module.m_dateCreate.Value.Month.ToString()
+                + serialLine.gen_number.ToString("00000");
+        }
+
         #endregion
     }
 }

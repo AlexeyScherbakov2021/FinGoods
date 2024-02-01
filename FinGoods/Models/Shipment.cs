@@ -1,5 +1,6 @@
 namespace FinGoods.Models
 {
+    using FinGoods.ViewModels;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
@@ -8,7 +9,7 @@ namespace FinGoods.Models
     using System.Data.Entity.Spatial;
 
     [Table("Shipment")]
-    public partial class Shipment : IEntity
+    public partial class Shipment : Observable, IEntity
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Shipment()
@@ -20,8 +21,9 @@ namespace FinGoods.Models
 
         public int id { get; set; }
 
+        private string _c_number;
         [StringLength(150)]
-        public string c_number { get; set; }
+        public string c_number { get => _c_number; set { Set(ref _c_number, value); } }
 
         public string c_objectInstall { get; set; }
 

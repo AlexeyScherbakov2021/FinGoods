@@ -22,9 +22,12 @@ namespace FinGoods.Models
 
         public int? idParent { get; set; }
 
-        public string _mt_name;
+        private string _mt_name;
         [StringLength(100)]
         public string mt_name { get => _mt_name; set { Set(ref _mt_name, value); } }
+
+        private int? _mt_number;
+        public int? mt_number { get => _mt_number; set { Set(ref _mt_number, value); } }
 
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

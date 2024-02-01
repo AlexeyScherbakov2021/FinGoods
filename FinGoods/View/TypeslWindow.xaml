@@ -63,6 +63,7 @@
                           SelectedItem="{Binding SelectedProd}" AutoGenerateColumns="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Наименование" Binding="{Binding gt_name}" Width="*"/>
+                            <DataGridTextColumn Header="Номер" Binding="{Binding gt_number}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </DockPanel>
@@ -117,16 +118,21 @@
                             <HierarchicalDataTemplate ItemsSource="{Binding ChildModuleType}">
                                 <!--<infr:TextEditor Text="{Binding mt_name}" Margin="3,1" />-->
                                 <Grid x:Name="grid">
-                                    <TextBlock Text="{Binding mt_name}" Margin="3,1">
-                                        <TextBlock.Visibility>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding mt_name}" Margin="3,1">
+                                        <!--<TextBlock.Visibility>
                                             <MultiBinding Converter="{conv:VisibilityEqualConverter EqualValue=Collapsed, NotEqualValue=Visible}">
                                                 <Binding/>
                                                 <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType=Window}"
                                                         Path="DataContext.EditableModule"/>
                                             </MultiBinding>
-                                        </TextBlock.Visibility>
-                                    </TextBlock>
-                                    <TextBox x:Name="txt" Text="{Binding mt_name, Mode=TwoWay}" Margin="1,1" 
+                                        </TextBlock.Visibility>-->
+                                        </TextBlock>
+                                        <TextBlock Text="{Binding mt_number, StringFormat=[0]}"/>
+
+                                    </StackPanel>
+                                    
+                                    <!--<TextBox x:Name="txt" Text="{Binding mt_name, Mode=TwoWay}" Margin="1,1" 
                                              Background="White" Foreground="White">
                                         <TextBox.InputBindings>
                                             <KeyBinding Key="Enter" Command="{Binding DataContext.EditModuleCommand,
@@ -154,7 +160,7 @@
                                                 <Border x:Name="PART_ContentHost"/>
                                             </ControlTemplate>
                                         </TextBox.Template>
-                                    </TextBox>
+                                    </TextBox>-->
                                 </Grid>
                             </HierarchicalDataTemplate>
                         </TreeView.ItemTemplate>

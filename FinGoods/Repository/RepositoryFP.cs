@@ -58,5 +58,39 @@ namespace FinGoods.Repository
             }
         }
 
+        public List<string> GetListContract()
+        {
+            List<string> listContract = new List<string>();
+
+            try
+            {
+                conn.Open();
+                SqlCommand cmd = conn.CreateCommand();
+                cmd.CommandText = "SELECT doc_name FROM Contracts " +
+                   "where doc_end is null and doc_del is null " +
+                   "and ContractSign not like '%ПЛ%' and doc_name not like '%ИН%' " +
+                   "and SUBSTRING(ContractSign,3, 1) = '-'";
+                SqlDataReader read = cmd.ExecuteReader();
+
+                while (read.Read())
+                {
+                    string name = read.GetString(0);
+                    listContract.Add(name);
+                }
+                return listContract;
+            }
+
+            catch
+            {
+                return null;
+            }
+
+            finally
+            {
+                conn.Close();
+            }
+
+        }
+
     }
 }
