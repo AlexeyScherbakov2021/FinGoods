@@ -220,6 +220,21 @@ namespace FinGoods.ViewModels
         private void OnSelectContractCommandExecuted(object p)
         {
             Ship.c_number = (p as MouseButtonEventArgs).Source.ToString();
+
+            foreach (var item in Ship.Products)
+            {
+                item.g_number =
+                        ProdWindowVM.CreateSerialNumber(item, Ship.c_number.Substring(0, 6));
+            }
+
+            foreach (var ship in Ship.SetterOuts)
+            {
+                foreach (var item in ship.Products)
+                {
+                    item.g_number =
+                            ProdWindowVM.CreateSerialNumber(item, Ship.c_number.Substring(0, 6));
+                }
+            }
         }
 
 

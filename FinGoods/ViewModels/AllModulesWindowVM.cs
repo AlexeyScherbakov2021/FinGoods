@@ -10,16 +10,56 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Windows.Data;
 
 namespace FinGoods.ViewModels
 {
-    internal class AllModulesWindowVM
+    internal class AllModulesWindowVM : Observable
     {
-        public ObservableCollection<Module> listModules { get; set; } 
+        private ObservableCollection<Module> _listModules;
+        public ObservableCollection<Module> listModules 
+        { 
+            get => _listModules;
+            set
+            {
+                Set(ref _listModules, value);
+                _listModulesViewSource.Source = value;
+                _listModulesViewSource.Filter += OnFilterList;
+                _listModulesViewSource.View.Refresh();
+            }
+        }
+
+        CollectionViewSource _listModulesViewSource = new CollectionViewSource();
+        public ICollectionView listModuleView => _listModulesViewSource?.View;
+
         public Module selectedModule { get; set; }
         public Visibility isVisible { get; set; }  = Visibility.Collapsed;
 
         RepositoryMSSQL<Module> repo = new RepositoryMSSQL<Module>();
+
+        private string _Filtr;
+        public string Filtr
+        {
+            get => _Filtr;
+            set
+            {
+                if (_Filtr != value)
+                {
+                    _Filtr = value;
+                    _listModulesViewSource.View.Refresh();
+                }
+            }
+        }
+
+        private void OnFilterList(object Sender, FilterEventArgs E)
+        {
+            if (!(E.Item is Module mod) || string.IsNullOrEmpty(Filtr)) return;
+
+            if (!mod.m_name.ToLower().Contains(Filtr.ToLower()))
+                E.Accepted = false;
+        }
+
 
 
         public AllModulesWindowVM()

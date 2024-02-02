@@ -10,12 +10,54 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows;
 using FinGoods.Models;
+using System.ComponentModel;
+using System.Windows.Data;
 
 namespace FinGoods.ViewModels
 {
-    internal class AllProdWindowVM
+    internal class AllProdWindowVM : Observable
     {
-        public ObservableCollection<Product> listProduct { get; set; }
+        private ObservableCollection<Product> _listProduct;
+        public ObservableCollection<Product> listProduct 
+        { 
+            get => _listProduct; 
+            set
+            {
+                Set(ref _listProduct, value);
+                _listProdViewSource.Source = value;
+                _listProdViewSource.Filter += OnFilterList;
+                _listProdViewSource.View.Refresh();
+
+            }
+        }
+
+        CollectionViewSource _listProdViewSource = new CollectionViewSource();
+        public ICollectionView listProductView => _listProdViewSource?.View;
+
+        private string _Filtr;
+        public string Filtr
+        {
+            get => _Filtr;
+            set
+            {
+                if (_Filtr != value)
+                {
+                    _Filtr = value;
+                    _listProdViewSource.View.Refresh();
+                }
+            }
+        }
+
+        private void OnFilterList(object Sender, FilterEventArgs E)
+        {
+            if (!(E.Item is Product pd) || string.IsNullOrEmpty(Filtr)) return;
+
+            if (!pd.g_name.ToLower().Contains(Filtr.ToLower()))
+                E.Accepted = false;
+        }
+
+
+
         public Product selectedProduct { get; set; }
         public Visibility isVisible { get; set; } = Visibility.Collapsed;
 

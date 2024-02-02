@@ -5,17 +5,58 @@ using FinGoods.View;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace FinGoods.ViewModels
 {
-    internal class AllSetterWindowVM
+    internal class AllSetterWindowVM : Observable
     {
-        public ObservableCollection<SetterOut> listSetter { get; set; }
+        private ObservableCollection<SetterOut> _listSetter;
+        public ObservableCollection<SetterOut> listSetter 
+        { 
+            get => _listSetter; 
+            set
+            {
+                Set(ref _listSetter, value);
+                _listSetViewSource.Source = value;
+                _listSetViewSource.Filter += OnFilterList;
+                _listSetViewSource.View.Refresh();
+
+            }
+        }
+
+        CollectionViewSource _listSetViewSource = new CollectionViewSource();
+        public ICollectionView listSetterView => _listSetViewSource?.View;
+
+        private string _Filtr;
+        public string Filtr
+        {
+            get => _Filtr;
+            set
+            {
+                if (_Filtr != value)
+                {
+                    _Filtr = value;
+                    _listSetViewSource.View.Refresh();
+                }
+            }
+        }
+
+        private void OnFilterList(object Sender, FilterEventArgs E)
+        {
+            if (!(E.Item is SetterOut st) || string.IsNullOrEmpty(Filtr)) return;
+
+            if (!st.s_name.ToLower().Contains(Filtr.ToLower()))
+                E.Accepted = false;
+        }
+
+
         public SetterOut selectedSetter { get; set; }
         public Visibility isVisible { get; set; } = Visibility.Collapsed;
 

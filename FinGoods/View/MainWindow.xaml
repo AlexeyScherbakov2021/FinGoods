@@ -93,8 +93,13 @@
             <Button Content="Загрузка из ФП" Command="{Binding FromFPCommand}" Visibility="Collapsed"/>
         </ToolBarPanel>
 
-        <Grid>
-            <DataGrid ItemsSource="{Binding listShip}" SelectedItem="{Binding SelectShip}" Margin="6"
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="8,0">
+            <TextBlock Text="Фильтр"/>
+            <TextBox Text="{Binding Filtr,UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="4,0"/>
+        </StackPanel>
+
+
+        <DataGrid ItemsSource="{Binding listShipView}" SelectedItem="{Binding SelectShip}" Margin="6"
                       Style="{StaticResource DataGridStyle}" AutoGenerateColumns="False" IsReadOnly="True">
                 <DataGrid.ColumnHeaderStyle>
                     <Style TargetType="DataGridColumnHeader">
@@ -142,6 +147,6 @@
 
             <GridSplitter Width="4" Background="Gray" BorderBrush="LightGray" BorderThickness="1" 
                       Grid.Column="1"  HorizontalAlignment="Left"/>-->
-        </Grid>
+
     </DockPanel>
 </Window>

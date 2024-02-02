@@ -79,13 +79,17 @@ namespace FinGoods.ViewModels
                 repoGen.Add(serialLine);
             }
 
-            serialLine.gen_number++;
+            if(module.m_generatedNumber == 0)
+            {
+                serialLine.gen_number++;
+                module.m_generatedNumber = serialLine.gen_number;
+            }
 
             module.m_number =
                 module.ModuleType.mt_number.ToString()
                 + module.m_dateCreate?.ToString("yy")
                 + module.m_dateCreate.Value.Month.ToString()
-                + serialLine.gen_number.ToString("00000");
+                + module.m_generatedNumber.ToString("00000");
         }
 
         #endregion

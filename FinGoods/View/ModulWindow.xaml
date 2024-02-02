@@ -28,6 +28,7 @@
             <Button Content="Отменить" Margin="2" IsCancel="True" Style="{StaticResource ButtonStyleShadow}"/>
         </UniformGrid>
 
+       
         <Border BorderBrush="Gray" BorderThickness="1" Margin="6" CornerRadius="3">
 
             <Grid Margin="4">
@@ -103,6 +104,7 @@
                                     <TextBlock Text="{Binding mt_name}">
                                         <TextBlock.InputBindings>
                                             <MouseBinding Gesture="LeftDoubleClick" Command="{Binding DataContext.OpenPopupCommand,  Source={x:Reference proxy}}"/>
+                                            <KeyBinding Key="Enter" Command="{Binding DataContext.OpenPopupCommand,  Source={x:Reference proxy}}"/>
                                         </TextBlock.InputBindings>
                                     </TextBlock>
                                 </HierarchicalDataTemplate>

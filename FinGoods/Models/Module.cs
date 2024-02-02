@@ -34,8 +34,13 @@ namespace FinGoods.Models
         public DateTime? m_dateEnd { get; set; }
         public DateTime? m_dateCreate { get; set; }
 
+        public int m_generatedNumber { get; set; }
+
+
         private ModuleType _ModuleType;
         public virtual ModuleType ModuleType { get => _ModuleType; set { Set(ref _ModuleType, value); } }
+
+
 
         public virtual Product Product { get; set; }
 

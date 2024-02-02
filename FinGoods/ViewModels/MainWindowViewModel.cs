@@ -5,11 +5,13 @@ using FinGoods.View;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace FinGoods.ViewModels
@@ -17,7 +19,46 @@ namespace FinGoods.ViewModels
     internal class MainWindowViewModel : Observable
     {
         private readonly RepositoryMSSQL<Shipment> repoShip = new RepositoryMSSQL<Shipment>();
-        public ObservableCollection<Shipment> listShip { get; set; }
+
+        private ObservableCollection<Shipment> _listShip;
+        public ObservableCollection<Shipment> listShip 
+        { 
+            get => _listShip; 
+            set
+            {
+                Set(ref _listShip, value);
+                _listShipViewSource.Source = value;
+                _listShipViewSource.Filter += OnFilterList;
+                _listShipViewSource.View.Refresh();
+
+            }
+        }
+
+        CollectionViewSource _listShipViewSource = new CollectionViewSource();
+        public ICollectionView listShipView => _listShipViewSource?.View;
+
+        private string _Filtr;
+        public string Filtr
+        {
+            get => _Filtr;
+            set
+            {
+                if (_Filtr != value)
+                {
+                    _Filtr = value;
+                    _listShipViewSource.View.Refresh();
+                }
+            }
+        }
+        private void OnFilterList(object Sender, FilterEventArgs E)
+        {
+            if (!(E.Item is Shipment st) || string.IsNullOrEmpty(Filtr)) return;
+
+            if (!st.c_number.ToLower().Contains(Filtr.ToLower()))
+                E.Accepted = false;
+        }
+
+
 
         public Shipment SelectShip { get; set; }
 
