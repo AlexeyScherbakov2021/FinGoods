@@ -10,7 +10,7 @@
         mc:Ignorable="d"
         Style="{StaticResource WindowStyle}"
         WindowStartupLocation="CenterScreen"
-        Title="Список всех модулей" Height="500" Width="800">
+        Title="Список всех модулей" Height="900" Width="900">
     <Window.DataContext>
         <vm:AllModulesWindowVM/>
     </Window.DataContext>
@@ -23,7 +23,7 @@
                     <Setter Property="Height" Value="30"/>
                     <Setter Property="Padding" Value="4,0"/>
                     <Setter Property="FontSize" Value="14"/>
-                    <Setter Property="FontWeight" Value="Bold"/>
+                    <!--<Setter Property="FontWeight" Value="Bold"/>-->
                 </Style>
             </ToolBarPanel.Resources>
             <Button ToolTip="Выбрать" Visibility="{Binding isVisible}" Command="{Binding SelectModuleCommand}">
@@ -83,6 +83,7 @@
                 <DataGridTextColumn Header="Наименование" Binding="{Binding m_name}"/>
                 <DataGridTextColumn Header="Номер прошивки" Binding="{Binding m_numberFW}"/>
                 <DataGridTextColumn Header="Тип" Binding="{Binding ModuleType.mt_name}"/>
+                <DataGridTextColumn Header="Дата изгот." Binding="{Binding m_dateCreate,StringFormat=dd.MM.yyyy}"/>
                 <DataGridTextColumn Header="Исп. в изделии" Binding="{Binding Product.g_name}"/>
                 <DataGridTextColumn Header="Исп. в отгрузке" Binding="{Binding Shipment.c_number}"/>
             </DataGrid.Columns>

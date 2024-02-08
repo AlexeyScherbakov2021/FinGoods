@@ -16,7 +16,7 @@
             <TextBlock Text="Фильтр" Margin="6,0" VerticalAlignment="Center"/>
             <TextBox Text="{Binding Filtr,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="400" VerticalAlignment="Center" Margin="0,4"/>
         </StackPanel>
-        <ListBox ItemsSource="{Binding listContractView}" SelectedItem="{Binding selectContract}">
+        <ListBox ItemsSource="{Binding listContractView}" SelectedItem="{Binding selectContract}" DisplayMemberPath="doc_name">
             <!--<ListBox.InputBindings>
                 <MouseBinding Gesture="LeftDoubleClick" Command="{Binding SelectContractCommand}"/>
             </ListBox.InputBindings>-->

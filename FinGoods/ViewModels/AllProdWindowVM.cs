@@ -52,7 +52,7 @@ namespace FinGoods.ViewModels
         {
             if (!(E.Item is Product pd) || string.IsNullOrEmpty(Filtr)) return;
 
-            if (!pd.g_name.ToLower().Contains(Filtr.ToLower()))
+            if (!pd.g_number.ToLower().Contains(Filtr.ToLower()))
                 E.Accepted = false;
         }
 

@@ -13,7 +13,7 @@
         Style="{StaticResource WindowStyle}"
         WindowStartupLocation="CenterScreen"
         MinHeight="500"
-        Title="Состав отгрузки" Height="560" Width="711">
+        Title="Состав отгрузки" Height="700" Width="711">
     <Window.DataContext>
         <vm:ShipWindowVM/>
     </Window.DataContext>
@@ -49,7 +49,8 @@
                     <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
-                    <RowDefinition Height="6*"/>
+                    <RowDefinition/>
+                    <RowDefinition Height="9*"/>
                 </Grid.RowDefinitions>
                 <Grid.Resources>
                     <Style TargetType="TextBlock">
@@ -58,7 +59,7 @@
                     </Style>
                     <Style TargetType="TextBox">
                         <Setter Property="VerticalAlignment" Value="Stretch"/>
-                        <Setter Property="Margin" Value="4,4,12,4"/>
+                        <Setter Property="Margin" Value="4,2,12,2"/>
                         <Setter Property="TextWrapping" Value="Wrap"/>
                     </Style>
                 </Grid.Resources>
@@ -79,7 +80,7 @@
                 </DockPanel>
 
                 <TextBlock Text="Дата отрузки" Grid.Row="1" Margin="6,0"/>
-                <DatePicker SelectedDate="{Binding Ship.c_dateOut}" Margin="4,4,12,4"
+                <DatePicker SelectedDate="{Binding Ship.c_dateOut}" Margin="4,2,12,2"
                         Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"/>
 
                 <TextBlock Text="Заказчик" Grid.Row="2" Margin="6,0"/>
@@ -88,7 +89,10 @@
                 <TextBlock Text="Объект установки" Grid.Row="3" Margin="6,0"/>
                 <TextBox Text="{Binding Ship.c_objectInstall}" Grid.Row="3" Grid.Column="1" />
 
-                <GroupBox Header="Состав отгрузки" Grid.Row="4" Grid.ColumnSpan="2" Margin="0,8,0,0" Padding="4"
+                <TextBlock Text="Счет" Grid.Row="4" Margin="6,0"/>
+                <TextBox Text="{Binding Ship.c_schet}" Grid.Row="4" Grid.Column="1" />
+
+                <GroupBox Header="Состав отгрузки" Grid.Row="5" Grid.ColumnSpan="2" Margin="0,8,0,0" Padding="4"
                           BorderThickness="1" BorderBrush="Gray">
                     <DockPanel >
                         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
@@ -111,28 +115,41 @@
                             </Button>
                         </StackPanel>
                         <TreeView ItemsSource="{Binding listComposite}">
+                            <TreeView.InputBindings>
+                                <MouseBinding Gesture="LeftDoubleClick" Command="{Binding DblClickCommand}"/>
+                            </TreeView.InputBindings>
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="SelectedItemChanged">
                                     <i:InvokeCommandAction Command="{Binding SelectItemCommand}" PassEventArgsToCommand="True"/>
+                                </i:EventTrigger>
+                                <i:EventTrigger EventName="MouseDoubleClick">
+                                    <i:InvokeCommandAction Command="{Binding DblClickCommand}"/>
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                             <TreeView.Resources>
                                 <HierarchicalDataTemplate DataType="{x:Type inf:NodeSetter}" ItemsSource="{Binding Children}">
                                     <StackPanel Orientation="Horizontal" Margin="2">
                                         <fa:ImageAwesome Icon="Solid_LayerGroup" Width="16" Height="16" Foreground="Blue"/>
-                                        <TextBlock Text="{Binding Name}" Margin="3,0,0,0"/>
+                                        <TextBlock Margin="3,0,0,0" Text="{Binding NodeName}"/>
                                     </StackPanel>
                                 </HierarchicalDataTemplate>
                                 <HierarchicalDataTemplate DataType="{x:Type inf:NodeProd}" ItemsSource="{Binding Children}">
                                     <StackPanel Orientation="Horizontal" Margin="2">
                                         <fa:ImageAwesome Icon="Solid_Cogs" Width="16" Height="16" Foreground="Blue"/>
-                                        <TextBlock Text="{Binding Name}" Margin="3,0,0,0"/>
+                                        <TextBlock Margin="3,0,0,0" Text="{Binding NodeName}"/>
                                     </StackPanel>
                                 </HierarchicalDataTemplate>
                                 <DataTemplate DataType="{x:Type inf:NodeModul}">
                                     <StackPanel Orientation="Horizontal" Margin="2">
                                         <fa:ImageAwesome Icon="Solid_Microchip" Width="16" Height="16" Foreground="Blue"/>
-                                        <TextBlock Text="{Binding Name}" Margin="3,0,0,0"/>
+                                        <TextBlock Margin="3,0,0,0" Text="{Binding NodeName}">
+                                            <!--<TextBlock.Text>
+                                                <MultiBinding StringFormat="{}{0} (№ {1})">
+                                                    <Binding Path="Name"/>
+                                                    <Binding Path="Number"/>
+                                                </MultiBinding>
+                                            </TextBlock.Text>-->
+                                        </TextBlock>
                                     </StackPanel>
                                 </DataTemplate>
                             </TreeView.Resources>

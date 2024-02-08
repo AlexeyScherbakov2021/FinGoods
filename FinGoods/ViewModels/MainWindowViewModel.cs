@@ -18,6 +18,8 @@ namespace FinGoods.ViewModels
 {
     internal class MainWindowViewModel : Observable
     {
+        public string Title {  get; set; }
+
         private readonly RepositoryMSSQL<Shipment> repoShip = new RepositoryMSSQL<Shipment>();
 
         private ObservableCollection<Shipment> _listShip;
@@ -64,6 +66,12 @@ namespace FinGoods.ViewModels
 
         public MainWindowViewModel()
         {
+#if DEBUG
+            Title = "Заказы (Отладочная версия)";
+#else
+            Title = "Заказы";
+#endif
+
             //App.log.WriteLineLog("Конструктор MainWindowViewModel");
             listShip = new ObservableCollection<Shipment>(repoShip.Items);
             //App.log.WriteLineLog("Получен список listShip");

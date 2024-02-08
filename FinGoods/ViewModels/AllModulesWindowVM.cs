@@ -56,7 +56,7 @@ namespace FinGoods.ViewModels
         {
             if (!(E.Item is Module mod) || string.IsNullOrEmpty(Filtr)) return;
 
-            if (!mod.m_name.ToLower().Contains(Filtr.ToLower()))
+            if (!mod.m_number.ToLower().Contains(Filtr.ToLower()))
                 E.Accepted = false;
         }
 

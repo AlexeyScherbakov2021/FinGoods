@@ -10,7 +10,7 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Style="{StaticResource WindowStyle}"
-        Title="Готовые изделия" Height="450" Width="800">
+        Title="Готовые изделия" Height="900" Width="1000">
 
     <Window.DataContext>
         <vm:AllProdWindowVM/>
@@ -24,7 +24,7 @@
                     <Setter Property="Height" Value="30"/>
                     <Setter Property="Padding" Value="4,0"/>
                     <Setter Property="FontSize" Value="14"/>
-                    <Setter Property="FontWeight" Value="Bold"/>
+                    <!--<Setter Property="FontWeight" Value="Bold"/>-->
                 </Style>
             </ToolBarPanel.Resources>
             <Button ToolTip="Выбрать" Visibility="{Binding isVisible}" Command="{Binding SelectModuleCommand}">
@@ -83,6 +83,9 @@
                 <DataGridTextColumn Header="Наименование" Binding="{Binding g_name}"/>
                 <DataGridTextColumn Header="Номер шкафа" Binding="{Binding g_numberBox}"/>
                 <DataGridTextColumn Header="Тип" Binding="{Binding ProductType.gt_name}"/>
+                <DataGridTextColumn Header="Редак.РЭ 1" Binding="{Binding g_redaction1}"/>
+                <DataGridTextColumn Header="Редак.РЭ 2" Binding="{Binding g_redaction2}"/>
+                <DataGridTextColumn Header="Редак.РЭ ПС" Binding="{Binding g_redactionPS}"/>
                 <DataGridTextColumn Header="Исп. в наборе" Binding="{Binding SetterOut.s_name}"/>
                 <DataGridTextColumn Header="Исп. в отгрузке" Binding="{Binding Shipment.c_number}"/>
             </DataGrid.Columns>

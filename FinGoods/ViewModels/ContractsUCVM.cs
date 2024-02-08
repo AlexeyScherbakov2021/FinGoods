@@ -1,4 +1,5 @@
 ﻿using FinGoods.Commands;
+using FinGoods.Models;
 using FinGoods.Repository;
 using System;
 using System.Collections.Generic;
@@ -15,8 +16,8 @@ namespace FinGoods.ViewModels
 {
     internal class ContractsUCVM : Observable
     {
-        private ObservableCollection<string> _listContract;
-        public ObservableCollection<string> listContract
+        private ObservableCollection<OrderFP> _listContract;
+        public ObservableCollection<OrderFP> listContract
         {
             get => _listContract;
             set
@@ -31,7 +32,7 @@ namespace FinGoods.ViewModels
             }
         }
 
-        public string selectContract { get; set; }
+        public OrderFP selectContract { get; set; }
 
         private string _Filtr;
         public string Filtr 
@@ -54,7 +55,7 @@ namespace FinGoods.ViewModels
         public ContractsUCVM()
         {
             RepositoryFP repositoryFP = new RepositoryFP();
-            listContract = new ObservableCollection<string>(repositoryFP.GetListContract());
+            listContract = new ObservableCollection<OrderFP>(repositoryFP.GetListContract());
         }
 
         //--------------------------------------------------------------------------------
@@ -62,9 +63,9 @@ namespace FinGoods.ViewModels
         //--------------------------------------------------------------------------------
         private void OnFilterList(object Sender, FilterEventArgs E)
         {
-            if (!(E.Item is string mk) || string.IsNullOrEmpty(Filtr)) return;
+            if (!(E.Item is OrderFP mk) || string.IsNullOrEmpty(Filtr)) return;
 
-            if (!mk.ToLower().Contains(Filtr.ToLower()))
+            if (!mk.doc_name.ToLower().Contains(Filtr.ToLower()))
                 E.Accepted = false;
         }
 

@@ -32,9 +32,7 @@
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="1*"/>
+                    <!--<RowDefinition Height="1*"/>-->
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
 
@@ -52,10 +50,10 @@
                 <!--<TextBlock Text="Номер" Grid.Row="1" Grid.Column="0"/>
                 <TextBox Text="{Binding setter.s_number}" Grid.Row="1" Grid.Column="1"/>-->
 
-                <TextBlock Text="Наименование" Grid.Row="2" Grid.Column="0"/>
-                <TextBox Text="{Binding setter.s_name}" Grid.Row="2" Grid.Column="1"/>
+                <TextBlock Text="Наименование" Grid.Row="0" Grid.Column="0"/>
+                <TextBox Text="{Binding setter.s_name}" Grid.Row="0" Grid.Column="1"/>
 
-                <DockPanel Grid.Row="4" Grid.ColumnSpan="2">
+                <DockPanel Grid.Row="1" Grid.ColumnSpan="2">
                     <TextBlock Text="Список изделий" Margin="0,8,0,0" DockPanel.Dock="Top"/>
                     <StackPanel DockPanel.Dock="Left" Margin="4,8">
                         <Button Command="{Binding AddProdCommand}" Style="{StaticResource ButtonStyleShadow}">
@@ -66,8 +64,11 @@
                         </Button>
                     </StackPanel>
                     <DataGrid ItemsSource="{Binding setter.Products}" Margin="3,0,3,2" SelectedItem="{Binding selectProd}"
-                          Style="{StaticResource DataGridStyle}" AutoGenerateColumns="False"
+                          Style="{StaticResource DataGridStyle}" AutoGenerateColumns="False" IsReadOnly="True"
                           >
+                        <DataGrid.InputBindings>
+                            <MouseBinding Gesture="LeftDoubleClick" Command="{Binding OpenProdCommand}"/>
+                        </DataGrid.InputBindings>
                         <DataGrid.ColumnHeaderStyle>
                             <Style TargetType="DataGridColumnHeader">
                                 <Setter Property="FontWeight" Value="Bold"/>
@@ -75,8 +76,8 @@
                         </DataGrid.ColumnHeaderStyle>
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Наименование" Binding="{Binding g_name}"/>
-                            <DataGridTextColumn Header="Номер" Binding="{Binding g_number}"/>
-                            <DataGridTextColumn Header="Номер прошивки" Binding="{Binding g_numberBox}"/>
+                            <DataGridTextColumn Header="Заводской номер" Binding="{Binding g_number}"/>
+                            <DataGridTextColumn Header="Номер шкафа" Binding="{Binding g_numberBox}"/>
                             <DataGridTextColumn Header="Тип" Binding="{Binding ProductType.gt_name}"/>
                         </DataGrid.Columns>
                     </DataGrid>

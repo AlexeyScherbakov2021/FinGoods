@@ -57,6 +57,19 @@ namespace FinGoods.ViewModels
             }
         }
 
+        //--------------------------------------------------------------------------------
+        // Команда Открыть Изделие
+        //--------------------------------------------------------------------------------
+        public ICommand OpenProdCommand => new LambdaCommand(OnOpenProdCommandExecuted, CanOpenProdCommand);
+        private bool CanOpenProdCommand(object p) => true;
+        private void OnOpenProdCommandExecuted(object p)
+        {
+            ProdWindow win = new ProdWindow();
+            ProdWindowVM vm = new ProdWindowVM(selectProd);
+            win.DataContext = vm;
+            win.ShowDialog();
+        }
+
 
         #endregion
 

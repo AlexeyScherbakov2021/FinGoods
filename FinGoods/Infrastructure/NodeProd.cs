@@ -9,18 +9,20 @@ using System.Windows;
 
 namespace FinGoods.Infrastructure
 {
-    internal class NodeProd : INode
+    internal class NodeProd : Node
     {
-        public NodeProd(string name, Product prod) 
+        public NodeProd(string name, string Num, Product prod) 
         { 
             Name = name; 
+            Number = Num;
             Item = prod;
             isRoot = prod.idShipment != null;
         }
-        public string Name { get; set; }
-        public object Item { get; set; }
-        public bool isRoot { get; set; }
-        public ObservableCollection<INode> Children { get; set; } = new ObservableCollection<INode>();
+        //public string Name { get; set; }
+        //public string Number { get; set; }
+        //public object Item { get; set; }
+        //public bool isRoot { get; set; }
+        public ObservableCollection<Node> Children { get; set; } = new ObservableCollection<Node>();
 
     }
 }

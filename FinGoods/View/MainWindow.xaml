@@ -10,26 +10,26 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Name="mainWindow" Style="{StaticResource WindowStyle}"
-        Title="Отгруженная продукция" Height="750" Width="1200">
+        Title="{Binding Title}" Height="850" Width="1300">
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>
 
     <DockPanel>
         <Border DockPanel.Dock="Left"  Background="LightGray" BorderThickness="1" BorderBrush="Gray">
-            <StackPanel Margin="0,20,0,0">
+            <StackPanel Margin="0,30,0,0">
                 <StackPanel.Resources>
                     <Style TargetType="{x:Type Button}" BasedOn="{StaticResource ResourceKey=ButtonStyleShadow}">
                         <Setter Property="Margin" Value="8"/>
                         <Setter Property="Height" Value="60"/>
                         <Setter Property="Padding" Value="6"/>
                         <Setter Property="FontSize" Value="14"/>
-                        <Setter Property="FontWeight" Value="Bold"/>
+                        <!--<Setter Property="FontWeight" Value="Bold"/>-->
                         <Setter Property="Width" Value="160"/>
                     </Style>
                     <Style TargetType="TextBlock">
                         <Setter Property="Margin" Value="8,0"/>
-                        <Setter Property="Width" Value="110"/>
+                        <Setter Property="Width" Value="100"/>
                         <Setter Property="TextWrapping" Value="Wrap"/>
                         <Setter Property="TextAlignment" Value="Center"/>
                     </Style>

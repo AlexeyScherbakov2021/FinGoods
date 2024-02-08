@@ -81,7 +81,7 @@
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\LambdaCommand.cs" />
     <Compile Include="Converter\VisibilityEqualConverter.cs" />
-    <Compile Include="Infrastructure\INode.cs" />
+    <Compile Include="Infrastructure\Node.cs" />
     <Compile Include="Infrastructure\LogFile.cs" />
     <Compile Include="Infrastructure\NodeModul.cs" />
     <Compile Include="Infrastructure\NodeProd.cs" />
@@ -93,6 +93,7 @@
     <Compile Include="Models\ModelBase.cs" />
     <Compile Include="Models\Module.cs" />
     <Compile Include="Models\ModuleType.cs" />
+    <Compile Include="Models\OrderFP.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\ProductType.cs" />
     <Compile Include="Models\SerialNumber.cs" />

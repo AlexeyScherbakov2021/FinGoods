@@ -9,7 +9,7 @@
         xmlns:vm="clr-namespace:FinGoods.ViewModels"
         Style="{StaticResource WindowStyle}"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
-        Title="Изделие" Height="500" Width="600">
+        Title="Изделие" Height="700" Width="800">
     <Window.DataContext>
         <vm:ProdWindowVM/>
     </Window.DataContext>
@@ -27,7 +27,8 @@
             <Grid Margin="4">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="200"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
@@ -35,18 +36,22 @@
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="1*"/>
-                    <RowDefinition Height="6*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="9*"/>
                 </Grid.RowDefinitions>
 
                 <Grid.Resources>
                     <Style TargetType="TextBlock">
                         <Setter Property="Width" Value="110"/>
-                        <Setter Property="Margin" Value="4,4"/>
+                        <Setter Property="Margin" Value="4,2"/>
                         <Setter Property="VerticalAlignment" Value="Center"/>
                         <Setter Property="TextAlignment" Value="Right"/>
                     </Style>
                     <Style TargetType="TextBox">
-                        <Setter Property="Margin" Value="4,4"/>
+                        <Setter Property="Margin" Value="4,2"/>
                     </Style>
                 </Grid.Resources>
 
@@ -54,14 +59,14 @@
                 <ComboBox ItemsSource="{Binding listProdType}" DisplayMemberPath="gt_name"
                           SelectedValue="{Binding product.g_ProductTypeId, Mode=TwoWay}"
                           SelectedValuePath="id"  Grid.Row="0" Grid.Column="1"
-                          Margin="4,4"/>
+                          Margin="4,2"/>
 
                 <TextBlock Text="Заводской номер" Grid.Row="1" Grid.Column="0"/>
                 <DockPanel Grid.Column="1" Grid.Row="1">
-                    <Button Content="№" DockPanel.Dock="Right" Width="28" Margin="0,6,4,6" 
+                    <Button Content="№" DockPanel.Dock="Right" Width="28" Margin="0,2,4,2" 
                             ToolTip="Генерировать номер" Command="{Binding GenNumCommand}"
                             Style="{StaticResource ButtonStyleShadow}"/>
-                    <TextBox Text="{Binding product.g_number}" Margin="4,6,0,6"/>
+                    <TextBox Text="{Binding product.g_number}" Margin="4,2,0,2"/>
                 </DockPanel>
 
                 <TextBlock Text="Наименование" Grid.Row="2" Grid.Column="0"/>
@@ -78,8 +83,25 @@
                     </DatePicker.Resources>
                 </DatePicker>
 
-                <DockPanel Grid.Row="5" Grid.ColumnSpan="2">
-                    <TextBlock Text="Сисок модулей" DockPanel.Dock="Top" Margin="0,8,0,0"/>
+                <TextBlock Text="Редакция РЭ 1" Grid.Row="5" Grid.Column="0"/>
+                <TextBox Text="{Binding product.g_redaction1}" Grid.Row="5" Grid.Column="1"/>
+
+                <TextBlock Text="Редакция РЭ 2" Grid.Row="6" Grid.Column="0"/>
+                <TextBox Text="{Binding product.g_redaction2}" Grid.Row="6" Grid.Column="1"/>
+
+                <TextBlock Text="Редакция РЭ 2" Grid.Row="7" Grid.Column="0"/>
+                <TextBox Text="{Binding product.g_redactionPS}" Grid.Row="7" Grid.Column="1"/>
+
+                <TextBlock Text="Опросный лист" Grid.Row="8" Grid.Column="0"/>
+                <TextBox Text="{Binding product.g_questList}" Grid.Row="8" Grid.Column="1"/>
+
+                <CheckBox Content="Наличие АВР" IsChecked="{Binding product.g_avr}" Grid.Row="0" Grid.Column="3" VerticalAlignment="Center" Margin="10,0"/>
+                <CheckBox Content="Наличие АКБ БУ" IsChecked="{Binding product.g_akb}" Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" Margin="10,0"/>
+                <CheckBox Content="Наличие СКМ" IsChecked="{Binding product.g_skm}" Grid.Row="2" Grid.Column="3" VerticalAlignment="Center" Margin="10,0"/>
+                <CheckBox Content="Наличие вентиляции" IsChecked="{Binding product.g_cooler}" Grid.Row="3" Grid.Column="3" VerticalAlignment="Center" Margin="10,0"/>
+
+                <DockPanel Grid.Row="9" Grid.ColumnSpan="4">
+                    <TextBlock Text="Сисок модулей" DockPanel.Dock="Top" Margin="0,8,0,0" FontWeight="Bold"/>
                     <StackPanel DockPanel.Dock="Left" Margin="4,8">
                         <Button Command="{Binding AddModulCommand}" Style="{StaticResource ButtonStyleShadow}">
                             <fa:ImageAwesome Icon="Solid_Plus" Width="16" Height="16"/>
@@ -89,8 +111,11 @@
                         </Button>
                     </StackPanel>
                     <DataGrid ItemsSource="{Binding product.Modules}" Margin="3,0,3,2" SelectedItem="{Binding selectModul}"
-                          Style="{StaticResource DataGridStyle}" AutoGenerateColumns="False"
+                          Style="{StaticResource DataGridStyle}" AutoGenerateColumns="False" IsReadOnly="True"
                           >
+                        <DataGrid.InputBindings>
+                            <MouseBinding Gesture="LeftDoubleClick" Command="{Binding OpenModulCommand}"/>
+                        </DataGrid.InputBindings>
                         <DataGrid.ColumnHeaderStyle>
                             <Style TargetType="DataGridColumnHeader">
                                 <Setter Property="FontWeight" Value="Bold"/>

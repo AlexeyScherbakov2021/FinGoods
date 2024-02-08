@@ -30,10 +30,15 @@ namespace FinGoods.Models
         public DateTime? c_dateOut { get; set; }
 
         [StringLength(150)]
-        public string c_customer { get; set; }
+        public string c_customer { get => _c_customer; set { Set(ref _c_customer, value); } }
+        private string _c_customer;
 
         [StringLength(180)]
         public string c_questList { get; set; }
+
+        [StringLength(180)]
+        public string c_schet { get => _c_schet; set { Set(ref _c_schet, value); } }
+        private string _c_schet;
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ObservableCollection<Module> Modules { get; set; }

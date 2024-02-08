@@ -37,9 +37,30 @@ namespace FinGoods.Models
         [StringLength(40)]
         public string g_numberBox { get => _g_numberBox; set { Set(ref _g_numberBox, value); } }
 
+        [StringLength(40)]
+        public string g_numberBI { get; set;}
+
+        [StringLength(40)]
+        public string g_numberUSIKP { get; set;}
+
         public DateTime? g_dateRegister { get; set; }
 
         public int g_generatedNumber { get; set; }
+
+        [StringLength(20)]
+        public string g_redaction1 { get; set; }
+        [StringLength(20)]
+        public string g_redaction2 { get; set; }
+        [StringLength(20)]
+        public string g_redactionPS { get; set; }
+
+        public string g_questList { get; set; }
+
+        public bool? g_avr { get; set; }
+        public bool? g_akb { get; set; }
+        public bool? g_cooler { get; set; }
+        public bool? g_skm { get; set; }
+
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ObservableCollection<Module> Modules { get; set; }

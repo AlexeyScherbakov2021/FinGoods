@@ -12,15 +12,15 @@ namespace FinGoods.Models
 
         public static ModelBase GetBase()
         {
-            string ConnectString;
-//#if DEBUG
-//            ConnectString = ConfigurationManager.ConnectionStrings["BaseModelLocal"].ConnectionString;
+            string ConnectString = null;
+#if DEBUG
+            ConnectString = ConfigurationManager.ConnectionStrings["LocalBase"].ConnectionString;
 //#endif
 
-//#if RELEASE
+#else
             ConnectString = ConfigurationManager.ConnectionStrings["ModelBase"].ConnectionString;
             ConnectString += ";user id=fpLoginName;password=ctcnhjt,s";
-//#endif
+#endif
 
             //App.log.WriteLineLog("Получение базы ModelBase");
             if (currentBase == null)
@@ -81,6 +81,18 @@ namespace FinGoods.Models
 
             modelBuilder.Entity<Product>()
                 .Property(e => e.g_numberBox)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Product>()
+                .Property(e => e.g_redaction1)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Product>()
+                .Property(e => e.g_redaction2)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Product>()
+                .Property(e => e.g_redactionPS)
                 .IsUnicode(false);
 
             modelBuilder.Entity<Product>()

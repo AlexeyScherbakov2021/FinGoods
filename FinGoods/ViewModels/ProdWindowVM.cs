@@ -122,13 +122,17 @@ namespace FinGoods.ViewModels
 
 
         //--------------------------------------------------------------------------------
-        // Команда Добавить модули
+        // Команда Открыть модуль
         //--------------------------------------------------------------------------------
-        //public ICommand SelectModulesCommand => new LambdaCommand(OnSelectModulesCommandExecuted, CanSelectModulesCommand);
-        //private bool CanSelectModulesCommand(object p) => true;
-        //private void OnSelectModulesCommandExecuted(object p)
-        //{
-        //}
+        public ICommand OpenModulCommand => new LambdaCommand(OnOpenModulCommandExecuted, CanOpenModulCommand);
+        private bool CanOpenModulCommand(object p) => true;
+        private void OnOpenModulCommandExecuted(object p)
+        {
+            ModulWindow win = new ModulWindow();
+            ModulWindowVM vm = new ModulWindowVM(selectModul);
+            win.DataContext = vm;
+            win.ShowDialog();
+        }
 
         #endregion
 

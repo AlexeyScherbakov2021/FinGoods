@@ -21,11 +21,11 @@ namespace FinGoods.ViewModels
     {
 
         public Shipment Ship { get; set; }
-        public ObservableCollection<INode> listComposite { get; set; } = new ObservableCollection<INode>();
+        public ObservableCollection<Node> listComposite { get; set; } = new ObservableCollection<Node>();
 
         //public ObservableCollection<string> listContract { get; set; }
 
-        public INode SelectedNode;
+        public Node SelectedNode;
 
         public ShipWindowVM()
         {
@@ -34,17 +34,17 @@ namespace FinGoods.ViewModels
 
         private void addNodeSetter(SetterOut setter)
         {
-            NodeSetter adding = new NodeSetter(setter.s_name, setter);
+            NodeSetter adding = new NodeSetter(setter.s_name, "", setter);
             listComposite.Add(adding);
 
             foreach (var item2 in setter.Products)
             {
-                NodeProd adding2 = new NodeProd(item2.g_name, item2);
+                NodeProd adding2 = new NodeProd(item2.g_name, item2.g_number, item2);
                 adding.Children.Add(adding2);
 
                 foreach (var item3 in item2.Modules)
                 {
-                    NodeModul adding3 = new NodeModul(item3.m_name, item3);
+                    NodeModul adding3 = new NodeModul(item3.m_name, item3.m_number, item3);
                     adding2.Children.Add(adding3);
                 }
             }
@@ -52,12 +52,12 @@ namespace FinGoods.ViewModels
 
         private void addNodeProd(Product prod)
         {
-            NodeProd adding = new NodeProd(prod.g_name, prod);
+            NodeProd adding = new NodeProd(prod.g_name, prod.g_number, prod);
             listComposite.Add(adding);
 
             foreach (var item2 in prod.Modules)
             {
-                NodeModul adding2 = new NodeModul(item2.m_name, item2);
+                NodeModul adding2 = new NodeModul(item2.m_name, item2.m_number, item2);
                 adding.Children.Add(adding2);
             }
         }
@@ -103,7 +103,7 @@ namespace FinGoods.ViewModels
 
             foreach (var item in Ship.Modules)
             {
-                NodeModul adding = new NodeModul(item.m_name, item);
+                NodeModul adding = new NodeModul(item.m_name, item.m_number, item);
                 listComposite.Add(adding);
             }
         }
@@ -175,7 +175,7 @@ namespace FinGoods.ViewModels
                 RepositoryMSSQL<Shipment> repo = new RepositoryMSSQL<Shipment>();
                 repo.Save();
 
-                NodeModul node = new NodeModul(vm.selectedModule.m_name, vm.selectedModule);
+                NodeModul node = new NodeModul(vm.selectedModule.m_name, vm.selectedModule.m_number, vm.selectedModule);
                 listComposite.Add(node);
             }
         }
@@ -208,7 +208,7 @@ namespace FinGoods.ViewModels
         {
             if(p is RoutedPropertyChangedEventArgs<object> e)
             {
-                SelectedNode = e.NewValue as INode;
+                SelectedNode = e.NewValue as Node;
             }
         }
 
@@ -219,7 +219,13 @@ namespace FinGoods.ViewModels
         private bool CanSelectContractCommand(object p) => true;
         private void OnSelectContractCommandExecuted(object p)
         {
-            Ship.c_number = (p as MouseButtonEventArgs).Source.ToString();
+            var order = (p as MouseButtonEventArgs).Source as OrderFP;
+            if (order == null)
+                throw new Exception("Ошибка выбора заказа");
+
+            Ship.c_number = order.doc_name;
+            Ship.c_customer = order.cli_name;
+            Ship.c_schet = order.PactNo;
 
             foreach (var item in Ship.Products)
             {
@@ -237,8 +243,43 @@ namespace FinGoods.ViewModels
             }
         }
 
+        public ICommand DblClickCommand => new LambdaCommand(OnDblClickCommandExecuted, CanDblClickCommand);
+        private bool CanDblClickCommand(object p) => true;
+        private void OnDblClickCommandExecuted(object p)
+        {
+            if (SelectedNode == null)
+                return;
 
+            if(SelectedNode.Item is Module mod)
+            {
+                ModulWindow win = new ModulWindow();
+                ModulWindowVM vm = new ModulWindowVM(mod);
+                win.DataContext = vm;
+                win.ShowDialog();
+            }
+            else if(SelectedNode.Item is Product prod)
+            {
+                ProdWindow win = new ProdWindow();
+                ProdWindowVM vm = new ProdWindowVM(prod);
+                win.DataContext = vm;
+                win.ShowDialog();
 
+            }
+            else if(SelectedNode.Item is SetterOut setOut)
+            {
+                SetterWindow win = new SetterWindow();
+                SetterWindowVM vm = new SetterWindowVM(setOut);
+                win.DataContext = vm;
+                win.ShowDialog();
+            }
+
+            //switch(SelectedNode.Item )
+            //{
+            //    case SetterOut:
+            //        break;
+
+            //}
+        }
         #endregion
     }
 }

@@ -92,6 +92,19 @@ namespace FinGoods.ViewModels
                 + module.m_generatedNumber.ToString("00000");
         }
 
+        //--------------------------------------------------------------------------------
+        // Команда OK
+        //--------------------------------------------------------------------------------
+        //public ICommand OKCommand => new LambdaCommand(OnOKCommandExecuted, CanOKCommand);
+        //private bool CanOKCommand(object p) => true;
+        //private void OnOKCommandExecuted(object p)
+        //{
+        //    RepositoryMSSQL<Module> repo = new RepositoryMSSQL<Module>();
+        //    repo.Save();
+
+        //}
+
+
         #endregion
     }
 }
