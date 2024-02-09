@@ -71,6 +71,29 @@ namespace FinGoods.ViewModels
         }
 
 
+        //--------------------------------------------------------------------------------
+        // Команда Список заказов из ФП
+        //--------------------------------------------------------------------------------
+        public ICommand SelectContractCommand => new LambdaCommand(OnSelectContractCommandExecuted, CanSelectContractCommand);
+        private bool CanSelectContractCommand(object p) => true;
+        private void OnSelectContractCommandExecuted(object p)
+        {
+            var order = (p as MouseButtonEventArgs).Source as OrderFP;
+            if (order == null)
+                throw new Exception("Ошибка выбора заказа");
+
+            setter.s_orderNum = order.doc_name;
+            //Ship.c_customer = order.cli_name;
+            //Ship.c_schet = order.PactNo;
+
+            foreach (var prod in setter.Products)
+            {
+                prod.g_number =
+                    ProdWindowVM.CreateSerialNumber(prod, setter.s_orderNum.Substring(0, 6));
+            }
+        }
+
+
         #endregion
 
     }

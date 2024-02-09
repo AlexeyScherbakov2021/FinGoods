@@ -14,8 +14,14 @@ using System.Windows.Input;
 
 namespace FinGoods.ViewModels
 {
+    public enum KindContract : int { Contract, Invoice };
+
     internal class ContractsUCVM : Observable
     {
+        public KindContract kind { get;set; }
+        public string kind2 { get; set; }
+
+
         private ObservableCollection<OrderFP> _listContract;
         public ObservableCollection<OrderFP> listContract
         {
@@ -55,7 +61,13 @@ namespace FinGoods.ViewModels
         public ContractsUCVM()
         {
             RepositoryFP repositoryFP = new RepositoryFP();
-            listContract = new ObservableCollection<OrderFP>(repositoryFP.GetListContract());
+
+            if(kind == KindContract.Invoice)
+            {
+                listContract = new ObservableCollection<OrderFP>(repositoryFP.GetListInvoice());
+            }
+            else
+                listContract = new ObservableCollection<OrderFP>(repositoryFP.GetListContract());
         }
 
         //--------------------------------------------------------------------------------

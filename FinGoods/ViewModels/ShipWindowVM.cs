@@ -19,6 +19,7 @@ namespace FinGoods.ViewModels
 
     internal class ShipWindowVM
     {
+        public string SearchNumber { get; set; }
 
         public Shipment Ship { get; set; }
         public ObservableCollection<Node> listComposite { get; set; } = new ObservableCollection<Node>();
@@ -40,11 +41,13 @@ namespace FinGoods.ViewModels
             foreach (var item2 in setter.Products)
             {
                 NodeProd adding2 = new NodeProd(item2.g_name, item2.g_number, item2);
+                adding2.Parent = adding;
                 adding.Children.Add(adding2);
 
                 foreach (var item3 in item2.Modules)
                 {
                     NodeModul adding3 = new NodeModul(item3.m_name, item3.m_number, item3);
+                    adding3.Parent = adding2;
                     adding2.Children.Add(adding3);
                 }
             }
@@ -58,6 +61,7 @@ namespace FinGoods.ViewModels
             foreach (var item2 in prod.Modules)
             {
                 NodeModul adding2 = new NodeModul(item2.m_name, item2.m_number, item2);
+                adding2.Parent = adding;
                 adding.Children.Add(adding2);
             }
         }
@@ -67,7 +71,7 @@ namespace FinGoods.ViewModels
         public ShipWindowVM(Shipment co)
         {
             Ship = co;
-            foreach(var item in Ship.SetterOuts)
+            foreach (var item in Ship.SetterOuts)
             {
                 addNodeSetter(item);
 
@@ -123,7 +127,7 @@ namespace FinGoods.ViewModels
 
             if (win.ShowDialog() == true)
             {
-                foreach(var item in vm.selectedSetter.Products)
+                foreach (var item in vm.selectedSetter.Products)
                 {
                     item.g_number = ProdWindowVM.CreateSerialNumber(item, Ship.c_number.Substring(0, 6));
                 }
@@ -146,11 +150,11 @@ namespace FinGoods.ViewModels
             AllProdWindowVM vm = new AllProdWindowVM(true);
             win.DataContext = vm;
 
-            if(win.ShowDialog() == true)
+            if (win.ShowDialog() == true)
             {
                 //NodeProd node = new NodeProd(vm.selectedProduct.g_name, vm.selectedProduct);
                 //listComposite.Add(node);
-                vm.selectedProduct.g_number = 
+                vm.selectedProduct.g_number =
                     ProdWindowVM.CreateSerialNumber(vm.selectedProduct, Ship.c_number.Substring(0, 6));
                 Ship.Products.Add(vm.selectedProduct);
                 RepositoryMSSQL<Shipment> repo = new RepositoryMSSQL<Shipment>();
@@ -169,7 +173,7 @@ namespace FinGoods.ViewModels
             AllModulesWindowVM vm = new AllModulesWindowVM(true);
             win.DataContext = vm;
 
-            if(win.ShowDialog() == true)
+            if (win.ShowDialog() == true)
             {
                 Ship.Modules.Add(vm.selectedModule);
                 RepositoryMSSQL<Shipment> repo = new RepositoryMSSQL<Shipment>();
@@ -206,7 +210,7 @@ namespace FinGoods.ViewModels
         private bool CanSelectItemCommand(object p) => true;
         private void OnSelectItemCommandExecuted(object p)
         {
-            if(p is RoutedPropertyChangedEventArgs<object> e)
+            if (p is RoutedPropertyChangedEventArgs<object> e)
             {
                 SelectedNode = e.NewValue as Node;
             }
@@ -250,14 +254,14 @@ namespace FinGoods.ViewModels
             if (SelectedNode == null)
                 return;
 
-            if(SelectedNode.Item is Module mod)
+            if (SelectedNode.Item is Module mod)
             {
                 ModulWindow win = new ModulWindow();
                 ModulWindowVM vm = new ModulWindowVM(mod);
                 win.DataContext = vm;
                 win.ShowDialog();
             }
-            else if(SelectedNode.Item is Product prod)
+            else if (SelectedNode.Item is Product prod)
             {
                 ProdWindow win = new ProdWindow();
                 ProdWindowVM vm = new ProdWindowVM(prod);
@@ -265,7 +269,7 @@ namespace FinGoods.ViewModels
                 win.ShowDialog();
 
             }
-            else if(SelectedNode.Item is SetterOut setOut)
+            else if (SelectedNode.Item is SetterOut setOut)
             {
                 SetterWindow win = new SetterWindow();
                 SetterWindowVM vm = new SetterWindowVM(setOut);
@@ -280,6 +284,69 @@ namespace FinGoods.ViewModels
 
             //}
         }
+
+        //--------------------------------------------------------------------------------
+        // Команда Поиск по номеру
+        //--------------------------------------------------------------------------------
+        public ICommand SearchCommand => new LambdaCommand(OnSearchCommandExecuted, CanSearchCommand);
+        private bool CanSearchCommand(object p) => true;
+        private void OnSearchCommandExecuted(object p)
+        {
+            //foreach(var setter in Ship.SetterOuts)
+            //{
+            //    foreach(var prod in setter.Products)
+            //    {
+            //        if(prod.g_number.Contains(SearchNumber))
+            //        {
+
+            //        }
+
+            //        foreach(var mod in prod.Modules)
+            //        {
+            //            if(mod.m_number.Contains(SearchNumber))
+            //            {
+
+            //            }
+            //        }
+            //    }
+            //}
+
+            Node res = SearchItemTree(listComposite, SearchNumber);
+            if (res != null)
+            {
+                res.IsSelected = true;
+                
+                while(res.Parent != null)
+                {
+                    res.Parent.IsExpanded = true;
+                    res = res.Parent;
+                }
+               
+            }
+        }
+
+
         #endregion
+
+        private Node SearchItemTree(IEnumerable<Node> nodes, string Text)
+        {
+            if (nodes == null || string.IsNullOrEmpty(Text))
+                return null;
+
+            foreach (var node in nodes)
+            {
+                if (node.Number.Contains(Text))
+                    return node;
+
+                Node res = SearchItemTree(node.Children, Text);
+                if (res != null)
+                    return res;
+            }
+
+            return null;
+        }
+
+
+
     }
 }

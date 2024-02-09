@@ -10,7 +10,7 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Style="{StaticResource WindowStyle}"
-        Title="Наборы" Height="450" Width="800">
+        Title="Наборы" Height="600" Width="1000">
     <Window.DataContext>
         <vm:SetterWindowVM/>
     </Window.DataContext>
@@ -32,8 +32,9 @@
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
                     <!--<RowDefinition Height="1*"/>-->
-                    <RowDefinition Height="4*"/>
+                    <RowDefinition Height="8*"/>
                 </Grid.RowDefinitions>
 
                 <Grid.Resources>
@@ -53,8 +54,23 @@
                 <TextBlock Text="Наименование" Grid.Row="0" Grid.Column="0"/>
                 <TextBox Text="{Binding setter.s_name}" Grid.Row="0" Grid.Column="1"/>
 
-                <DockPanel Grid.Row="1" Grid.ColumnSpan="2">
-                    <TextBlock Text="Список изделий" Margin="0,8,0,0" DockPanel.Dock="Top"/>
+                <TextBlock Text="Карта заказа" Grid.Row="1" Margin="6,0"/>
+                <DockPanel  Grid.Column="1" Grid.Row="1">
+                    <ToggleButton Content="..." x:Name="toggle"  DockPanel.Dock="Right" Width="38" 
+                                  Margin="0,4,12,4" ToolTip="Выбрать из списка ФП"/>
+                    <Popup x:Name="popup" Placement="Bottom" IsOpen="{Binding IsChecked, ElementName=toggle}"
+                           StaysOpen="False" PlacementTarget="{Binding ElementName=forPopup}"
+                           VerticalOffset="-1" PopupAnimation="Scroll">
+                        <Border BorderThickness="1" BorderBrush="Gray" >
+                            <local:ContractsUC x:Name="contract" Width="600" Height="400" PreviewMouseDoubleClick="contract_PreviewMouseDoubleClick" />
+                        </Border>
+                    </Popup>
+                    <TextBox x:Name="forPopup" Text="{Binding setter.s_orderNum}" Margin="4,4,0,4"/>
+                </DockPanel>
+
+                <DockPanel Grid.Row="2" Grid.ColumnSpan="2">
+                    <TextBlock Text="Список изделий" Margin="0,8,0,0" DockPanel.Dock="Top" FontSize="16" 
+                               TextAlignment="Center" Width="260"/>
                     <StackPanel DockPanel.Dock="Left" Margin="4,8">
                         <Button Command="{Binding AddProdCommand}" Style="{StaticResource ButtonStyleShadow}">
                             <fa:ImageAwesome Icon="Solid_Plus" Width="16" Height="16"/>

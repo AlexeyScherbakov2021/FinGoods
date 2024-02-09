@@ -97,5 +97,42 @@ namespace FinGoods.Repository
 
         }
 
+        public List<OrderFP> GetListInvoice()
+        {
+            List<OrderFP> listContract = new List<OrderFP>();
+
+            try
+            {
+                conn.Open();
+                SqlCommand cmd = conn.CreateCommand();
+                cmd.CommandText = "SELECT doc_name,cli.cli_name,PactNo FROM Contracts c " +
+                   "left join Clients cli on cli.cli_code=c.cli_code " +
+                   "where doc_end is null and doc_del is null " +
+                   "and ContractSign not like '%ПЛ%' and doc_name not like '%ИН%' " +
+                   "and SUBSTRING(ContractSign,3, 1) = '-' and PactNo is not null";
+                SqlDataReader read = cmd.ExecuteReader();
+
+                while (read.Read())
+                {
+                    OrderFP order = new OrderFP();
+                    order.doc_name = read.GetString(0);
+                    order.cli_name = read.IsDBNull(1) ? "" : read.GetString(1);
+                    order.PactNo = read.IsDBNull(2) ? "" : read.GetString(2);
+                    listContract.Add(order);
+                }
+                return listContract;
+            }
+
+            catch
+            {
+                return null;
+            }
+
+            finally
+            {
+                conn.Close();
+            }
+
+        }
     }
 }

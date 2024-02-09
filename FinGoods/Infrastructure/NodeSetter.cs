@@ -16,12 +16,13 @@ namespace FinGoods.Infrastructure
             Number = Num;
             Item = setter;
             isRoot = setter.idShipment != null;
+            Children = new ObservableCollection<Node>();
         }
         //public string Name { get; set; }
         //public string Number { get; set; }
         //public object Item { get; set; }
 
         //public bool isRoot { get; set; }
-        public ObservableCollection<Node> Children { get ; set; } = new ObservableCollection<Node>();
+        //public ObservableCollection<Node> Children { get ; set; } = new ObservableCollection<Node>();
     }
 }

@@ -25,6 +25,23 @@
             <Setter Property="Foreground" Value="Blue"/>
         </Style>
 
+        <Style x:Key="LibraryTreeViewItemStyle"
+               TargetType="{x:Type TreeViewItem}">
+            <Setter Property="IsExpanded"
+                        Value="{Binding IsExpanded, Mode=TwoWay}" />
+            <Setter Property="IsSelected"
+                        Value="{Binding IsSelected, Mode=TwoWay}" />
+            <Setter Property="FontWeight"
+                        Value="Normal" />
+            <Style.Triggers>
+                <Trigger Property="IsSelected"
+                              Value="True">
+                    <Setter Property="FontWeight"
+                                    Value="Bold" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
     </Window.Resources>
     
 
@@ -49,7 +66,7 @@
                     <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
-                    <RowDefinition/>
+                    <RowDefinition Height="0"/>
                     <RowDefinition Height="9*"/>
                 </Grid.RowDefinitions>
                 <Grid.Resources>
@@ -64,8 +81,7 @@
                     </Style>
                 </Grid.Resources>
 
-                <TextBlock Text="Счет, карта заказа" Margin="6,0"/>
-                <!--IsOpen="{Binding IsChecked, ElementName=toggle}"-->
+                <TextBlock Text="Счет" Margin="6,0"/>
                 <DockPanel  Grid.Column="1">
                     <ToggleButton Content="..." x:Name="toggle"  DockPanel.Dock="Right" Width="38" 
                                   Margin="0,4,12,4" ToolTip="Выбрать из списка ФП"/>
@@ -76,7 +92,7 @@
                             <local:ContractsUC x:Name="contract" Width="600" Height="400" PreviewMouseDoubleClick="ContractsUC_PreviewMouseDoubleClick" />
                         </Border>
                     </Popup>
-                    <TextBox x:Name="forPopup" Text="{Binding Ship.c_number}" Margin="4,4,0,4"/>
+                    <TextBox x:Name="forPopup" Text="{Binding Ship.c_schet}" Margin="4,4,0,4"/>
                 </DockPanel>
 
                 <TextBlock Text="Дата отрузки" Grid.Row="1" Margin="6,0"/>
@@ -89,13 +105,13 @@
                 <TextBlock Text="Объект установки" Grid.Row="3" Margin="6,0"/>
                 <TextBox Text="{Binding Ship.c_objectInstall}" Grid.Row="3" Grid.Column="1" />
 
-                <TextBlock Text="Счет" Grid.Row="4" Margin="6,0"/>
-                <TextBox Text="{Binding Ship.c_schet}" Grid.Row="4" Grid.Column="1" />
+                <!--<TextBlock Text="Счет" Grid.Row="4" Margin="6,0"/>
+                <TextBox Text="{Binding Ship.c_schet}" Grid.Row="4" Grid.Column="1" />-->
 
                 <GroupBox Header="Состав отгрузки" Grid.Row="5" Grid.ColumnSpan="2" Margin="0,8,0,0" Padding="4"
                           BorderThickness="1" BorderBrush="Gray">
                     <DockPanel >
-                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,4,0,8">
                             <StackPanel.Resources>
                                 <Style TargetType="Button" BasedOn="{StaticResource ButtonStyleShadow}">
                                     <Setter Property="Margin" Value="0"/>
@@ -113,8 +129,17 @@
                             <Button ToolTip="Удалить" Command="{Binding DeleteCommand}">
                                 <fa:ImageAwesome Icon="Solid_Times"/>
                             </Button>
+                            <TextBlock Text="Поиск по номеру" Margin="20,0,0,0"/>
+                            <TextBox Text="{Binding SearchNumber,UpdateSourceTrigger=PropertyChanged}" Width="200" AcceptsReturn="True" Margin="4,0,0,0" VerticalContentAlignment="Center">
+                                <TextBox.InputBindings>
+                                    <KeyBinding Key="Enter" Command="{Binding SearchCommand}"/>
+                                </TextBox.InputBindings>
+                            </TextBox>
+                            <Button ToolTip="Поиск (Enter)" Command="{Binding SearchCommand}" Margin="0">
+                                <fa:ImageAwesome Icon="Solid_Search"/>
+                            </Button>
                         </StackPanel>
-                        <TreeView ItemsSource="{Binding listComposite}">
+                        <TreeView ItemsSource="{Binding listComposite}" ItemContainerStyle="{StaticResource LibraryTreeViewItemStyle}">
                             <TreeView.InputBindings>
                                 <MouseBinding Gesture="LeftDoubleClick" Command="{Binding DblClickCommand}"/>
                             </TreeView.InputBindings>

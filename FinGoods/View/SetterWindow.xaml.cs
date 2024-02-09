@@ -1,5 +1,7 @@
-﻿using System;
+﻿using FinGoods.ViewModels;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +24,16 @@ namespace FinGoods.View
         public SetterWindow()
         {
             InitializeComponent();
+        }
+
+        private void contract_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            SetterWindowVM vm = (DataContext as SetterWindowVM);
+            ContractsUCVM vmContr = contract.DataContext as ContractsUCVM;
+            e.Source = vmContr.selectContract;
+            vm.SelectContractCommand.Execute(e);
+            popup.IsOpen = false;
+
         }
     }
 }

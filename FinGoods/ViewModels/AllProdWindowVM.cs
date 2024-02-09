@@ -142,6 +142,32 @@ namespace FinGoods.ViewModels
             win.DialogResult = true;
         }
 
+        //--------------------------------------------------------------------------------
+        // Команда Где используется
+        //--------------------------------------------------------------------------------
+        public ICommand InContentCommand => new LambdaCommand(OnInContentCommandExecuted, CanInContentCommand);
+        private bool CanInContentCommand(object p) => 
+            selectedProduct?.SetterOut != null 
+            || selectedProduct?.Shipment != null;
+        private void OnInContentCommandExecuted(object p)
+        {
+            if(selectedProduct?.SetterOut != null)
+            {
+                SetterWindow win = new SetterWindow();
+                SetterWindowVM vm = new SetterWindowVM(selectedProduct.SetterOut);
+                win.DataContext = vm;
+                win.ShowDialog();
+            }
+
+            if(selectedProduct?.Shipment != null)
+            {
+                ShipWindow win = new ShipWindow();
+                ShipWindowVM vm = new ShipWindowVM(selectedProduct.Shipment);
+                win.DataContext = vm;
+                win.ShowDialog();
+            }
+        }
+
         #endregion
 
     }
