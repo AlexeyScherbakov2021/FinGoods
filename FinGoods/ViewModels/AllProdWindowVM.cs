@@ -58,7 +58,9 @@ namespace FinGoods.ViewModels
 
 
 
-        public Product selectedProduct { get; set; }
+        private Product _selectedProduct;
+        public Product selectedProduct { get => _selectedProduct; set { Set(ref _selectedProduct, value); } }
+
         public Visibility isVisible { get; set; } = Visibility.Collapsed;
 
         RepositoryMSSQL<Product> repo = new RepositoryMSSQL<Product>();
@@ -87,15 +89,23 @@ namespace FinGoods.ViewModels
         private bool CanAddProdCommand(object p) => true;
         private void OnAddProdCommandExecuted(object p)
         {
-            Product newMod = new Product();
+            bool res = true;
+
+            Product newProd = new Product();
             ProdWindow win = new ProdWindow();
-            ProdWindowVM vm = new ProdWindowVM(newMod);
+            ProdWindowVM vm = new ProdWindowVM(newProd);
             win.DataContext = vm;
             if (win.ShowDialog() == true)
             {
                 //RepositoryMSSQL<Module> repo = new RepositoryMSSQL<Module>();
-                repo.Add(newMod, true);
-                listProduct.Add(newMod);
+                if(newProd.id == 0 )
+                    res = repo.Add(newProd, true);
+
+                if (res)
+                {
+                    listProduct.Add(newProd);
+                    selectedProduct = newProd;
+                }
             }
         }
 

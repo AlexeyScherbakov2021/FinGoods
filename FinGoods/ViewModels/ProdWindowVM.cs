@@ -50,6 +50,7 @@ namespace FinGoods.ViewModels
             {
                 product.Modules.Add(vm.selectedModule);
                 vm.selectedModule.Product = product;
+//                if(product.id > 0)
                 repoModul.Save();
             }
         }

@@ -6,6 +6,8 @@
         xmlns:vm="clr-namespace:FinGoods.ViewModels"
         xmlns:cmd="clr-namespace:FinGoods.Commands"
         xmlns:fa="http://schemas.fontawesome.com/icons/"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:inf="clr-namespace:FinGoods.Infrastructure"
         xmlns:local="clr-namespace:FinGoods.View"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
@@ -69,6 +71,9 @@
 
         <DataGrid x:Name="dg" ItemsSource="{Binding listSetterView}" SelectedItem="{Binding selectedSetter}" Margin="4"
                       Style="{StaticResource DataGridStyle}" AutoGenerateColumns="False" IsReadOnly="True">
+            <i:Interaction.Behaviors>
+                <inf:ScrollIntoViewBehavior/>
+            </i:Interaction.Behaviors>
             <DataGrid.ColumnHeaderStyle>
                 <Style TargetType="DataGridColumnHeader">
                     <Setter Property="FontWeight" Value="Bold"/>

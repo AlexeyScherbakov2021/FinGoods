@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace FinGoods.Repository
 {
@@ -32,14 +33,23 @@ namespace FinGoods.Repository
         }
 
 
-        public T Add(T item, bool Autosave = false)
+        public bool Add(T item, bool Autosave = false)
         {
             if (item is null) throw new ArgumentNullException(nameof(item));
-            _Set.Add(item);
 
-            if (Autosave)
-                Save();
-            return item;
+            try
+            {
+                _Set.Add(item);
+
+                if (Autosave)
+                    Save();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Произошла ошибка записи в базу данных", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+            return true;
         }
 
         public void Delete(int id, bool Autosave = false)

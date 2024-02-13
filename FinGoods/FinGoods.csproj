@@ -86,6 +86,7 @@
     <Compile Include="Infrastructure\NodeModul.cs" />
     <Compile Include="Infrastructure\NodeProd.cs" />
     <Compile Include="Infrastructure\NodeSetter.cs" />
+    <Compile Include="Infrastructure\ScrollIntoViewBehavior.cs" />
     <Compile Include="Infrastructure\TextEditor.xaml.cs">
       <DependentUpon>TextEditor.xaml</DependentUpon>
     </Compile>

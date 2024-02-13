@@ -17,6 +17,7 @@ namespace FinGoods.ViewModels
 {
     internal class AllModulesWindowVM : Observable
     {
+        private bool IsFromProd = false;
         private ObservableCollection<Module> _listModules;
         public ObservableCollection<Module> listModules 
         { 
@@ -33,7 +34,9 @@ namespace FinGoods.ViewModels
         CollectionViewSource _listModulesViewSource = new CollectionViewSource();
         public ICollectionView listModuleView => _listModulesViewSource?.View;
 
-        public Module selectedModule { get; set; }
+        private Module _selectedModule;
+        public Module selectedModule { get => _selectedModule; set { Set(ref _selectedModule, value); } }
+
         public Visibility isVisible { get; set; }  = Visibility.Collapsed;
 
         RepositoryMSSQL<Module> repo = new RepositoryMSSQL<Module>();
@@ -69,6 +72,7 @@ namespace FinGoods.ViewModels
 
         public AllModulesWindowVM(bool prod) 
         {
+            IsFromProd = prod;
             listModules = new ObservableCollection<Module>(repo.Items
                 .Where(it => it.idProduct == null && it.idShipment == null));
             isVisible = Visibility.Visible;
@@ -90,8 +94,11 @@ namespace FinGoods.ViewModels
             if (win.ShowDialog() == true)
             {
                 //RepositoryMSSQL<Module> repo = new RepositoryMSSQL<Module>();
-                repo.Add(newMod, true);
-                listModules.Add(newMod);
+                if (repo.Add(newMod, true))
+                {
+                    listModules.Add(newMod);
+                    selectedModule = newMod;
+                }
             }
         }
 

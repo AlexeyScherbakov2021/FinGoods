@@ -8,6 +8,7 @@
         xmlns:cmd="clr-namespace:FinGoods.Commands"
         xmlns:fa="http://schemas.fontawesome.com/icons/"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:inf="clr-namespace:FinGoods.Infrastructure"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Name="mainWindow" Style="{StaticResource WindowStyle}"
         Title="{Binding Title}" Height="850" Width="1300">
@@ -101,7 +102,10 @@
 
         <DataGrid ItemsSource="{Binding listShipView}" SelectedItem="{Binding SelectShip}" Margin="6"
                       Style="{StaticResource DataGridStyle}" AutoGenerateColumns="False" IsReadOnly="True">
-                <DataGrid.ColumnHeaderStyle>
+            <i:Interaction.Behaviors>
+                <inf:ScrollIntoViewBehavior/>
+            </i:Interaction.Behaviors>
+            <DataGrid.ColumnHeaderStyle>
                     <Style TargetType="DataGridColumnHeader">
                         <Setter Property="FontWeight" Value="Bold"/>
                     </Style>
@@ -110,7 +114,7 @@
                     <MouseBinding Gesture="LeftDoubleClick" Command="{Binding DataContext.EditShipCommand, ElementName=mainWindow}"/>
                 </DataGrid.InputBindings>
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Номер" Binding="{Binding c_number}"/>
+                    <DataGridTextColumn Header="Счет" Binding="{Binding c_schet}"/>
                     <DataGridTextColumn Header="Заказчик" Binding="{Binding c_customer}"/>
                     <DataGridTextColumn Header="Дата отгрузки" Binding="{Binding c_dateOut, StringFormat=dd.MM.yyyy}"/>
                     <DataGridTextColumn Header="Объект установки" Binding="{Binding c_objectInstall}" Width="*"/>

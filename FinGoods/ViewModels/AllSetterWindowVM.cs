@@ -57,7 +57,9 @@ namespace FinGoods.ViewModels
         }
 
 
-        public SetterOut selectedSetter { get; set; }
+        private SetterOut _selectedSetter;
+        public SetterOut selectedSetter { get=> _selectedSetter; set { Set(ref _selectedSetter, value); } }
+
         public Visibility isVisible { get; set; } = Visibility.Collapsed;
 
         RepositoryMSSQL<SetterOut> repo = new RepositoryMSSQL<SetterOut>();
@@ -94,9 +96,16 @@ namespace FinGoods.ViewModels
             win.DataContext = vm;
             if (win.ShowDialog() == true)
             {
+                bool res = true;
                 //RepositoryMSSQL<Module> repo = new RepositoryMSSQL<Module>();
-                repo.Add(newSet, true);
-                listSetter.Add(newSet);
+                if (newSet.id == 0)
+                    res = repo.Add(newSet, true);
+
+                if (res)
+                {
+                    listSetter.Add(newSet);
+                    selectedSetter = newSet;
+                }
             }
         }
 

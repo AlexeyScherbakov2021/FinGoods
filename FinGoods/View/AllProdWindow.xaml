@@ -7,6 +7,8 @@
         xmlns:vm="clr-namespace:FinGoods.ViewModels"
         xmlns:cmd="clr-namespace:FinGoods.Commands"
         xmlns:fa="http://schemas.fontawesome.com/icons/"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:inf="clr-namespace:FinGoods.Infrastructure"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Style="{StaticResource WindowStyle}"
@@ -75,6 +77,9 @@
                     <Setter Property="FontWeight" Value="Bold"/>
                 </Style>
             </DataGrid.ColumnHeaderStyle>
+            <i:Interaction.Behaviors>
+                <inf:ScrollIntoViewBehavior/>
+            </i:Interaction.Behaviors>
             <DataGrid.InputBindings>
                 <MouseBinding Gesture="LeftDoubleClick" Command="{Binding DataContext.EditProdCommand, ElementName=dg}"/>
             </DataGrid.InputBindings>

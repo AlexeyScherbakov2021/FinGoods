@@ -62,7 +62,8 @@ namespace FinGoods.ViewModels
 
 
 
-        public Shipment SelectShip { get; set; }
+        private Shipment _SelectShip;
+        public Shipment SelectShip { get => _SelectShip; set { Set(ref _SelectShip, value); } }
 
         public MainWindowViewModel()
         {
@@ -94,8 +95,12 @@ namespace FinGoods.ViewModels
 
             if(win.ShowDialog() == true)
             {
-                listShip.Add(Ship);
-                repoShip.Save();
+                if (repoShip.Add(Ship))
+                {
+                    listShip.Add(Ship);
+                    repoShip.Save();
+                    SelectShip = Ship;
+                }
             }
 
         }
