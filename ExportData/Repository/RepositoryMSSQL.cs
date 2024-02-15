@@ -1,4 +1,4 @@
-﻿using FinGoods.Models;
+﻿using ExportData.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace FinGoods.Repository
+namespace ExportData.Repository
 {
     internal class RepositoryMSSQL<T> where T : class, IEntity, new()
     {
@@ -32,6 +32,13 @@ namespace FinGoods.Repository
             BaseFG.SaveChanges();
         }
 
+        //public void Attach(T item)
+        //{
+        //    if (item is null) throw new ArgumentNullException(nameof(item));
+
+        //    _Set.Attach(item);
+        //}
+
 
         public bool Add(T item, bool Autosave = false)
         {
@@ -46,7 +53,7 @@ namespace FinGoods.Repository
             }
             catch 
             {
-                MessageBox.Show("Произошла ошибка записи в базу данных", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                //MessageBox.Show("Произошла ошибка записи в базу данных", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
             return true;
