@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace ExportData.Common
@@ -23,57 +24,115 @@ namespace ExportData.Common
 
         public override void GetElements(string lines)
         {
-            Step step = Step.None;
-            string nameKIP = "";
-            RepositoryMSSQL<ProductType> repoType = new RepositoryMSSQL<ProductType>();
-            StringList sl = new StringList(lines.Split(new char[] { '\n' }));
-
+            string nameBSZ = "";
             List<Product> listProd = new List<Product>();
-            Product prod = new Product();
+            Product prod;
+            int nextIndex;
 
-            foreach (var item in sl)
+            Regex regKIP = new Regex(@"БСЗ[\w()-|\s]+");
+            Regex regNum = new Regex(@"[.|\d]+");
+
+            // находим БСЗ
+            Match resBSZ = regKIP.Match(lines);
+            int index = resBSZ.Index + resBSZ.Length;
+            nameBSZ = resBSZ.Value.Trim();
+
+            do
             {
-                switch (step)
+                // поиск следующего БСЗ
+                resBSZ = regKIP.Match(lines, index);
+                nextIndex = int.MaxValue;
+                if (resBSZ.Success)
+                    nextIndex = resBSZ.Index;
+
+                while (index < nextIndex)
                 {
-                    case Step.None:
-                        step = Step.Name;
-                        prod.g_name = item;
-                        nameKIP = item;
+                    // поиск номера
+                    Match resNum = regNum.Match(lines, index);
+                    if (!resNum.Success || (resNum.Success && resNum.Index > nextIndex))
                         break;
 
-                    case Step.Name:
-                    case Step.Number:
-                        StringList slNumber = new StringList(item.Split(new char[] { ' ' }));
-                        if (slNumber[0] == "№")
+                    prod = new Product();
+                    prod.g_name = nameBSZ;
+                    prod.g_number = resNum.Value.Trim();
+                    if(listProd.Count > 0)
+                    {
+                        // добавление промежуточных номеров из диапазона
+                        int defis = lines.IndexOf("-", index, resNum.Index - index);
+                        if(defis >= 0)
                         {
-                            prod.g_number = slNumber[1];
-                            step = Step.Number;
-
-                            if (slNumber.Count > 2)
+                            long startNum = long.Parse(listProd.Last().g_number) + 1;
+                            long endNum = long.Parse(prod.g_number);
+                            if (endNum - startNum > 20)
+                                throw new Exception($"Добавлени БСЗ. Номеров более 20. {startNum} - {endNum}");
+                            while (startNum < endNum)
                             {
-                                if (slNumber[2] == "БИ")
-                                    prod.g_numberBI = slNumber[4];
+                                Product prod2 = new Product();
+                                prod2.g_name = nameBSZ;
+                                prod2.g_number = startNum.ToString();
+                                listProd.Add(prod2);
+                                startNum++;
                             }
-
-                            if (slNumber.Count > 5)
-                                throw new Exception("Кип имеет более 2 полей.");
-
-                            listProd.Add(prod);
-                            step = Step.Name;
-                            prod = new Product();
-                            prod.g_name = nameKIP;
-                            break;
-
                         }
-                        else
-                        {
-                            step = Step.Name;
-                            prod.g_name = item;
-                            break;
-                        }
+                    }
 
+                    index = resNum.Index + resNum.Length;
+                    listProd.Add(prod);
                 }
-            }
+                index = resBSZ.Index + resBSZ.Length;
+                nameBSZ = resBSZ.Value.Trim();
+            } while (nextIndex < int.MaxValue);
+
+            #region Удалить
+            //Step step = Step.None;
+            //RepositoryMSSQL<ProductType> repoType = new RepositoryMSSQL<ProductType>();
+            //StringList sl = new StringList(lines.Split(new char[] { '\n' }));
+
+
+            //foreach (var item in sl)
+            //{
+            //    switch (step)
+            //    {
+            //        case Step.None:
+            //            step = Step.Name;
+            //            prod.g_name = item;
+            //            nameBSZ = item;
+            //            break;
+
+            //        case Step.Name:
+            //        case Step.Number:
+            //            StringList slNumber = new StringList(item.Split(new char[] { ' ' }));
+            //            if (slNumber[0] == "№")
+            //            {
+            //                prod.g_number = slNumber[1];
+            //                step = Step.Number;
+
+            //                if (slNumber.Count > 2)
+            //                {
+            //                    if (slNumber[2] == "БИ")
+            //                        prod.g_numberBI = slNumber[4];
+            //                }
+
+            //                if (slNumber.Count > 5)
+            //                    throw new Exception("Кип имеет более 2 полей.");
+
+            //                listProd.Add(prod);
+            //                step = Step.Name;
+            //                prod = new Product();
+            //                prod.g_name = nameBSZ;
+            //                break;
+
+            //            }
+            //            else
+            //            {
+            //                step = Step.Name;
+            //                prod.g_name = item;
+            //                break;
+            //            }
+
+            //    }
+            //}
+            #endregion
 
             foreach (var it in listProd)
             {
@@ -90,7 +149,7 @@ namespace ExportData.Common
                     it.g_akb = false;
                     it.g_cooler = false;
                     it.g_skm = false;
-                    prod.SetterOut.Product.Add(it);
+                    product.SetterOut.Product.Add(it);
                 }
             }
 

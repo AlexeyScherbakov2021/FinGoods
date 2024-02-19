@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using static ClosedXML.Excel.XLPredefinedFormat;
@@ -22,18 +23,37 @@ namespace ExportData
 
         static void Main(string[] args)
         {
+            //string line = "9623103764; 96221203888 (26.4)    " +
+            //    "G3 31.08.2022\r\nшунт 100А 75мВ\r\nАКБ 12.2022";
+
+            ////Regex reg = new Regex(@"НГК-КИП-[^\s]+\s[^\s]+\s");
+            //Regex reg = new Regex(@"НГК-КИП-[\w()-|\s]+№");
+            //Regex redNum = new Regex(@"\s№\s[.|\d]+");
+            //Regex redBI = new Regex(@"\d{8,}");
+            //Regex redSh = new Regex(@".\s");
+
+            //var res = reg.Matches(line);
+            //var res1 = redNum.Matches(line);
+            //var res2 = redBI.Matches(line);
+            //var res4 = redSh.Match(line, res2.Index + res2.Length);
+
+            //var res3 = redUS.Matches(line);
+
+
             RepositoryMSSQL<Product> repoProd = new RepositoryMSSQL<Product>();
             RepositoryMSSQL<SetterOut> repoSet = new RepositoryMSSQL<SetterOut>();
             RepositoryMSSQL<Shipment> repoShip = new RepositoryMSSQL<Shipment>();
             RepositoryMSSQL<Modules> repoModel = new RepositoryMSSQL<Modules>();
 
-            using (XLWorkbook wb = new XLWorkbook("d:\\Work\\C#\\2022\\FinGoods\\Doc\\Журнал 2024.xlsx"))
+            using (XLWorkbook wb = new XLWorkbook("d:\\Work\\C#\\2022\\FinGoods\\Doc\\Журнал 2023.xlsx"))
             {
                 int row = 3;
                 var sheet = wb.Worksheets.Worksheet(1);
 
                 for (; ; row++)
                 {
+                    Console.WriteLine($"Обработка строки {row}.");
+
                     string Number = sheet.Cell(row, 2).GetString().Trim();
 
                     if (string.IsNullOrEmpty(Number))
@@ -100,21 +120,22 @@ namespace ExportData
 
                     // БСЗ
                     s = sheet.Cell(row, 13).GetString();
-                    ParseKIP parseBSZ = new ParseKIP(prod);
+                    ParseBSZ parseBSZ = new ParseBSZ(prod);
                     parseBSZ.GetElements(s);
 
+
                     // добавление модулей
+                    // БП
+                    s = sheet.Cell(row, 11).GetString();
+                    ParseModBP parseModBP = new ParseModBP(prod);
+                    parseModBP.GetElements(s);
 
                     // БУ
                     s = sheet.Cell(row, 10).GetString();
                     ParseModBU parseModBU = new ParseModBU(prod);
                     parseModBU.GetElements(s);
 
-                    // БП
-                    s = sheet.Cell(row, 11).GetString();
-                    ParseModBP parseModBP = new ParseModBP(prod);
-                    parseModBP.GetElements(s);
-
+                    continue;
 
                     //  КССМ
 
