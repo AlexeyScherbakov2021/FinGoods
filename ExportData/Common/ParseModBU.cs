@@ -14,7 +14,7 @@ namespace ExportData.Common
     {
         private readonly Product product;
         private readonly RepositoryMSSQL<Modules> repoModel = new RepositoryMSSQL<Modules>();
-        private Step step = Step.None;
+        //private Step step = Step.None;
 
         public ParseModBU(Product prod)
         {
@@ -83,11 +83,13 @@ namespace ExportData.Common
                     modNew.m_modTypeId = 67;
                     repoModel.Add(modNew);
                     product.Modules.Add(modNew);
+                    product.g_shunt = shunt;
                 }
                 else
                 {
                     module.m_numberFW = numberFW;
                     product.Modules.Add(module);
+                    product.g_shunt = shunt;
                 }
 
 
@@ -149,21 +151,21 @@ namespace ExportData.Common
             //foreach (var item in modules)
             //    item.m_numberFW = numberFW;
 
-            foreach (var it in modules)
-            {
-                module = repoModel.Items.FirstOrDefault(p => p.m_number == it.m_number);
-                if (module == null)
-                {
-                    it.m_modTypeId = 67;
-                    repoModel.Add(it);
-                    product.Modules.Add(it);
-                }
-                else
-                {
-                    module.m_numberFW = numberFW;
-                    product.Modules.Add(module);
-                }
-            }
+            //foreach (var it in modules)
+            //{
+            //    module = repoModel.Items.FirstOrDefault(p => p.m_number == it.m_number);
+            //    if (module == null)
+            //    {
+            //        it.m_modTypeId = 67;
+            //        repoModel.Add(it);
+            //        product.Modules.Add(it);
+            //    }
+            //    else
+            //    {
+            //        module.m_numberFW = numberFW;
+            //        product.Modules.Add(module);
+            //    }
+            //}
         }
     }
 }

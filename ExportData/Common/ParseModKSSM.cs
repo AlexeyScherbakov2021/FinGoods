@@ -1,10 +1,12 @@
-﻿using ExportData.Models;
+﻿using DocumentFormat.OpenXml.Drawing.Charts;
+using ExportData.Models;
 using ExportData.Repository;
 using Irony;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace ExportData.Common
@@ -22,52 +24,48 @@ namespace ExportData.Common
         public override void GetElements(string lines)
         {
             List<Modules> modules = new List<Modules>();
-
-            StringList sl = new StringList(lines.Split(new char[] { '\n' }));
-            Modules mod = new Modules();
+            Modules module;
+            int index = 0;
+            int indexZIP = lines.Length;
             string numberFW = "";
 
-            foreach (var item in sl)
+            Regex regZIP = new Regex(@"ЗИП", RegexOptions.IgnoreCase);
+            Regex regNum = new Regex(@"\d{8,}");
+
+            Match resZIP = regZIP.Match(lines);
+            if (resZIP.Success)
+                indexZIP = resZIP.Index ;
+
+            var resNumber = regNum.Matches(lines);
+
+            if (resNumber.Count == 0)
+                return;
+
+            foreach (Match it in resNumber)
             {
-                StringList sl2 = new StringList(item.Split(new char[] { ';', ' ', '.' }));
-
-                for (int i = 0; i < sl2.Count; i++)
-                {
-                    if (string.IsNullOrEmpty(sl2[i]))
-                        continue;
-
-                    if (sl2[i].All(it => it <= '9' && it >= '0'))
-                    {
-                        mod.m_number = sl2[i];
-                        modules.Add(mod);
-                        mod = new Modules();
-                    }
-
-                    else 
-                    {
-                        numberFW = item;
-                        break;
-                    }
-
-                }
+                if (it.Index > indexZIP)
+                    break;
+                index = it.Index + it.Length;
             }
 
-            foreach (var item in modules)
-                item.m_numberFW = numberFW;
+            numberFW = lines.Substring(index, indexZIP - index).Trim();
 
-            foreach (var it in modules)
+            foreach (Match item in resNumber)
             {
-                mod = repoModel.Items.FirstOrDefault(p => p.m_number == it.m_number);
-                if (mod == null)
+                module = repoModel.Items.FirstOrDefault(p => p.m_number == item.Value);
+                if (module == null)
                 {
-                    it.m_modTypeId = 71;
-                    repoModel.Add(it);
-                    product.Modules.Add(it);
+                    Modules modNew = new Modules();
+                    modNew.m_number = item.Value;
+                    modNew.m_numberFW = numberFW;
+                    modNew.m_modTypeId = 71;
+                    repoModel.Add(modNew);
+                    product.Modules.Add(modNew);
                 }
                 else
                 {
-                    mod.m_numberFW = numberFW;
-                    product.Modules.Add(mod);
+                    module.m_numberFW = numberFW;
+                    product.Modules.Add(module);
                 }
             }
         }

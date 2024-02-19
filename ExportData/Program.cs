@@ -135,13 +135,13 @@ namespace ExportData
                     ParseModBU parseModBU = new ParseModBU(prod);
                     parseModBU.GetElements(s);
 
-                    continue;
-
                     //  КССМ
 
                     s = sheet.Cell(row, 14).GetString();
                     ParseModKSSM parseModKSSM = new ParseModKSSM(prod);
                     parseModKSSM.GetElements(s);
+
+                    continue;
 
                     // счетчики
 
