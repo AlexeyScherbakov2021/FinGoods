@@ -45,7 +45,7 @@ namespace ExportData
             RepositoryMSSQL<Shipment> repoShip = new RepositoryMSSQL<Shipment>();
             RepositoryMSSQL<Modules> repoModel = new RepositoryMSSQL<Modules>();
 
-            using (XLWorkbook wb = new XLWorkbook("d:\\Work\\C#\\2022\\FinGoods\\Doc\\Журнал 2023.xlsx"))
+            using (XLWorkbook wb = new XLWorkbook("d:\\Work\\C#\\2022\\FinGoods\\Doc\\Журнал 2024.xlsx"))
             {
                 int row = 3;
                 var sheet = wb.Worksheets.Worksheet(1);
@@ -95,7 +95,8 @@ namespace ExportData
                         //repoSet.Add(prod.SetterOut);
                     }
 
-                    prod.SetterOut.s_orderNum = sheet.Cell(row, 9).GetString().Trim().Replace("\n", " ");
+                    prod.SetterOut.s_orderNum = sheet.Cell(row, 9).GetString().Trim();//.Replace("\n", " ");
+                    prod.SetterOut.s_orderNum = Regex.Replace(prod.SetterOut.s_orderNum, @"[\t\n\r\ ]{1,}", " ");
 
                     // обработка отгрузки
 
@@ -141,13 +142,13 @@ namespace ExportData
                     ParseModKSSM parseModKSSM = new ParseModKSSM(prod);
                     parseModKSSM.GetElements(s);
 
-                    continue;
-
                     // счетчики
 
                     s = sheet.Cell(row, 7).GetString();
                     ParseModCounter parseModCounter = new ParseModCounter(prod);
                     parseModCounter.GetElements(s);
+
+                    //continue;
 
                     //Modules mod = new Modules();
                     //mod.m_number = sheet.Cell(row, 18).GetString().Trim();

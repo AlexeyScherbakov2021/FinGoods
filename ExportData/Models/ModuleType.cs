@@ -7,7 +7,7 @@ namespace ExportData.Models
     using System.Data.Entity.Spatial;
 
     [Table("ModuleType")]
-    public partial class ModuleType
+    public partial class ModuleType : IEntity
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public ModuleType()

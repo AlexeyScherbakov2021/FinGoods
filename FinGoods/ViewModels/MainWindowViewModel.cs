@@ -39,6 +39,9 @@ namespace FinGoods.ViewModels
         CollectionViewSource _listShipViewSource = new CollectionViewSource();
         public ICollectionView listShipView => _listShipViewSource?.View;
 
+        public string FindNumber { get;set; }
+
+
         private string _Filtr;
         public string Filtr
         {
@@ -207,6 +210,41 @@ namespace FinGoods.ViewModels
             win.ShowDialog();
         }
 
+        //--------------------------------------------------------------------------------
+        // Команда Открыть окно наборов
+        //--------------------------------------------------------------------------------
+        public ICommand SearchNumberCommand => new LambdaCommand(OnSearchNumberCommandExecuted, CanSearchNumberCommand);
+        private bool CanSearchNumberCommand(object p) => !string.IsNullOrEmpty(FindNumber);
+        private void OnSearchNumberCommandExecuted(object p)
+        {
+            string number;
+            RepositoryMSSQL<Product> repoProd = new RepositoryMSSQL<Product>();
+            Product prod = repoProd.Items.FirstOrDefault(it => it.g_number == FindNumber);
+            if (prod == null)
+            {
+                RepositoryMSSQL<Module> repoModule = new RepositoryMSSQL<Module>();
+                Module mod = repoModule.Items.FirstOrDefault(it => it.m_number == FindNumber);
+                if (mod == null)
+                    return;
+
+                number = mod.m_number;
+                SelectShip = mod.Shipment != null
+                    ? mod.Shipment
+                    : mod.Product.Shipment == null
+                        ? mod.Product.SetterOut.Shipment
+                        : mod.Product.Shipment;
+            }
+            else
+            {
+                number = prod.g_number;
+                SelectShip = prod.Shipment == null ? prod.SetterOut.Shipment : prod.Shipment;
+            }
+            
+            ShipWindowVM vm = new ShipWindowVM(SelectShip, number);
+            ShipWindow win = new ShipWindow();
+            win.DataContext = vm;
+            win.ShowDialog();
+        }
         #endregion
 
     }

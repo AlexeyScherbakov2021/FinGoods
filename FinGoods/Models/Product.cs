@@ -43,6 +43,10 @@ namespace FinGoods.Models
         [StringLength(40)]
         public string g_numberUSIKP { get; set;}
 
+        [StringLength(40)]
+        public string g_shunt { get; set; }
+
+
         public DateTime? g_dateRegister { get; set; }
 
         public int g_generatedNumber { get; set; }

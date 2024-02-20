@@ -34,6 +34,10 @@ namespace ExportData.Common
 
             // находим БСЗ
             Match resBSZ = regKIP.Match(lines);
+            if (!resBSZ.Success)
+                return;
+
+
             int index = resBSZ.Index + resBSZ.Length;
             nameBSZ = resBSZ.Value.Trim();
 
@@ -83,74 +87,33 @@ namespace ExportData.Common
                 nameBSZ = resBSZ.Value.Trim();
             } while (nextIndex < int.MaxValue);
 
-            #region Удалить
-            //Step step = Step.None;
-            //RepositoryMSSQL<ProductType> repoType = new RepositoryMSSQL<ProductType>();
-            //StringList sl = new StringList(lines.Split(new char[] { '\n' }));
-
-
-            //foreach (var item in sl)
-            //{
-            //    switch (step)
-            //    {
-            //        case Step.None:
-            //            step = Step.Name;
-            //            prod.g_name = item;
-            //            nameBSZ = item;
-            //            break;
-
-            //        case Step.Name:
-            //        case Step.Number:
-            //            StringList slNumber = new StringList(item.Split(new char[] { ' ' }));
-            //            if (slNumber[0] == "№")
-            //            {
-            //                prod.g_number = slNumber[1];
-            //                step = Step.Number;
-
-            //                if (slNumber.Count > 2)
-            //                {
-            //                    if (slNumber[2] == "БИ")
-            //                        prod.g_numberBI = slNumber[4];
-            //                }
-
-            //                if (slNumber.Count > 5)
-            //                    throw new Exception("Кип имеет более 2 полей.");
-
-            //                listProd.Add(prod);
-            //                step = Step.Name;
-            //                prod = new Product();
-            //                prod.g_name = nameBSZ;
-            //                break;
-
-            //            }
-            //            else
-            //            {
-            //                step = Step.Name;
-            //                prod.g_name = item;
-            //                break;
-            //            }
-
-            //    }
-            //}
-            #endregion
-
             foreach (var it in listProd)
             {
                 Product prAdd = repoProd.Items.FirstOrDefault(p => p.g_number == it.g_number);
-                if (prAdd != null)
+                if (prAdd == null)
                 {
-                    prAdd.g_numberBI = it.g_numberBI;
+                    prAdd = new Product();
+                    prAdd.g_avr = false;
+                    prAdd.g_akb = false;
+                    prAdd.g_cooler = false;
+                    prAdd.g_skm = false;
+
+                }
+                //it.g_ProductTypeId = 1;
+                prAdd.g_number = it.g_number;
+                prAdd.g_numberBI = it.g_numberBI;
+
+                if (string.IsNullOrEmpty(nameBSZ))
                     prAdd.g_name = it.g_name;
-                }
-                else
+
+                if (prAdd.ProductType == null)
                 {
-                    it.g_ProductTypeId = 1;
-                    it.g_avr = false;
-                    it.g_akb = false;
-                    it.g_cooler = false;
-                    it.g_skm = false;
-                    product.SetterOut.Product.Add(it);
+                    RepositoryMSSQL<ProductType> repoTypeProd = new RepositoryMSSQL<ProductType>();
+                    prAdd.ProductType = repoTypeProd.Items.FirstOrDefault(item => item.id == 1);
                 }
+
+                if (!product.SetterOut.Product.Contains(prAdd))
+                    product.SetterOut.Product.Add(prAdd);
             }
 
         }

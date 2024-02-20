@@ -32,6 +32,12 @@ namespace FinGoods.ViewModels
         {
         }
 
+        public ShipWindowVM(Shipment co, string num) : this(co)
+        {
+            SearchNumber = num;
+            OnSearchCommandExecuted(null);
+        }
+
 
         private void addNodeSetter(SetterOut setter)
         {
@@ -51,6 +57,7 @@ namespace FinGoods.ViewModels
                     adding2.Children.Add(adding3);
                 }
             }
+            SelectedNode = adding;
         }
 
         private void addNodeProd(Product prod)
@@ -315,7 +322,8 @@ namespace FinGoods.ViewModels
             if (res != null)
             {
                 res.IsSelected = true;
-                
+                SelectedNode = res;
+
                 while(res.Parent != null)
                 {
                     res.Parent.IsExpanded = true;

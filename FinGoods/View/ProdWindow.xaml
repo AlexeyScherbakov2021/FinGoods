@@ -102,10 +102,13 @@
                 <TextBlock Text="номер УСИКП" Grid.Row="1" Grid.Column="2"/>
                 <TextBox Text="{Binding product.g_numberUSIKP}" Grid.Row="1" Grid.Column="3"/>
 
-                <CheckBox Content="Наличие АВР" IsChecked="{Binding product.g_avr}" Grid.Row="2" Grid.Column="3" VerticalAlignment="Center" Margin="10,0"/>
-                <CheckBox Content="Наличие АКБ БУ" IsChecked="{Binding product.g_akb}" Grid.Row="3" Grid.Column="3" VerticalAlignment="Center" Margin="10,0"/>
-                <CheckBox Content="Наличие СКМ" IsChecked="{Binding product.g_skm}" Grid.Row="4" Grid.Column="3" VerticalAlignment="Center" Margin="10,0"/>
-                <CheckBox Content="Наличие вентиляции" IsChecked="{Binding product.g_cooler}" Grid.Row="5" Grid.Column="3" VerticalAlignment="Center" Margin="10,0"/>
+                <TextBlock Text="Шунт" Grid.Row="2" Grid.Column="2"/>
+                <TextBox Text="{Binding product.g_shunt}" Grid.Row="2" Grid.Column="3"/>
+
+                <CheckBox Content="Наличие АВР" IsChecked="{Binding product.g_avr}" Grid.Row="3" Grid.Column="3" VerticalAlignment="Center" Margin="10,0"/>
+                <CheckBox Content="Наличие АКБ БУ" IsChecked="{Binding product.g_akb}" Grid.Row="4" Grid.Column="3" VerticalAlignment="Center" Margin="10,0"/>
+                <CheckBox Content="Наличие СКМ" IsChecked="{Binding product.g_skm}" Grid.Row="5" Grid.Column="3" VerticalAlignment="Center" Margin="10,0"/>
+                <CheckBox Content="Наличие вентиляции" IsChecked="{Binding product.g_cooler}" Grid.Row="6" Grid.Column="3" VerticalAlignment="Center" Margin="10,0"/>
 
                 <DockPanel Grid.Row="9" Grid.ColumnSpan="4">
                     <TextBlock Text="Сисок модулей" DockPanel.Dock="Top" Margin="0,8,0,0" FontWeight="Bold"/>

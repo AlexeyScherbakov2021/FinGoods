@@ -1,4 +1,5 @@
 ﻿using DocumentFormat.OpenXml.Drawing.Charts;
+using DocumentFormat.OpenXml.EMMA;
 using ExportData.Models;
 using ExportData.Repository;
 using Irony;
@@ -55,18 +56,23 @@ namespace ExportData.Common
                 module = repoModel.Items.FirstOrDefault(p => p.m_number == item.Value);
                 if (module == null)
                 {
-                    Modules modNew = new Modules();
-                    modNew.m_number = item.Value;
-                    modNew.m_numberFW = numberFW;
-                    modNew.m_modTypeId = 71;
-                    repoModel.Add(modNew);
-                    product.Modules.Add(modNew);
+                    module = new Modules();
+                    module.m_number = item.Value;
+                    //module.m_numberFW = numberFW;
+                    //modNew.m_modTypeId = 71;
+                    RepositoryMSSQL<ModuleType> repoTypeMod = new RepositoryMSSQL<ModuleType>();
+                    module.ModuleType = repoTypeMod.Items.FirstOrDefault(it => it.id == 71);
+
+                    repoModel.Add(module);
+                    //product.Modules.Add(module);
                 }
-                else
-                {
-                    module.m_numberFW = numberFW;
+
+                module.m_numberFW = numberFW;
+                if( string.IsNullOrEmpty(module.m_name))
+                    module.m_name = module.ModuleType.mt_name;
+
+                if(!product.Modules.Contains(module))
                     product.Modules.Add(module);
-                }
             }
         }
 

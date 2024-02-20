@@ -31,134 +31,158 @@ namespace ExportData.Common
             List<Product> listProd = new List<Product>();
             Product prod;
             int nextIndex;
+            string NumBI = "";
+            string NumUSIK = "";
 
             Regex regKIP = new Regex(@"НГК-КИП-[\w()-|\s]+");
-            Regex regNum = new Regex(@"[.|\d]+");
-            Regex regBI = new Regex(@"БИ\s№\s");
-            Regex regUS = new Regex(@"УС\s");
-            Regex regN = new Regex(@"№");
+            Regex regNum = new Regex(@"\d{8,}");
+            //Regex regNumSmall = new Regex(@"[.|\d]+");
+            //Regex regBI = new Regex(@"БИ\s№\s");
+            Regex regBI = new Regex(@"БИ\s№\s[\d.]+");
+            //Regex regUS = new Regex(@"УС\s");
+            Regex regUS = new Regex(@"УС\s\D+\d+");
+            //Regex regN = new Regex(@"№");
 
-            // находим КИП
-            Match resKIP = regKIP.Match(lines);
-            int index = resKIP.Index + resKIP.Length;
-            nameKIP = resKIP.Value.Trim();
+            var listKIP = regKIP.Matches(lines);
+            var listNum = regNum.Matches(lines);
 
-            do {
-                // поиск следующего КИП
-                resKIP = regKIP.Match(lines, index);
-                nextIndex = int.MaxValue;
-                if (resKIP.Success)
-                    nextIndex = resKIP.Index;
+            //nextIndex = listKIP.Count > 1 ? listKIP[1].Index : int.MaxValue;
+            //nameKIP = listKIP[0].Value;
 
-                while ((index +  1) < nextIndex)
+            int currNextKIP = 0;
+            nextIndex = -1;
+
+            for(int i = 0; i < listNum.Count; i++) 
+            //foreach (Match match in listNum)
+            {
+                if (listNum[i].Index > nextIndex)
                 {
-                    // поиск номера
-                    Match resNum = regNum.Match(lines, index);
-                    if (!resNum.Success || (resNum.Success && resNum.Index > nextIndex))
-                        break;
-
-                    prod = new Product();
-                    prod.g_name = nameKIP;
-                    prod.g_number = resNum.Value.Trim();
-                    index = resNum.Index + resNum.Length;
-
-                    // поиск БИ
-                    Match resBI = regBI.Match(lines, index);
-                    if (resBI.Success && resBI.Index < nextIndex)
-                    {
-                        resNum = regNum.Match(lines, resBI.Index);
-                        prod.g_numberBI = resNum.Value.Trim();
-                        index = resNum.Index + resNum.Length;
-                    }
-
-                    // поиск УС ИКП
-                    Match resUS = regUS.Match(lines, index);
-                    if (resUS.Success && resUS.Index < nextIndex)
-                    {
-                        resNum = regNum.Match(lines, resUS.Index);
-                        Match resN = regN.Match(lines, resUS.Index);
-                        if (resN.Index > resNum.Index)
-                        {
-                            prod.g_numberUSIKP = resNum.Value.Trim();
-                            index = resNum.Index + resNum.Length;
-                        }
-                    }
-
-                    listProd.Add(prod);
+                    nameKIP = listKIP[currNextKIP].Value.Trim();
+                    currNextKIP++;
+                    nextIndex = currNextKIP >= listKIP.Count 
+                        ? int.MaxValue 
+                        : listKIP[currNextKIP].Index;
                 }
-                index = resKIP.Index + resKIP.Length;
-                nameKIP = resKIP.Value.Trim();
-            } while (nextIndex < int.MaxValue);
 
-            #region Удалить
-            //Step step = Step.None;
-            //RepositoryMSSQL<ProductType> repoType = new RepositoryMSSQL<ProductType>();
-            //StringList sl = new StringList(lines.Split(new char[] { '\n' }));
+                int lenFind = i < listNum.Count - 1 
+                    ? listNum[i + 1].Index - listNum[i].Index 
+                    : lines.Length - listNum[i].Index;
+
+                Match resBI = regBI.Match(lines, listNum[i].Index, lenFind);
+                if(resBI.Success)
+                    NumBI = Regex.Replace(resBI.Value.Trim(), @"БИ\s№\s", "");
+                
+                Match resUSIK = regUS.Match(lines, listNum[i].Index, lenFind);
+                if (resUSIK.Success)
+                    NumUSIK = Regex.Replace(resUSIK.Value.Trim(), @"УС\s\D+", "");
+
+                string number = listNum[i].Value;
+                prod = repoProd.Items.FirstOrDefault(p => p.g_number == number);
+                if(prod == null)
+                {
+                    prod = new Product();
+                    RepositoryMSSQL<ProductType> repoTypeProd = new RepositoryMSSQL<ProductType>();
+                    prod.ProductType = repoTypeProd.Items.FirstOrDefault(item => item.id == 24);
+
+                    prod.g_number = number;
+                    prod.g_avr = false;
+                    prod.g_akb = false;
+                    prod.g_cooler = false;
+                    prod.g_skm = false;
+                }
+
+                prod.g_numberBI = NumBI;
+                prod.g_numberUSIKP = NumUSIK;
+
+                if (string.IsNullOrEmpty(prod.g_name))
+                    prod.g_name = prod.ProductType.gt_name;
+
+                if (!product.SetterOut.Product.Contains(prod))
+                    product.SetterOut.Product.Add(prod);
+
+            }
 
 
-            //foreach (var item in sl)
-            //{
-            //    switch (step)
+            //return;
+
+            //// находим КИП
+            //Match resKIP = regKIP.Match(lines);
+            //int index = resKIP.Index + resKIP.Length;
+            //nameKIP = resKIP.Value.Trim();
+
+            //do {
+            //    // поиск следующего КИП
+            //    resKIP = regKIP.Match(lines, index);
+            //    nextIndex = int.MaxValue;
+            //    if (resKIP.Success)
+            //        nextIndex = resKIP.Index;
+
+            //    while ((index +  1) < nextIndex)
             //    {
-            //        case Step.None:
-            //            step = Step.Name;
-            //            prod.g_name = item;
-            //            nameKIP = item;
+            //        // поиск номера
+            //        Match resNum = regNum.Match(lines, index);
+            //        if (!resNum.Success || (resNum.Success && resNum.Index > nextIndex))
             //            break;
 
-            //        case Step.Name:
-            //        case Step.Number:
-            //            StringList slNumber = new StringList(item.Split(new char[] { ' ' }));
-            //            if (slNumber[0] == "№")
+            //        prod = new Product();
+            //        prod.g_name = nameKIP;
+            //        prod.g_number = resNum.Value.Trim();
+            //        index = resNum.Index + resNum.Length;
+
+            //        // поиск БИ
+            //        Match resBI = regBI.Match(lines, index);
+            //        if (resBI.Success && resBI.Index < nextIndex)
+            //        {
+            //            resNum = regNumSmall.Match(lines, resBI.Index);
+            //            prod.g_numberBI = resNum.Value.Trim();
+            //            index = resNum.Index + resNum.Length;
+            //        }
+
+            //        // поиск УС ИКП
+            //        Match resUS = regUS.Match(lines, index);
+            //        if (resUS.Success && resUS.Index < nextIndex)
+            //        {
+            //            resNum = regNumSmall.Match(lines, resUS.Index);
+            //            Match resN = regN.Match(lines, resUS.Index);
+            //            if (resN.Index > resNum.Index)
             //            {
-            //                prod.g_number = slNumber[1];
-            //                step = Step.Number;
-
-            //                if (slNumber.Count > 2)
-            //                {
-            //                    if (slNumber[2] == "БИ")
-            //                        prod.g_numberBI = slNumber[4];
-            //                }
-
-            //                if (slNumber.Count > 5)
-            //                    throw new Exception("Кип имеет более 2 полей.");
-
-            //                listProd.Add(prod);
-            //                step = Step.Name;
-            //                prod = new Product();
-            //                prod.g_name = nameKIP;
-            //                break;
-
+            //                prod.g_numberUSIKP = resNum.Value.Trim();
+            //                index = resNum.Index + resNum.Length;
             //            }
-            //            else
-            //            {
-            //                step = Step.Name;
-            //                prod.g_name = item;
-            //                break;
-            //            }
+            //        }
 
+            //        listProd.Add(prod);
             //    }
-            //}
-            #endregion
+            //    index = resKIP.Index + resKIP.Length;
+            //    nameKIP = resKIP.Value.Trim();
+            //} while (nextIndex < int.MaxValue);
 
-            foreach (var it in listProd)
-            {
-                Product prAdd = repoProd.Items.FirstOrDefault(p => p.g_number == it.g_number);
-                if (prAdd != null)
-                {
-                    prAdd.g_numberBI = it.g_numberBI;
-                    prAdd.g_name = it.g_name;
-                }
-                else
-                {
-                    it.g_ProductTypeId = 18;
-                    it.g_avr = false;
-                    it.g_akb = false;
-                    it.g_cooler = false;
-                    it.g_skm = false;
-                    product.SetterOut.Product.Add(it);
-                }
-            }
+            //foreach (var it in listProd)
+            //{
+            //    Product prAdd = repoProd.Items.FirstOrDefault(p => p.g_number == it.g_number);
+            //    if (prAdd == null)
+            //    {
+            //        prAdd = new Product();
+            //        it.g_avr = false;
+            //        it.g_akb = false;
+            //        it.g_cooler = false;
+            //        it.g_skm = false;
+            //    }
+
+            //    prAdd.g_numberBI = it.g_numberBI;
+            //    if(string.IsNullOrEmpty(prAdd.g_name))
+            //        prAdd.g_name = it.g_name;
+
+            //    //it.g_ProductTypeId = 18;
+            //    if (prAdd.ProductType == null)
+            //    {
+            //        RepositoryMSSQL<ProductType> repoTypeProd = new RepositoryMSSQL<ProductType>();
+            //        prAdd.ProductType = repoTypeProd.Items.FirstOrDefault(item => item.id == 24);
+            //    }
+
+            //    if (!product.SetterOut.Product.Contains(prAdd))
+            //        product.SetterOut.Product.Add(prAdd);
+            //}
 
         }
     }
