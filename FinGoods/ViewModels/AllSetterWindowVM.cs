@@ -71,10 +71,6 @@ namespace FinGoods.ViewModels
 
         public AllSetterWindowVM(bool s)
         {
-            //ModelBase BaseFG = ModelBase.GetBase();
-            //listSetter = new ObservableCollection<SetterOut>(BaseFG.Set<SetterOut>().Where(it => it.idShipment == null));
-            //listSetter = BaseFG.Set<SetterOut>().Local;
-
             listSetter = new ObservableCollection<SetterOut>(repo.Items);
             listSetter = new ObservableCollection<SetterOut>(listSetter.Where(it => it.idShipment == null));
             isVisible = Visibility.Visible;
@@ -97,7 +93,6 @@ namespace FinGoods.ViewModels
             if (win.ShowDialog() == true)
             {
                 bool res = true;
-                //RepositoryMSSQL<Module> repo = new RepositoryMSSQL<Module>();
                 if (newSet.id == 0)
                     res = repo.Add(newSet, true);
 

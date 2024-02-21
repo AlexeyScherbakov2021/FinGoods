@@ -11,7 +11,7 @@
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Style="{StaticResource WindowStyle}"
         MinHeight="300" MinWidth="400"
-        Title="Модуль" Height="300" Width="440">
+        Title="Модуль" Height="400" Width="500">
     <Window.DataContext>
         <vm:ModulWindowVM/>
     </Window.DataContext>
@@ -19,13 +19,13 @@
     <DockPanel>
         <FrameworkElement x:Name="proxy" Visibility="Collapsed" DataContext="{Binding}"/>
 
-        <UniformGrid Columns="2" DockPanel.Dock="Bottom" Margin="4">
-            <Button Content="OK" Margin="2" Style="{StaticResource ButtonStyleShadow}" >
+        <UniformGrid Columns="2" DockPanel.Dock="Bottom" Margin="8">
+            <Button Content="OK" Margin="4" Style="{StaticResource ButtonStyleShadow}" >
                 <Button.Command>
                     <cmd:CloseDialogCommand DialogResult="True"/>
                 </Button.Command>
             </Button>
-            <Button Content="Отменить" Margin="2" IsCancel="True" Style="{StaticResource ButtonStyleShadow}"/>
+            <Button Content="Отменить" Margin="4" IsCancel="True" Style="{StaticResource ButtonStyleShadow}"/>
         </UniformGrid>
 
        
@@ -37,6 +37,7 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
+                    <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
@@ -79,6 +80,8 @@
 
                 <TextBlock Text="Номер прошивки" Grid.Row="4" Grid.Column="0"/>
                 <TextBox Text="{Binding module.m_numberFW}" Grid.Row="4" Grid.Column="1"/>
+
+                <CheckBox Content="ЗИП" IsChecked="{Binding module.m_zip}" Grid.Row="5" Grid.Column="1" Margin="4,8"/>
 
                 <TextBlock Text="Тип модуля" Grid.Row="0" Grid.Column="0"/>
                 <DockPanel  Grid.Column="1" Margin="0,6,4,6">

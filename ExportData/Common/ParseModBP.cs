@@ -33,7 +33,6 @@ namespace ExportData.Common
             Regex regPO = new Regex(@"ПО\s");
             Regex regModbus = new Regex(@"modbus", RegexOptions.IgnoreCase);
             Regex regZIP = new Regex(@"ЗИП", RegexOptions.IgnoreCase);
-            //Regex regNum = new Regex(@"[\d]+");
             Regex regNum = new Regex(@"\d{8,}");
             Regex regFW = new Regex(@"[\w,./]+\b");
 
@@ -46,41 +45,6 @@ namespace ExportData.Common
                 numberFW = Regex.Replace(numberFW, @"[\t\n\r\ ]{1,}", " ");
             }
 
-            //int index = 0;
-
-            //while (index < resPO.Index)
-            //{
-            //    Match resNum = regNum.Match(lines, index);
-            //    index = resNum.Index + resNum.Length;
-            //    if (!resNum.Success || index >= resPO.Index)
-            //        break;
-
-            //    module = new Modules();
-            //    module.m_numberFW = numberFW;
-            //    module.m_number = resNum.Value;
-
-            //    modules.Add(module);
-            //}
-
-            //Match resZIP = regZIP.Match(lines);
-            //if(resZIP.Success)
-            //{
-            //    index = resZIP.Index + resZIP.Length;
-            //    while (true)
-            //    {
-            //        Match resNum = regNum.Match(lines, index);
-            //        index = resNum.Index + resNum.Length;
-            //        if (!resNum.Success )
-            //            break;
-
-            //        module = new Modules();
-            //        module.m_numberFW = numberFW;
-            //        module.m_number = resNum.Value;
-            //        modules.Add(module);
-            //    }
-
-            //}
-
             Match resModbus = regModbus.Match(lines);
             if(resModbus.Success )
             {
@@ -90,6 +54,8 @@ namespace ExportData.Common
                 module.m_number = resNum.Value;
                 modules.Add(module);
             }
+
+            var resZIP = regZIP.Match(lines);
 
             var listNumbers = regNum.Matches(lines);
 
@@ -109,6 +75,9 @@ namespace ExportData.Common
                 module.m_number = item.Value;
                 if (string.IsNullOrEmpty(module.m_name))
                     module.m_name = module.ModuleType.mt_name;
+
+                if(resZIP.Success && item.Index > resZIP.Index)
+                    module.m_zip = true;
 
                 if(!product.Modules.Contains(module))
                     product.Modules.Add(module);

@@ -35,6 +35,9 @@ namespace ExportData.Models
         [StringLength(180)]
         public string c_schet { get; set; }
 
+        [StringLength(80)]
+        public string c_cardOrder { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Modules> Modules { get; set; }
 

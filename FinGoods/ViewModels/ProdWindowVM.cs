@@ -20,8 +20,6 @@ namespace FinGoods.ViewModels
         public List<ProductType> listProdType { get; set; }
         public Module selectModul { get; set; }
 
-        //private int generated_number = 0;
-
         public ProdWindowVM()
         {
         }
@@ -101,13 +99,7 @@ namespace FinGoods.ViewModels
                 product.g_generatedNumber = serialLine.gen_number;
             }
 
-            product.g_number =
-                //product.ProductType.gt_number.ToString()
-                //+ product.g_dateRegister?.ToString("yy")
-                //+ "xxxxx"
-                //+ generated_number.ToString();
-
-            CreateSerialNumber(product, "xx-xxx");
+            product.g_number = CreateSerialNumber(product, "xx-xxx");
         }
 
 

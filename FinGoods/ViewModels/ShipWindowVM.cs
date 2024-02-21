@@ -24,8 +24,6 @@ namespace FinGoods.ViewModels
         public Shipment Ship { get; set; }
         public ObservableCollection<Node> listComposite { get; set; } = new ObservableCollection<Node>();
 
-        //public ObservableCollection<string> listContract { get; set; }
-
         public Node SelectedNode;
 
         public ShipWindowVM()
@@ -79,38 +77,10 @@ namespace FinGoods.ViewModels
         {
             Ship = co;
             foreach (var item in Ship.SetterOuts)
-            {
                 addNodeSetter(item);
 
-                //NodeSetter adding = new NodeSetter(item.s_name, item);
-                //listComposite.Add(adding);
-
-                //foreach (var item2 in item.Products)
-                //{
-                //    NodeProd adding2 = new NodeProd(item2.g_name, item2);
-                //    adding.Children.Add(adding2);
-
-                //    foreach (var item3 in item2.Modules)
-                //    {
-                //        NodeModul adding3 = new NodeModul(item3.m_name, item3);
-                //        adding2.Children.Add(adding3);
-                //    }
-                //}
-            }
-
             foreach (var item in Ship.Products)
-            {
                 addNodeProd(item);
-                //NodeProd adding = new NodeProd(item.g_name, item);
-                //listComposite.Add(adding);
-
-                //foreach (var item2 in item.Modules)
-                //{
-                //    NodeModul adding2 = new NodeModul(item2.m_name, item2);
-                //    adding.Children.Add(adding2);
-                //}
-
-            }
 
             foreach (var item in Ship.Modules)
             {
@@ -144,8 +114,6 @@ namespace FinGoods.ViewModels
                 repo.Save();
 
                 addNodeSetter(vm.selectedSetter);
-                //NodeSetter node = new NodeSetter(vm.selectedSetter.s_name, vm.selectedSetter);
-                //listComposite.Add(node);
             }
         }
 
@@ -159,8 +127,6 @@ namespace FinGoods.ViewModels
 
             if (win.ShowDialog() == true)
             {
-                //NodeProd node = new NodeProd(vm.selectedProduct.g_name, vm.selectedProduct);
-                //listComposite.Add(node);
                 vm.selectedProduct.g_number =
                     ProdWindowVM.CreateSerialNumber(vm.selectedProduct, Ship.c_number.Substring(0, 6));
                 Ship.Products.Add(vm.selectedProduct);
@@ -236,7 +202,9 @@ namespace FinGoods.ViewModels
 
             Ship.c_number = order.doc_name;
             Ship.c_customer = order.cli_name;
-            Ship.c_schet = order.PactNo;
+            string[] s = order.PactNo.Split(new char[] {' ','\n' });
+            Ship.c_schet = s[0];
+            Ship.c_cardOrder = s[1];
 
             foreach (var item in Ship.Products)
             {
@@ -284,12 +252,6 @@ namespace FinGoods.ViewModels
                 win.ShowDialog();
             }
 
-            //switch(SelectedNode.Item )
-            //{
-            //    case SetterOut:
-            //        break;
-
-            //}
         }
 
         //--------------------------------------------------------------------------------
@@ -299,25 +261,6 @@ namespace FinGoods.ViewModels
         private bool CanSearchCommand(object p) => true;
         private void OnSearchCommandExecuted(object p)
         {
-            //foreach(var setter in Ship.SetterOuts)
-            //{
-            //    foreach(var prod in setter.Products)
-            //    {
-            //        if(prod.g_number.Contains(SearchNumber))
-            //        {
-
-            //        }
-
-            //        foreach(var mod in prod.Modules)
-            //        {
-            //            if(mod.m_number.Contains(SearchNumber))
-            //            {
-
-            //            }
-            //        }
-            //    }
-            //}
-
             Node res = SearchItemTree(listComposite, SearchNumber);
             if (res != null)
             {
@@ -353,8 +296,5 @@ namespace FinGoods.ViewModels
 
             return null;
         }
-
-
-
     }
 }

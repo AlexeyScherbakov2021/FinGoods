@@ -141,19 +141,6 @@ namespace FinGoods.ViewModels
             }
         }
 
-        //--------------------------------------------------------------------------------
-        // Команда Открыть окно детализации
-        //--------------------------------------------------------------------------------
-        //public ICommand OpenDetailCommand => new LambdaCommand(OnOpenDetailCommandExecuted, CanOpenDetailCommand);
-        //private bool CanOpenDetailCommand(object p) => SelectShip != null;
-        //private void OnOpenDetailCommandExecuted(object p)
-        //{
-        //    TypesWindow win = new TypesWindow();
-        //    TypesWindowVM vm = new TypesWindowVM(SelectShip.Products, SelectShip.c_number);
-        //    win.DataContext = vm;
-        //    win.ShowDialog();
-        //}
-
 
         //--------------------------------------------------------------------------------
         // Команда 

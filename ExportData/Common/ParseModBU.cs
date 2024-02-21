@@ -30,13 +30,11 @@ namespace ExportData.Common
             string akb = "";
             int index = 0;
 
-            //Regex regShunt = new Regex(@"шунт", RegexOptions.IgnoreCase);
             Regex regShunt = new Regex(@"шунт\s\w+\s\w+\b", RegexOptions.IgnoreCase);
             Regex regAKB = new Regex(@"АКБ", RegexOptions.IgnoreCase);
             Regex regZIP = new Regex(@"ЗИП", RegexOptions.IgnoreCase);
             Regex regEndLine = new Regex(@".+\b");
             Regex regNum = new Regex(@"\d{8,}");
-
 
             int indexStartDop = int.MaxValue;
 
@@ -52,7 +50,6 @@ namespace ExportData.Common
             {
                 indexStartDop = Math.Min(indexStartDop, resShunt.Index);
                 shunt = Regex.Replace(resShunt.Value, @"шунт\s", "").Trim();
-                //shunt = regEndLine.Match(lines, resShunt.Index + resShunt.Length).Value;
             }
 
             int indexZIP = int.MaxValue;
@@ -62,6 +59,7 @@ namespace ExportData.Common
                 indexStartDop = Math.Min(indexStartDop, resZIP.Index);
                 indexZIP = resZIP.Index + resZIP.Length;
             }
+
 
             var resNumber = regNum.Matches(lines);
 
@@ -85,13 +83,9 @@ namespace ExportData.Common
                 {
                     module = new Modules();
                     module.m_number = item.Value;
-                    //modNew.m_numberFW = numberFW;
-                    //module.m_modTypeId = 67;
                     RepositoryMSSQL<ModuleType> repoTypeMod = new RepositoryMSSQL<ModuleType>();
                     module.ModuleType = repoTypeMod.Items.FirstOrDefault(it => it.id == 67); 
                     repoModel.Add(module);
-                    //product.Modules.Add(modNew);
-                    //product.g_shunt = shunt;
                 }
 
                 module.m_numberFW = numberFW;
@@ -99,7 +93,10 @@ namespace ExportData.Common
                 if (string.IsNullOrEmpty(module.m_name))
                     module.m_name = module.ModuleType.mt_name;
 
-                if(!product.Modules.Contains(module))
+                if (resZIP.Success && item.Index > resZIP.Index)
+                    module.m_zip = true;
+
+                if (!product.Modules.Contains(module))
                     product.Modules.Add(module);
             }
         }

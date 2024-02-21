@@ -11,16 +11,10 @@ namespace FinGoods.Infrastructure
     {
         public NodeModul(string name, string Num, Module modul) 
         { 
-            Name = name; 
+            Name = (modul.m_zip ? "[ЗИП] " : "") + name; 
             Item = modul;
             Number = Num;
             isRoot = modul.idShipment != null;
         }
-        //public string Name { get; set; }
-        //public string Number { get; setb; }
-        //string NodeName => Name + "";
-
-        //public bool isRoot { get; set; }
-        //public object Item { get; set; }
     }
 }

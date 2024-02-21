@@ -99,18 +99,26 @@ namespace ExportData.Common
                     prAdd.g_skm = false;
 
                 }
-                //it.g_ProductTypeId = 1;
                 prAdd.g_number = it.g_number;
                 prAdd.g_numberBI = it.g_numberBI;
-
-                if (string.IsNullOrEmpty(nameBSZ))
-                    prAdd.g_name = it.g_name;
 
                 if (prAdd.ProductType == null)
                 {
                     RepositoryMSSQL<ProductType> repoTypeProd = new RepositoryMSSQL<ProductType>();
-                    prAdd.ProductType = repoTypeProd.Items.FirstOrDefault(item => item.id == 1);
+                    var resNameType = Regex.Match(it.g_name, @"БСЗ[А-я]*");
+                    prAdd.ProductType = repoTypeProd.Items.FirstOrDefault(
+                        item => item.gt_name.Contains(resNameType.Value));
+
+                    if(prAdd.ProductType == null)
+                        prAdd.ProductType = repoTypeProd.Items.FirstOrDefault(item => item.id == 1);
                 }
+
+                if (string.IsNullOrEmpty(nameBSZ))
+                    prAdd.g_name = it.g_name;
+
+                if (string.IsNullOrEmpty(prAdd.g_name))
+                    prAdd.g_name = prAdd.ProductType.gt_name;
+
 
                 if (!product.SetterOut.Product.Contains(prAdd))
                     product.SetterOut.Product.Add(prAdd);

@@ -97,7 +97,6 @@ namespace FinGoods.ViewModels
             win.DataContext = vm;
             if (win.ShowDialog() == true)
             {
-                //RepositoryMSSQL<Module> repo = new RepositoryMSSQL<Module>();
                 if(newProd.id == 0 )
                     res = repo.Add(newProd, true);
 

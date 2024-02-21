@@ -40,6 +40,10 @@ namespace FinGoods.Models
         public string c_schet { get => _c_schet; set { Set(ref _c_schet, value); } }
         private string _c_schet;
 
+        [StringLength(80)]
+        public string c_cardOrder { get => _c_cardOrder; set { Set(ref _c_cardOrder, value); } }
+        private string _c_cardOrder;
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ObservableCollection<Module> Modules { get; set; }
 

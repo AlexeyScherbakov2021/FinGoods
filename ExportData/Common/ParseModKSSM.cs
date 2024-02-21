@@ -35,7 +35,7 @@ namespace ExportData.Common
 
             Match resZIP = regZIP.Match(lines);
             if (resZIP.Success)
-                indexZIP = resZIP.Index ;
+                indexZIP = resZIP.Index;
 
             var resNumber = regNum.Matches(lines);
 
@@ -71,7 +71,10 @@ namespace ExportData.Common
                 if( string.IsNullOrEmpty(module.m_name))
                     module.m_name = module.ModuleType.mt_name;
 
-                if(!product.Modules.Contains(module))
+                if (resZIP.Success && item.Index > resZIP.Index)
+                    module.m_zip = true;
+
+                if (!product.Modules.Contains(module))
                     product.Modules.Add(module);
             }
         }

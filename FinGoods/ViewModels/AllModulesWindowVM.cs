@@ -93,7 +93,6 @@ namespace FinGoods.ViewModels
             win.DataContext = vm;
             if (win.ShowDialog() == true)
             {
-                //RepositoryMSSQL<Module> repo = new RepositoryMSSQL<Module>();
                 if (repo.Add(newMod, true))
                 {
                     listModules.Add(newMod);
@@ -114,7 +113,6 @@ namespace FinGoods.ViewModels
             win.DataContext = vm;
             if (win.ShowDialog() == true)
             {
-                //RepositoryMSSQL<Product> repoProd = new RepositoryMSSQL<Product>();
                 repo.Save();
             }
         }

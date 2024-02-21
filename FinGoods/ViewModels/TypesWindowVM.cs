@@ -17,7 +17,6 @@ namespace FinGoods.ViewModels
 {
     internal class TypesWindowVM : Observable
     {
-        //public string Title { get; set; }
         public ObservableCollection<ProductType> listProd { get; set; }
         public ObservableCollection<ModuleType> listModul { get; set; }
 
@@ -50,14 +49,6 @@ namespace FinGoods.ViewModels
         {
             if (p is RoutedPropertyChangedEventArgs<object> e)
             {
-                ////SelectCard = null;
-                //SelectedProd = null;
-                //SelectedModule = null;
-
-                //if (e.NewValue is Product g)
-                //{
-                //    SelectedProd = g;
-                //}
                 if (e.NewValue is ModuleType m)
                 {
                     SelectedModule = m;
@@ -86,17 +77,6 @@ namespace FinGoods.ViewModels
             }
 
         }
-
-
-        //--------------------------------------------------------------------------------
-        // Команда Редактировать оборудование
-        //--------------------------------------------------------------------------------
-        //public ICommand EditGoodsCommand => new LambdaCommand(OnEditGoodsCommandExecuted, CanEditGoodsCommand);
-        //private bool CanEditGoodsCommand(object p) => SelectedProd != null;
-        //private void OnEditGoodsCommandExecuted(object p)
-        //{
-        //    ProdWindow win = new ProdWindow();
-        //}
 
         //--------------------------------------------------------------------------------
         // Команда Удалить оборудование
@@ -173,10 +153,6 @@ namespace FinGoods.ViewModels
                 repoModul.Save();
             }
 
-            //if (p == null)
-            //    EditableModule = null;
-            //else
-            //    EditableModule = SelectedModule;
         }
 
         //--------------------------------------------------------------------------------

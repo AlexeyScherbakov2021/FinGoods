@@ -120,10 +120,11 @@
                     <MouseBinding Gesture="LeftDoubleClick" Command="{Binding DataContext.EditShipCommand, ElementName=mainWindow}"/>
                 </DataGrid.InputBindings>
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Счет" Binding="{Binding c_schet}"/>
+                    <DataGridTextColumn Header="Счет" Binding="{Binding c_schet}" Width="auto"/>
+                    <DataGridTextColumn Header="Карта заказа" Binding="{Binding c_cardOrder}" Width="auto"/>
                     <DataGridTextColumn Header="Заказчик" Binding="{Binding c_customer}"/>
                     <DataGridTextColumn Header="Дата отгрузки" Binding="{Binding c_dateOut, StringFormat=dd.MM.yyyy}"/>
-                    <DataGridTextColumn Header="Объект установки" Binding="{Binding c_objectInstall}" Width="*"/>
+                    <DataGridTextColumn Header="Объект установки" Binding="{Binding c_objectInstall}" Width="auto"/>
                 </DataGrid.Columns>
 
                 <DataGrid.ContextMenu>

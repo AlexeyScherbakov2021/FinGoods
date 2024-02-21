@@ -45,7 +45,7 @@ namespace ExportData
             RepositoryMSSQL<Shipment> repoShip = new RepositoryMSSQL<Shipment>();
             RepositoryMSSQL<Modules> repoModel = new RepositoryMSSQL<Modules>();
 
-            using (XLWorkbook wb = new XLWorkbook("d:\\Work\\C#\\2022\\FinGoods\\Doc\\Журнал 2024.xlsx"))
+            using (XLWorkbook wb = new XLWorkbook("d:\\Work\\C#\\2022\\FinGoods\\Doc\\Журнал 2023.xlsx"))
             {
                 int row = 3;
                 var sheet = wb.Worksheets.Worksheet(1);
@@ -107,7 +107,11 @@ namespace ExportData
                         //repoShip.Add(prod.SetterOut.Shipment);
                     }
 
-                    prod.SetterOut.Shipment.c_schet = sheet.Cell(row, 9).GetString().Trim().Replace("\n", " ");
+                    var resCardOrder = Regex.Match(sheet.Cell(row, 9).GetString(), @"\b[\w.-]+$");
+
+                    //prod.SetterOut.Shipment.c_schet = sheet.Cell(row, 9).GetString().Trim().Replace("\n", " ");
+                    prod.SetterOut.Shipment.c_schet = Regex.Replace(sheet.Cell(row, 9).GetString(), @"\s+\b[\w.-]+$", "");
+                    prod.SetterOut.Shipment.c_cardOrder = resCardOrder.Value;
                     prod.SetterOut.Shipment.c_customer = sheet.Cell(row, 15).GetString().Trim();
                     prod.SetterOut.Shipment.c_objectInstall = sheet.Cell(row, 18).GetString().Trim();
 
@@ -124,7 +128,6 @@ namespace ExportData
                     ParseBSZ parseBSZ = new ParseBSZ(prod);
                     parseBSZ.GetElements(s);
 
-
                     // добавление модулей
                     // БП
                     s = sheet.Cell(row, 11).GetString();
@@ -137,21 +140,14 @@ namespace ExportData
                     parseModBU.GetElements(s);
 
                     //  КССМ
-
                     s = sheet.Cell(row, 14).GetString();
                     ParseModKSSM parseModKSSM = new ParseModKSSM(prod);
                     parseModKSSM.GetElements(s);
 
                     // счетчики
-
                     s = sheet.Cell(row, 7).GetString();
                     ParseModCounter parseModCounter = new ParseModCounter(prod);
                     parseModCounter.GetElements(s);
-
-                    //continue;
-
-                    //Modules mod = new Modules();
-                    //mod.m_number = sheet.Cell(row, 18).GetString().Trim();
 
                     repoProd.Save();
                 }

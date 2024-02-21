@@ -83,9 +83,6 @@ namespace FinGoods.ViewModels
                 throw new Exception("Ошибка выбора заказа");
 
             setter.s_orderNum = order.doc_name;
-            //Ship.c_customer = order.cli_name;
-            //Ship.c_schet = order.PactNo;
-
             foreach (var prod in setter.Products)
             {
                 prod.g_number =

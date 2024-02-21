@@ -32,9 +32,6 @@ namespace FinGoods.ViewModels
                 _listContractViewSource.Source = value;
                 _listContractViewSource.Filter += OnFilterList;
                 _listContractViewSource.View.Refresh();
-                //OnPropertyChanged(nameof(listContractView));
-                //listMK.CollectionChanged += ListMK_CollectionChanged;
-
             }
         }
 

@@ -30,6 +30,7 @@ namespace ExportData.Models
         public DateTime? m_dateCreate { get; set; }
 
         public int m_generatedNumber { get; set; }
+        public bool m_zip { get; set; }
 
         public virtual ModuleType ModuleType { get; set; }
 

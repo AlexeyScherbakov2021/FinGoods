@@ -36,6 +36,7 @@ namespace FinGoods.Models
 
         public int m_generatedNumber { get; set; }
 
+        public bool m_zip { get; set; }
 
         private ModuleType _ModuleType;
         public virtual ModuleType ModuleType { get => _ModuleType; set { Set(ref _ModuleType, value); } }
