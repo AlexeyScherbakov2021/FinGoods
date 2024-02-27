@@ -14,7 +14,7 @@ namespace FinGoods.ViewModels
 {
     internal class ModulWindowVM : Observable
     {
-        public Module module { get; set; }
+        public Module module { get; set; } = new Module();
         private readonly RepositoryMSSQL<ModuleType> repoMdulType = new RepositoryMSSQL<ModuleType>();
         public List<ModuleType> listModuleType { get; set; }
         private ModuleType selectedModule;
@@ -28,7 +28,7 @@ namespace FinGoods.ViewModels
 
         public ModulWindowVM(Module m)
         {
-            module = m;
+            module.Copy(m);
             listModuleType = new List<ModuleType>(repoMdulType.Items.Where(it => it.idParent == null));
         }
 

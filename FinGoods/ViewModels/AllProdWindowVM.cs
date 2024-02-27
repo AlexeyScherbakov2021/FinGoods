@@ -64,16 +64,29 @@ namespace FinGoods.ViewModels
         public Visibility isVisible { get; set; } = Visibility.Collapsed;
 
         RepositoryMSSQL<Product> repo = new RepositoryMSSQL<Product>();
+        //RepositoryMSSQL<Module> repoModul = new RepositoryMSSQL<Module>();
 
         public AllProdWindowVM()
         {
             listProduct = new ObservableCollection<Product>(repo.Items);
         }
 
-        public AllProdWindowVM(bool isFiltr)
+        //public AllProdWindowVM(bool isFiltr)
+        //{
+        //    listProduct = new ObservableCollection<Product>(repo.Items
+        //        .Where(it => it.idSetter == null && it.idShipment == null));
+
+        //    isVisible = Visibility.Visible;
+
+        //}
+
+        public AllProdWindowVM(IEnumerable<Product> listExclProd)
         {
             listProduct = new ObservableCollection<Product>(repo.Items
                 .Where(it => it.idSetter == null && it.idShipment == null));
+
+            foreach (var module in listExclProd)
+                listProduct.Remove(module);
 
             isVisible = Visibility.Visible;
 
@@ -97,7 +110,9 @@ namespace FinGoods.ViewModels
             win.DataContext = vm;
             if (win.ShowDialog() == true)
             {
-                if(newProd.id == 0 )
+                newProd.Copy(vm.product);
+
+                if (newProd.id == 0 )
                     res = repo.Add(newProd, true);
 
                 if (res)
@@ -120,6 +135,8 @@ namespace FinGoods.ViewModels
             win.DataContext = vm;
             if (win.ShowDialog() == true)
             {
+                selectedProduct.Copy(vm.product);
+                //repoModul.Save();
                 repo.Save();
             }
         }

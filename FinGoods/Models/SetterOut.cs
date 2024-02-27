@@ -17,6 +17,23 @@ namespace FinGoods.Models
             Products = new ObservableCollection<Product>();
         }
 
+        public void Copy(SetterOut sett)
+        {
+            this.Shipment = sett.Shipment;
+            this.idShipment = sett.idShipment;
+            this.id = sett.id;
+            this.s_name = sett.s_name;
+            this.s_orderNum = sett.s_orderNum;
+
+            if (this.Products == null)
+                this.Products = new ObservableCollection<Product>();
+
+            this.Products.Clear();
+            foreach (Product p in sett.Products)
+                this.Products.Add(p);
+        }
+
+
         public int id { get; set; }
 
         public int? idShipment { get; set; }

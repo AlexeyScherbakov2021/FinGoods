@@ -17,7 +17,7 @@ namespace FinGoods.ViewModels
 {
     internal class AllModulesWindowVM : Observable
     {
-        private bool IsFromProd = false;
+        //private bool IsFromProd = false;
         private ObservableCollection<Module> _listModules;
         public ObservableCollection<Module> listModules 
         { 
@@ -70,13 +70,27 @@ namespace FinGoods.ViewModels
             listModules = new ObservableCollection<Module>(repo.Items);
         }
 
-        public AllModulesWindowVM(bool prod) 
+        //public AllModulesWindowVM(bool prod) 
+        //{
+        //    IsFromProd = prod;
+        //    listModules = new ObservableCollection<Module>(repo.Items
+        //        .Where(it => it.idProduct == null && it.idShipment == null));
+        //    isVisible = Visibility.Visible;
+        //}
+
+        public AllModulesWindowVM(IEnumerable<Module> listExclModule) 
         {
-            IsFromProd = prod;
+            //IsFromProd = true;
             listModules = new ObservableCollection<Module>(repo.Items
                 .Where(it => it.idProduct == null && it.idShipment == null));
+
+            foreach (var item in listExclModule)
+                listModules.Remove(item);
+
             isVisible = Visibility.Visible;
         }
+
+
 
         #region Команды
 
@@ -93,6 +107,7 @@ namespace FinGoods.ViewModels
             win.DataContext = vm;
             if (win.ShowDialog() == true)
             {
+                newMod.Copy(vm.module);
                 if (repo.Add(newMod, true))
                 {
                     listModules.Add(newMod);
@@ -113,6 +128,7 @@ namespace FinGoods.ViewModels
             win.DataContext = vm;
             if (win.ShowDialog() == true)
             {
+                selectedModule.Copy(vm.module);
                 repo.Save();
             }
         }

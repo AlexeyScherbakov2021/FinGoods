@@ -14,7 +14,7 @@ namespace FinGoods.ViewModels
 {
     internal class SetterWindowVM
     {
-        public SetterOut setter { get; set; }
+        public SetterOut setter { get; set; } = new SetterOut();
         public Product selectProd { get; set; }
 
         public SetterWindowVM()
@@ -23,7 +23,7 @@ namespace FinGoods.ViewModels
 
         public SetterWindowVM(SetterOut st)
         {
-            setter = st;
+            setter.Copy(st);
         }
 
         #region  Команды
@@ -36,7 +36,7 @@ namespace FinGoods.ViewModels
         private void OnAddProdCommandExecuted(object p)
         {
             AllProdWindow win = new AllProdWindow();
-            AllProdWindowVM vm = new AllProdWindowVM(true);
+            AllProdWindowVM vm = new AllProdWindowVM(setter.Products);
             win.DataContext = vm;
             if (win.ShowDialog() == true && vm.selectedProduct != null)
             {

@@ -59,7 +59,7 @@ namespace FinGoods.ViewModels
         {
             if (!(E.Item is Shipment st) || string.IsNullOrEmpty(Filtr)) return;
 
-            if (!st.c_number.ToLower().Contains(Filtr.ToLower()))
+            if (!st.c_schet.ToLower().Contains(Filtr.ToLower()))
                 E.Accepted = false;
         }
 
@@ -121,6 +121,7 @@ namespace FinGoods.ViewModels
 
             if(win.ShowDialog() == true)
             {
+                SelectShip.Copy(vm.Ship);
                 repoShip.Save();
             }
         }
@@ -145,13 +146,13 @@ namespace FinGoods.ViewModels
         //--------------------------------------------------------------------------------
         // Команда 
         //--------------------------------------------------------------------------------
-        public ICommand FromFPCommand => new LambdaCommand(OnFromFPCommandExecuted, CanFromFPCommand);
-        private bool CanFromFPCommand(object p) => SelectShip != null;
-        private void OnFromFPCommandExecuted(object p)
-        {
-            RepositoryFP repo = new RepositoryFP();
-            repo.Load();
-        }
+        //public ICommand FromFPCommand => new LambdaCommand(OnFromFPCommandExecuted, CanFromFPCommand);
+        //private bool CanFromFPCommand(object p) => SelectShip != null;
+        //private void OnFromFPCommandExecuted(object p)
+        //{
+        //    RepositoryFP repo = new RepositoryFP();
+        //    repo.Load();
+        //}
 
         //--------------------------------------------------------------------------------
         // Команда Открыть окно модулей
@@ -187,7 +188,7 @@ namespace FinGoods.ViewModels
         }
 
         //--------------------------------------------------------------------------------
-        // Команда Открыть окно наборов
+        // Команда Открыть окно типов
         //--------------------------------------------------------------------------------
         public ICommand OpenTypesCommand => new LambdaCommand(OnOpenTypesCommandExecuted, CanOpenTypesCommand);
         private bool CanOpenTypesCommand(object p) => true;
@@ -198,7 +199,7 @@ namespace FinGoods.ViewModels
         }
 
         //--------------------------------------------------------------------------------
-        // Команда Открыть окно наборов
+        // Команда Поиск по номеру
         //--------------------------------------------------------------------------------
         public ICommand SearchNumberCommand => new LambdaCommand(OnSearchNumberCommandExecuted, CanSearchNumberCommand);
         private bool CanSearchNumberCommand(object p) => !string.IsNullOrEmpty(FindNumber);
@@ -224,7 +225,13 @@ namespace FinGoods.ViewModels
             else
             {
                 number = prod.g_number;
-                SelectShip = prod.Shipment == null ? prod.SetterOut.Shipment : prod.Shipment;
+                if (prod.Shipment == null && prod.SetterOut == null)
+                {
+                    SelectShip = null;
+                    MessageBox.Show("Модуль существует, но не привязан ни к одной загрузке.", "Сообщение", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                    SelectShip = prod.Shipment == null ? prod.SetterOut.Shipment : prod.Shipment;
             }
 
             if (SelectShip != null)

@@ -7,6 +7,7 @@ namespace FinGoods.Models
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
+    using System.Windows.Media.TextFormatting;
 
     [Table("Product")]
     public partial class Product : Observable, IEntity
@@ -76,5 +77,38 @@ namespace FinGoods.Models
         public virtual SetterOut SetterOut { get; set; }
 
         public virtual Shipment Shipment { get; set; }
+
+        public void Copy(Product prod)
+        {
+            this.idShipment = prod.idShipment;
+            this.Shipment = prod.Shipment;
+            this.g_number = prod.g_number;
+            this.g_akb = prod.g_akb;
+            this.g_avr = prod.g_avr;
+            this.g_cooler = prod.g_cooler;
+            this.g_numberBox = prod.g_numberBox;
+            this.g_questList = prod.g_questList;
+            this.g_dateRegister = prod.g_dateRegister;
+            this.g_generatedNumber = prod.g_generatedNumber;
+            this.g_name = prod.g_name;
+            this.g_numberBI = prod.g_numberBI;
+            this.g_numberUSIKP = prod.g_numberUSIKP;
+            this.g_redaction1 = prod.g_redaction1;
+            this.g_redaction2 = prod.g_redaction2;
+            this.g_redactionPS = prod.g_redactionPS;
+            this.g_shunt = prod.g_shunt;
+            this.g_skm = prod.g_skm;
+            this.g_zip = prod.g_zip;
+            this.idSetter = prod.idSetter;
+            this.SetterOut = prod.SetterOut;
+            this.ProductType = prod.ProductType;
+            this.g_ProductTypeId = prod.g_ProductTypeId;
+
+            if (this.Modules == null)
+                this.Modules = new ObservableCollection<Module>();
+            this.Modules.Clear();
+            foreach(var module in prod.Modules)
+                this.Modules.Add(module);
+        }
     }
 }

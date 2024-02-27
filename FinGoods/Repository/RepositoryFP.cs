@@ -69,7 +69,7 @@ namespace FinGoods.Repository
                 SqlCommand cmd = conn.CreateCommand();
                 cmd.CommandText = "SELECT doc_name,cli.cli_name,PactNo FROM Contracts c " +
                    "left join Clients cli on cli.cli_code=c.cli_code " +
-                   "where doc_end is null and doc_del is null " +
+                   "where doc_del is null " + // and doc_del is null " +
                    "and ContractSign not like '%ПЛ%' and doc_name not like '%ИН%' " +
                    "and SUBSTRING(ContractSign,3, 1) = '-'";
                 SqlDataReader read = cmd.ExecuteReader();

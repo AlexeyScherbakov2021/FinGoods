@@ -93,7 +93,7 @@
                 <DataGridTextColumn Header="Редак.РЭ 2" Binding="{Binding g_redaction2}"/>
                 <DataGridTextColumn Header="Редак.РЭ ПС" Binding="{Binding g_redactionPS}"/>
                 <DataGridTextColumn Header="Исп. в наборе" Binding="{Binding SetterOut.s_name}"/>
-                <DataGridTextColumn Header="Исп. в отгрузке" Binding="{Binding Shipment.c_number}"/>
+                <DataGridTextColumn Header="Исп. в отгрузке" Binding="{Binding Shipment.c_schet}"/>
             </DataGrid.Columns>
             <DataGrid.ContextMenu>
                 <ContextMenu>

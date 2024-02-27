@@ -8,6 +8,7 @@ namespace FinGoods.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
     using System.Data.SqlTypes;
+    using System.Windows.Media.TextFormatting;
 
     public partial class Module : Observable, IEntity
     {
@@ -46,6 +47,24 @@ namespace FinGoods.Models
         public virtual Product Product { get; set; }
 
         public virtual Shipment Shipment { get; set; }
+
+        public void Copy(Module mod)
+        {
+            this.m_numberFW = mod.m_numberFW;
+            this.m_number = mod.m_number;
+            this.m_dateCreate = mod.m_dateCreate;
+            this.idProduct = mod.idProduct;
+            this.Product = mod.Product;
+            this.idShipment = mod.idShipment;
+            this.Shipment = mod.Shipment;
+            this.m_dateEnd = mod.m_dateEnd;
+            this.m_generatedNumber = mod.m_generatedNumber;
+            this.m_modTypeId = mod.m_modTypeId;
+            this.m_zip = mod.m_zip;
+            this.ModuleType = mod.ModuleType;
+            this.m_name = mod.m_name;
+           
+        }
 
     }
 }

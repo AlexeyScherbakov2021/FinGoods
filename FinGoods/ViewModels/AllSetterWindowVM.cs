@@ -52,8 +52,13 @@ namespace FinGoods.ViewModels
         {
             if (!(E.Item is SetterOut st) || string.IsNullOrEmpty(Filtr)) return;
 
-            if (!st.s_name.ToLower().Contains(Filtr.ToLower()))
-                E.Accepted = false;
+            E.Accepted = false;
+
+            if (st.s_name.ToLower().Contains(Filtr.ToLower()))
+                E.Accepted = true;
+
+            if (st.Products.FirstOrDefault(it => it.g_number == Filtr) != null)
+                E.Accepted = true;
         }
 
 
@@ -69,10 +74,21 @@ namespace FinGoods.ViewModels
             listSetter = new ObservableCollection<SetterOut>(repo.Items);
         }
 
-        public AllSetterWindowVM(bool s)
+        //public AllSetterWindowVM(bool s)
+        //{
+        //    listSetter = new ObservableCollection<SetterOut>(repo.Items);
+        //    listSetter = new ObservableCollection<SetterOut>(listSetter.Where(it => it.idShipment == null));
+        //    isVisible = Visibility.Visible;
+
+        //}
+
+        public AllSetterWindowVM(IEnumerable<SetterOut> listExclSetter)
         {
             listSetter = new ObservableCollection<SetterOut>(repo.Items);
             listSetter = new ObservableCollection<SetterOut>(listSetter.Where(it => it.idShipment == null));
+            foreach (SetterOut item in listExclSetter)
+                listSetter.Remove(item);
+
             isVisible = Visibility.Visible;
 
         }
@@ -93,6 +109,7 @@ namespace FinGoods.ViewModels
             if (win.ShowDialog() == true)
             {
                 bool res = true;
+                newSet.Copy(vm.setter);
                 if (newSet.id == 0)
                     res = repo.Add(newSet, true);
 
@@ -116,6 +133,7 @@ namespace FinGoods.ViewModels
             win.DataContext = vm;
             if (win.ShowDialog() == true)
             {
+                selectedSetter.Copy(vm.setter);
                 repo.Save();
             }
         }

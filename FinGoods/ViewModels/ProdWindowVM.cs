@@ -14,7 +14,7 @@ namespace FinGoods.ViewModels
 {
     internal class ProdWindowVM
     {
-        public Product product { get; set; }
+        public Product product { get; set; }= new Product();
         private readonly RepositoryMSSQL<ProductType> repoGT = new RepositoryMSSQL<ProductType>();
         private readonly RepositoryMSSQL<Module> repoModul = new RepositoryMSSQL<Module>();
         public List<ProductType> listProdType { get; set; }
@@ -27,8 +27,7 @@ namespace FinGoods.ViewModels
         public ProdWindowVM(Product g)
         {
             listProdType = new List<ProductType>(repoGT.Items);
-            product = g;
-
+            product.Copy(g);
         }
 
 
@@ -42,14 +41,14 @@ namespace FinGoods.ViewModels
         private void OnAddModulCommandExecuted(object p)
         {
             AllModulesWindow win = new AllModulesWindow();
-            AllModulesWindowVM vm = new AllModulesWindowVM(true);
+            AllModulesWindowVM vm = new AllModulesWindowVM(product.Modules);
             win.DataContext = vm;
             if (win.ShowDialog() == true && vm.selectedModule != null)
             {
                 product.Modules.Add(vm.selectedModule);
-                vm.selectedModule.Product = product;
+                //vm.selectedModule.Product = product;
 //                if(product.id > 0)
-                repoModul.Save();
+                //repoModul.Save();
             }
         }
 
@@ -64,7 +63,7 @@ namespace FinGoods.ViewModels
             {
                 selectModul.Product = null;
                 product.Modules.Remove(selectModul);
-                repoModul.Save();
+                //repoModul.Save();
             }
 
         }

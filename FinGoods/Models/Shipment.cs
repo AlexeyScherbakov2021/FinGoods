@@ -19,6 +19,47 @@ namespace FinGoods.Models
             SetterOuts = new ObservableCollection<SetterOut>();
         }
 
+
+        public void Copy(Shipment ship)
+        {
+
+            this.c_schet = ship.c_schet;
+            this.c_questList = ship.c_questList;
+            this.c_number = ship.c_number;
+            this.c_cardOrder = ship.c_cardOrder;
+            this.c_customer = ship.c_customer;
+            this.c_dateOut = ship.c_dateOut;
+            this.c_objectInstall = ship.c_objectInstall;
+
+            if (SetterOuts == null)
+                SetterOuts = new ObservableCollection<SetterOut>();
+            SetterOuts.Clear();
+            foreach (SetterOut st in ship.SetterOuts)
+                SetterOuts.Add(st);
+            //this.SetterOuts = ship.SetterOuts;
+
+            if (Products == null)
+                Products = new ObservableCollection<Product>();
+            Products.Clear();
+            foreach (var item in ship.Products)
+                Products.Add(item);
+            //this.Products = ship.Products;
+
+            if (Modules == null)
+                Modules= new ObservableCollection<Module>();
+            Modules.Clear();
+            foreach (var module in ship.Modules)
+                Modules.Add(module);
+            //this.Modules = ship.Modules;
+
+        }
+
+
+        public Shipment(Shipment ship)
+        {
+            Copy(ship);
+        }
+
         public int id { get; set; }
 
         private string _c_number;

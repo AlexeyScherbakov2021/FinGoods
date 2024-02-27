@@ -91,7 +91,7 @@
                     <fa:ImageAwesome Icon="Solid_TruckLoading" Height="20" Foreground="Blue"/>
                 </StackPanel>
             </Button>
-            <Button Content="Загрузка из ФП" Command="{Binding FromFPCommand}" Visibility="Collapsed"/>
+            <!--<Button Content="Загрузка из ФП" Command="{Binding FromFPCommand}" Visibility="Collapsed"/>-->
         </ToolBarPanel>
 
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="8,0">

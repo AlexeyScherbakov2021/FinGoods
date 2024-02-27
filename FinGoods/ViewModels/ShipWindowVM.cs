@@ -10,6 +10,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -99,13 +100,12 @@ namespace FinGoods.ViewModels
 
 
 
-
         public ShipWindowVM(Shipment co)
         {
             if (co == null)
                 return;
 
-            Ship = co;
+            Ship = new Shipment(co);
             foreach (var item in Ship.SetterOuts)
                 addNodeSetter(item);
 
@@ -129,20 +129,19 @@ namespace FinGoods.ViewModels
         private void OnAddSetCommandExecuted(object p)
         {
             AllSetterWindow win = new AllSetterWindow();
-            AllSetterWindowVM vm = new AllSetterWindowVM(true);
+            AllSetterWindowVM vm = new AllSetterWindowVM(Ship.SetterOuts);
             win.DataContext = vm;
 
             if (win.ShowDialog() == true)
             {
-                foreach (var item in vm.selectedSetter.Products)
-                {
-                    item.g_number = ProdWindowVM.CreateSerialNumber(item, Ship.c_number.Substring(0, 6));
-                }
+                //foreach (var item in vm.selectedSetter.Products)
+                //{
+                //    item.g_number = ProdWindowVM.CreateSerialNumber(item, Ship.c_number.Substring(0, 6));
+                //}
 
                 Ship.SetterOuts.Add(vm.selectedSetter);
                 RepositoryMSSQL<Shipment> repo = new RepositoryMSSQL<Shipment>();
                 repo.Save();
-
                 addNodeSetter(vm.selectedSetter);
             }
         }
@@ -152,7 +151,7 @@ namespace FinGoods.ViewModels
         private void OnAddProdCommandExecuted(object p)
         {
             AllProdWindow win = new AllProdWindow();
-            AllProdWindowVM vm = new AllProdWindowVM(true);
+            AllProdWindowVM vm = new AllProdWindowVM(Ship.Products);
             win.DataContext = vm;
 
             if (win.ShowDialog() == true)
@@ -173,7 +172,7 @@ namespace FinGoods.ViewModels
         private void OnAddModulCommandExecuted(object p)
         {
             AllModulesWindow win = new AllModulesWindow();
-            AllModulesWindowVM vm = new AllModulesWindowVM(true);
+            AllModulesWindowVM vm = new AllModulesWindowVM(Ship.Modules);
             win.DataContext = vm;
 
             if (win.ShowDialog() == true)
@@ -230,26 +229,29 @@ namespace FinGoods.ViewModels
             if (order == null)
                 throw new Exception("Ошибка выбора заказа");
 
-            Ship.c_number = order.doc_name;
+            //Match regSchet = Regex.Match(order.PactNo, @"счет(-)\w+", RegexOptions.IgnoreCase);
+
+            Ship.c_cardOrder = order.doc_name.Substring(0, 6);
             Ship.c_customer = order.cli_name;
-            string[] s = order.PactNo.Split(new char[] {' ','\n' });
-            Ship.c_schet = s[0];
-            Ship.c_cardOrder = s[1];
 
-            foreach (var item in Ship.Products)
-            {
-                item.g_number =
-                        ProdWindowVM.CreateSerialNumber(item, Ship.c_number.Substring(0, 6));
-            }
+            Ship.c_schet = order.PactNo;
 
-            foreach (var ship in Ship.SetterOuts)
-            {
-                foreach (var item in ship.Products)
-                {
-                    item.g_number =
-                            ProdWindowVM.CreateSerialNumber(item, Ship.c_number.Substring(0, 6));
-                }
-            }
+            //string[] s = order.PactNo.Split(new char[] {' ','\n' });
+            //Ship.c_schet = s[0];
+            //Ship.c_cardOrder = s[1];
+
+            //foreach (var item in Ship.Products)
+            //{
+            //    item.g_number = ProdWindowVM.CreateSerialNumber(item, Ship.c_number.Substring(0, 6));
+            //}
+
+            //foreach (var ship in Ship.SetterOuts)
+            //{
+            //    foreach (var item in ship.Products)
+            //    {
+            //        item.g_number = ProdWindowVM.CreateSerialNumber(item, Ship.c_number.Substring(0, 6));
+            //    }
+            //}
         }
 
         public ICommand DblClickCommand => new LambdaCommand(OnDblClickCommandExecuted, CanDblClickCommand);
@@ -266,6 +268,7 @@ namespace FinGoods.ViewModels
                 win.DataContext = vm;
                 if(win.ShowDialog() == true)
                 {
+                    mod.Copy(vm.module);
                     SelectedNode.Name = mod.m_name;
                     SelectedNode.Number = mod.m_number;
                 }
@@ -278,6 +281,7 @@ namespace FinGoods.ViewModels
                 if (win.ShowDialog() == true)
                 {
                     // обновление модулей
+                    prod.Copy(vm.product);
                     SelectedNode.Children.Clear();
                     AddModules(SelectedNode, prod.Modules);
                     SelectedNode.Name = prod.g_name;
@@ -292,6 +296,7 @@ namespace FinGoods.ViewModels
                 win.DataContext = vm;
                 if(win.ShowDialog() == true)
                 {
+                    setOut.Copy(vm.setter);
                     SelectedNode.Children.Clear();
                     AddProducts(SelectedNode, setOut);
                     SelectedNode.Name = setOut.s_name;
