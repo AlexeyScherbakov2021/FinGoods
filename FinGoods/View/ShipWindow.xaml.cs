@@ -33,5 +33,14 @@ namespace FinGoods.View
             vm.SelectContractCommand.Execute(e);
             popup.IsOpen = false;
         }
+
+        private void TreeView_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            e.Handled = true;
+            ShipWindowVM vm = (DataContext as ShipWindowVM);
+            ContractsUCVM vmContr = contract.DataContext as ContractsUCVM;
+            e.Source = vmContr.selectContract;
+            vm.DblClickCommand.Execute(e);
+        }
     }
 }

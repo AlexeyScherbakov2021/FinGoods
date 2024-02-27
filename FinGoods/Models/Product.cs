@@ -64,6 +64,7 @@ namespace FinGoods.Models
         public bool? g_akb { get; set; }
         public bool? g_cooler { get; set; }
         public bool? g_skm { get; set; }
+        public bool g_zip { get; set; }
 
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

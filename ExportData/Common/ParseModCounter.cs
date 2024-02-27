@@ -33,7 +33,7 @@ namespace ExportData.Common
             if (resNumber.Count == 0)
                 return;
 
-            string nameModule = Regex.Replace(lines.Substring(0, resNumber[0].Index), @"[\t\n\r\ ]{1,}", " ");
+            string nameModule = Regex.Replace(lines.Substring(0, resNumber[0].Index), @"[№\t\n\r\ ]{1,}", " ").Trim();
             //Regex.Replace(numberFW, @"[\t\n\r\ ]{1,}", " ")
 
             foreach (Match item in resNumber)

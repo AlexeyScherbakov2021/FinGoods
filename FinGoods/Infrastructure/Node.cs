@@ -10,8 +10,13 @@ namespace FinGoods.Infrastructure
 {
     internal abstract class Node : Observable
     {
-        public string Name { get; set; }
-        public string Number { get; set; }
+        private string _Name;
+        public string Name { get => _Name; set { Set(ref _Name, value); OnPropertyChanged(nameof(NodeName)); } }
+
+        private string _Number;
+        public string Number { get => _Number; set { Set(ref _Number, value); OnPropertyChanged(nameof(NodeName)); } }
+
+
         public string NodeName => Name + (string.IsNullOrEmpty(Number) ? "" : " (№ " + Number + ")");
         public object Item { get; set; }
         public bool isRoot { get; set; }

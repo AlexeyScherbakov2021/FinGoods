@@ -64,6 +64,8 @@ namespace ExportData.Models
         [StringLength(40)]
         public string g_shunt { get; set; }
 
+        public bool g_zip { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Modules> Modules { get; set; }
 

@@ -109,6 +109,7 @@
                 <CheckBox Content="Наличие АКБ БУ" IsChecked="{Binding product.g_akb}" Grid.Row="4" Grid.Column="3" VerticalAlignment="Center" Margin="10,0"/>
                 <CheckBox Content="Наличие АКБ СКМ" IsChecked="{Binding product.g_skm}" Grid.Row="5" Grid.Column="3" VerticalAlignment="Center" Margin="10,0"/>
                 <CheckBox Content="Наличие вентиляции" IsChecked="{Binding product.g_cooler}" Grid.Row="6" Grid.Column="3" VerticalAlignment="Center" Margin="10,0"/>
+                <CheckBox Content="ЗИП" IsChecked="{Binding product.g_zip}" Grid.Row="7" Grid.Column="3" VerticalAlignment="Center" Margin="10,0"/>
 
                 <DockPanel Grid.Row="9" Grid.ColumnSpan="4">
                     <TextBlock Text="Сисок модулей" DockPanel.Dock="Top" Margin="0,8,0,0" FontWeight="Bold"/>

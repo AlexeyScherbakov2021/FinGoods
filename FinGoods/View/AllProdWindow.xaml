@@ -82,6 +82,7 @@
             </i:Interaction.Behaviors>
             <DataGrid.InputBindings>
                 <MouseBinding Gesture="LeftDoubleClick" Command="{Binding DataContext.EditProdCommand, ElementName=dg}"/>
+                <KeyBinding Key="Enter" Command="{Binding DataContext.EditProdCommand, ElementName=dg}"/>
             </DataGrid.InputBindings>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Номер" Binding="{Binding g_number}"/>

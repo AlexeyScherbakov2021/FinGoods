@@ -36,14 +36,17 @@ namespace ExportData.Common
 
             Regex regKIP = new Regex(@"НГК-КИП-[\w()-|\s]+");
             Regex regNum = new Regex(@"\d{8,}");
-            Regex regBI = new Regex(@"БИ\s№\s[\d.]+");
+            Regex regBI = new Regex(@"БИ\s№\s*[\d.]+");
             Regex regUS = new Regex(@"УС\s\D+\d+");
+            Regex regZIP = new Regex(@"ЗИП", RegexOptions.IgnoreCase);
 
             var listKIP = regKIP.Matches(lines);
             var listNum = regNum.Matches(lines);
 
             int currNextKIP = 0;
             nextIndex = -1;
+
+            var resZip = regZIP.Match(lines);
 
             for(int i = 0; i < listNum.Count; i++) 
             {
@@ -62,7 +65,7 @@ namespace ExportData.Common
 
                 Match resBI = regBI.Match(lines, listNum[i].Index, lenFind);
                 if(resBI.Success)
-                    NumBI = Regex.Replace(resBI.Value.Trim(), @"БИ\s№\s", "");
+                    NumBI = Regex.Replace(resBI.Value.Trim(), @"БИ\s№\s*", "");
                 
                 Match resUSIK = regUS.Match(lines, listNum[i].Index, lenFind);
                 if (resUSIK.Success)
@@ -88,6 +91,9 @@ namespace ExportData.Common
                     prod.g_cooler = false;
                     prod.g_skm = false;
                 }
+
+                if (resZip.Success && listNum[i].Index > resZip.Index)
+                    prod.g_zip = true;
 
                 prod.g_numberBI = NumBI;
                 prod.g_numberUSIKP = NumUSIK;

@@ -217,20 +217,23 @@ namespace FinGoods.ViewModels
                 number = mod.m_number;
                 SelectShip = mod.Shipment != null
                     ? mod.Shipment
-                    : mod.Product.Shipment == null
-                        ? mod.Product.SetterOut.Shipment
-                        : mod.Product.Shipment;
+                    : mod.Product?.Shipment == null
+                        ? mod.Product?.SetterOut.Shipment
+                        : mod.Product?.Shipment;
             }
             else
             {
                 number = prod.g_number;
                 SelectShip = prod.Shipment == null ? prod.SetterOut.Shipment : prod.Shipment;
             }
-            
-            ShipWindowVM vm = new ShipWindowVM(SelectShip, number);
-            ShipWindow win = new ShipWindow();
-            win.DataContext = vm;
-            win.ShowDialog();
+
+            if (SelectShip != null)
+            {
+                ShipWindowVM vm = new ShipWindowVM(SelectShip, number);
+                ShipWindow win = new ShipWindow();
+                win.DataContext = vm;
+                win.ShowDialog();
+            }
         }
         #endregion
 

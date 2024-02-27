@@ -118,6 +118,7 @@
                 </DataGrid.ColumnHeaderStyle>
                 <DataGrid.InputBindings>
                     <MouseBinding Gesture="LeftDoubleClick" Command="{Binding DataContext.EditShipCommand, ElementName=mainWindow}"/>
+                    <KeyBinding Key="Enter" Command="{Binding DataContext.EditShipCommand, ElementName=mainWindow}"/>
                 </DataGrid.InputBindings>
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Счет" Binding="{Binding c_schet}" Width="auto"/>

@@ -36,7 +36,7 @@ namespace ExportData.Common
             Regex regEndLine = new Regex(@".+\b");
             Regex regNum = new Regex(@"\d{8,}");
 
-            int indexStartDop = int.MaxValue;
+            int indexStartDop = lines.Length;
 
             Match resAKB = regAKB.Match(lines);
             if (resAKB.Success)
@@ -74,7 +74,7 @@ namespace ExportData.Common
             }
 
             numberFW = lines.Substring( index, indexStartDop - index).Trim();
-            numberFW = Regex.Replace(numberFW, @"[\t\n\r\ ]{1,}", " ");
+            numberFW = Regex.Replace(numberFW, @"[.\n][\t\n\r\ ]{1,}", " ").Trim();
 
             foreach (Match item in resNumber)
             {

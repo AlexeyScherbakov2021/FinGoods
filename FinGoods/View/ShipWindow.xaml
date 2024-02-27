@@ -144,7 +144,7 @@
                                 <fa:ImageAwesome Icon="Solid_Search"/>
                             </Button>
                         </StackPanel>
-                        <TreeView ItemsSource="{Binding listComposite}" ItemContainerStyle="{StaticResource LibraryTreeViewItemStyle}">
+                        <TreeView ItemsSource="{Binding listComposite}" ItemContainerStyle="{StaticResource LibraryTreeViewItemStyle}" PreviewMouseDoubleClick="TreeView_PreviewMouseDoubleClick" >
                             <TreeView.InputBindings>
                                 <MouseBinding Gesture="LeftDoubleClick" Command="{Binding DblClickCommand}"/>
                             </TreeView.InputBindings>

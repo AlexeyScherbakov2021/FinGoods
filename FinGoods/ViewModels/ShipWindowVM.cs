@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Xml.Linq;
 
 namespace FinGoods.ViewModels
 {
@@ -48,12 +49,14 @@ namespace FinGoods.ViewModels
                 adding2.Parent = adding;
                 adding.Children.Add(adding2);
 
-                foreach (var item3 in item2.Modules)
-                {
-                    NodeModul adding3 = new NodeModul(item3.m_name, item3.m_number, item3);
-                    adding3.Parent = adding2;
-                    adding2.Children.Add(adding3);
-                }
+                AddModules(adding2, item2.Modules);
+
+                //foreach (var item3 in item2.Modules)
+                //{
+                //    NodeModul adding3 = new NodeModul(item3.m_name, item3.m_number, item3);
+                //    adding3.Parent = adding2;
+                //    adding2.Children.Add(adding3);
+                //}
             }
             SelectedNode = adding;
         }
@@ -63,18 +66,45 @@ namespace FinGoods.ViewModels
             NodeProd adding = new NodeProd(prod.g_name, prod.g_number, prod);
             listComposite.Add(adding);
 
-            foreach (var item2 in prod.Modules)
+            AddModules(adding, prod.Modules);
+
+            //foreach (var item2 in prod.Modules)
+            //{
+            //    NodeModul adding2 = new NodeModul(item2.m_name, item2.m_number, item2);
+            //    adding2.Parent = adding;
+            //    adding.Children.Add(adding2);
+            //}
+        }
+
+        private void AddModules(Node ToNode, ObservableCollection<Module> listModeules)
+        {
+            foreach (var item2 in listModeules)
             {
                 NodeModul adding2 = new NodeModul(item2.m_name, item2.m_number, item2);
-                adding2.Parent = adding;
-                adding.Children.Add(adding2);
+                adding2.Parent = ToNode;
+                ToNode.Children.Add(adding2);
+            }
+        }
+
+        private void AddProducts(Node ToNode, SetterOut setter)
+        {
+            foreach (var item2 in setter.Products)
+            {
+                NodeProd adding2 = new NodeProd(item2.g_name, item2.g_number, item2);
+                adding2.Parent = ToNode;
+                AddModules(adding2, item2.Modules);
+                ToNode.Children.Add(adding2);
             }
         }
 
 
 
+
         public ShipWindowVM(Shipment co)
         {
+            if (co == null)
+                return;
+
             Ship = co;
             foreach (var item in Ship.SetterOuts)
                 addNodeSetter(item);
@@ -127,8 +157,8 @@ namespace FinGoods.ViewModels
 
             if (win.ShowDialog() == true)
             {
-                vm.selectedProduct.g_number =
-                    ProdWindowVM.CreateSerialNumber(vm.selectedProduct, Ship.c_number.Substring(0, 6));
+                //vm.selectedProduct.g_number =
+                //    ProdWindowVM.CreateSerialNumber(vm.selectedProduct, Ship.c_number.Substring(0, 6));
                 Ship.Products.Add(vm.selectedProduct);
                 RepositoryMSSQL<Shipment> repo = new RepositoryMSSQL<Shipment>();
                 repo.Save();
@@ -234,22 +264,38 @@ namespace FinGoods.ViewModels
                 ModulWindow win = new ModulWindow();
                 ModulWindowVM vm = new ModulWindowVM(mod);
                 win.DataContext = vm;
-                win.ShowDialog();
+                if(win.ShowDialog() == true)
+                {
+                    SelectedNode.Name = mod.m_name;
+                    SelectedNode.Number = mod.m_number;
+                }
             }
             else if (SelectedNode.Item is Product prod)
             {
                 ProdWindow win = new ProdWindow();
                 ProdWindowVM vm = new ProdWindowVM(prod);
                 win.DataContext = vm;
-                win.ShowDialog();
-
+                if (win.ShowDialog() == true)
+                {
+                    // обновление модулей
+                    SelectedNode.Children.Clear();
+                    AddModules(SelectedNode, prod.Modules);
+                    SelectedNode.Name = prod.g_name;
+                    SelectedNode.Number = prod.g_number;
+                }
             }
+
             else if (SelectedNode.Item is SetterOut setOut)
             {
                 SetterWindow win = new SetterWindow();
                 SetterWindowVM vm = new SetterWindowVM(setOut);
                 win.DataContext = vm;
-                win.ShowDialog();
+                if(win.ShowDialog() == true)
+                {
+                    SelectedNode.Children.Clear();
+                    AddProducts(SelectedNode, setOut);
+                    SelectedNode.Name = setOut.s_name;
+                }
             }
 
         }

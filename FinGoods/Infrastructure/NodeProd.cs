@@ -12,8 +12,9 @@ namespace FinGoods.Infrastructure
     internal class NodeProd : Node
     {
         public NodeProd(string name, string Num, Product prod) 
-        { 
-            Name = name; 
+        {
+            Name = (prod.g_zip ? "[ЗИП] " : "") + name;
+            //Name = name; 
             Number = Num;
             Item = prod;
             isRoot = prod.idShipment != null;

@@ -23,32 +23,15 @@ namespace ExportData
 
         static void Main(string[] args)
         {
-            //string line = "9623103764; 96221203888 (26.4)    " +
-            //    "G3 31.08.2022\r\nшунт 100А 75мВ\r\nАКБ 12.2022";
-
-            ////Regex reg = new Regex(@"НГК-КИП-[^\s]+\s[^\s]+\s");
-            //Regex reg = new Regex(@"НГК-КИП-[\w()-|\s]+№");
-            //Regex redNum = new Regex(@"\s№\s[.|\d]+");
-            //Regex redBI = new Regex(@"\d{8,}");
-            //Regex redSh = new Regex(@".\s");
-
-            //var res = reg.Matches(line);
-            //var res1 = redNum.Matches(line);
-            //var res2 = redBI.Matches(line);
-            //var res4 = redSh.Match(line, res2.Index + res2.Length);
-
-            //var res3 = redUS.Matches(line);
-
-
             RepositoryMSSQL<Product> repoProd = new RepositoryMSSQL<Product>();
             RepositoryMSSQL<SetterOut> repoSet = new RepositoryMSSQL<SetterOut>();
             RepositoryMSSQL<Shipment> repoShip = new RepositoryMSSQL<Shipment>();
             RepositoryMSSQL<Modules> repoModel = new RepositoryMSSQL<Modules>();
 
-            using (XLWorkbook wb = new XLWorkbook("d:\\Work\\C#\\2022\\FinGoods\\Doc\\Журнал 2023.xlsx"))
+            using (XLWorkbook wb = new XLWorkbook("d:\\Work\\C#\\2022\\FinGoods\\Doc\\Журнал 2024.xlsx"))
             {
                 int row = 3;
-                var sheet = wb.Worksheets.Worksheet(1);
+                var sheet = wb.Worksheets.Worksheet(6);
 
                 for (; ; row++)
                 {
@@ -92,11 +75,10 @@ namespace ExportData
                         prod.SetterOut = new SetterOut();
                         prod.SetterOut.s_name = "_" + prod.g_name;
                         prod.SetterOut.Product.Add(prod);
-                        //repoSet.Add(prod.SetterOut);
                     }
 
-                    prod.SetterOut.s_orderNum = sheet.Cell(row, 9).GetString().Trim();//.Replace("\n", " ");
-                    prod.SetterOut.s_orderNum = Regex.Replace(prod.SetterOut.s_orderNum, @"[\t\n\r\ ]{1,}", " ");
+                    prod.SetterOut.s_orderNum = sheet.Cell(row, 9).GetString().Trim();
+                    prod.SetterOut.s_orderNum = Regex.Replace(prod.SetterOut.s_orderNum, @"[\t\n\r\ ]{1,}", " ").Trim();
 
                     // обработка отгрузки
 
@@ -104,14 +86,13 @@ namespace ExportData
                     {
                         prod.SetterOut.Shipment = new Shipment();
                         prod.SetterOut.Shipment.SetterOut.Add(prod.SetterOut);
-                        //repoShip.Add(prod.SetterOut.Shipment);
                     }
 
-                    var resCardOrder = Regex.Match(sheet.Cell(row, 9).GetString(), @"\b[\w.-]+$");
+                    //var resCardOrder = Regex.Match(sheet.Cell(row, 9).GetString(), @"\b[\w.-]+$");
+                    var resSchet = Regex.Match(sheet.Cell(row, 9).GetString(), @"\b[\w]+\b");
 
-                    //prod.SetterOut.Shipment.c_schet = sheet.Cell(row, 9).GetString().Trim().Replace("\n", " ");
-                    prod.SetterOut.Shipment.c_schet = Regex.Replace(sheet.Cell(row, 9).GetString(), @"\s+\b[\w.-]+$", "");
-                    prod.SetterOut.Shipment.c_cardOrder = resCardOrder.Value;
+                    prod.SetterOut.Shipment.c_schet = resSchet.Value;
+                    prod.SetterOut.Shipment.c_cardOrder = Regex.Replace(sheet.Cell(row, 9).GetString(), resSchet.Value, "").Trim();
                     prod.SetterOut.Shipment.c_customer = sheet.Cell(row, 15).GetString().Trim();
                     prod.SetterOut.Shipment.c_objectInstall = sheet.Cell(row, 18).GetString().Trim();
 
