@@ -85,6 +85,12 @@ namespace FinGoods.Models
         public string c_cardOrder { get => _c_cardOrder; set { Set(ref _c_cardOrder, value); } }
         private string _c_cardOrder;
 
+        [StringLength(80)]
+        public string c_numberUPD { get => _c_numberUPD; set { Set(ref _c_numberUPD, value); } }
+        private string _c_numberUPD;
+
+
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ObservableCollection<Module> Modules { get; set; }
 

@@ -40,9 +40,20 @@ namespace FinGoods.Models
         public virtual DbSet<SetterOut> SetterOuts { get; set; }
         public virtual DbSet<Shipment> Shipments { get; set; }
         public virtual DbSet<SerialNumber> SerialNumbers { get; set; }
+        public virtual DbSet<Users> Users { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Users>()
+                .Property(e => e.UserName)
+                .IsUnicode(false);
+            modelBuilder.Entity<Users>()
+                .Property(e => e.UserPass)
+                .IsUnicode(false);
+            modelBuilder.Entity<Users>()
+                .Property(e => e.UserFullName)
+                .IsUnicode(false);
+
 
             modelBuilder.Entity<Module>()
                 .Property(e => e.m_name)

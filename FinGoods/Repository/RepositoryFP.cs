@@ -134,5 +134,75 @@ namespace FinGoods.Repository
             }
 
         }
+
+        public List<Users> GetListUsers()
+        {
+            List<Users> listUser = new List<Users>();
+
+            try
+            {
+                conn.Open();
+                SqlCommand cmd = conn.CreateCommand();
+                cmd.CommandText = "SELECT UserId,UserName,UserPass,UserFullName " +
+                   "FROM Users where DTDel is null order by UserName";
+                SqlDataReader read = cmd.ExecuteReader();
+
+                while (read.Read())
+                {
+                    Users user = new Users();
+                    user.id = read.GetInt32(0);
+                    user.UserName = read.GetString(1);
+                    user.UserPass = read.GetString(2);
+                    user.UserFullName = read.GetString(3);
+
+                    listUser.Add(user);
+                }
+                return listUser;
+            }
+            catch
+            {
+                return null;
+            }
+
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        public Users GetUser(int id)
+        {
+            try
+            {
+                conn.Open();
+                SqlCommand cmd = conn.CreateCommand();
+                cmd.CommandText = "SELECT UserId,UserName,UserPass,UserFullName " +
+                   "FROM Users where DTDel is null and UserId=@id";
+                cmd.Parameters.AddWithValue("id", id);
+                SqlDataReader read = cmd.ExecuteReader();
+
+                Users user = null;
+                if (read.Read())
+                {
+                    user = new Users();
+                    user.id = read.GetInt32(0);
+                    user.UserName = read.GetString(1);
+                    user.UserPass = read.GetString(2);
+                    user.UserFullName = read.GetString(3);
+
+                }
+                return user;
+            }
+            catch
+            {
+                return null;
+            }
+
+            finally
+            {
+                conn.Close();
+            }
+        }
+
     }
 }

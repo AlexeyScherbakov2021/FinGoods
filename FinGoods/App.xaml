@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:cmd="clr-namespace:FinGoods.Commands"
              xmlns:local="clr-namespace:FinGoods"
-             StartupUri="View/MainWindow.xaml">
+             StartupUri="View/LoginWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

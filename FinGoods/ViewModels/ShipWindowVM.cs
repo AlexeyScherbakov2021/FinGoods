@@ -302,7 +302,6 @@ namespace FinGoods.ViewModels
                     SelectedNode.Name = setOut.s_name;
                 }
             }
-
         }
 
         //--------------------------------------------------------------------------------
@@ -327,6 +326,29 @@ namespace FinGoods.ViewModels
             }
         }
 
+
+        //--------------------------------------------------------------------------------
+        // Команда Добавить модуль в выбраннре изделение
+        //--------------------------------------------------------------------------------
+        public ICommand AddModulToProdCommand => new LambdaCommand(OnAddModulToProdCommandExecuted, CanAddModulToProdCommand);
+        private bool CanAddModulToProdCommand(object p) => true;
+        private void OnAddModulToProdCommandExecuted(object p)
+        {
+            //if (SelectedNode.Item is Product prod)
+            //{
+            //    AllModulesWindow win = new AllModulesWindow();
+            //    AllModulesWindowVM vm = new AllModulesWindowVM(prod.Modules);
+            //    win.DataContext = vm;
+            //    if (win.ShowDialog() == true && vm.selectedModule != null)
+            //    {
+            //        prod.Modules.Add(vm.selectedModule);
+            //        RepositoryMSSQL<Shipment> repo = new RepositoryMSSQL<Shipment>();
+            //        repo.Save();
+            //        NodeModul node = new NodeModul(vm.selectedModule.m_name, vm.selectedModule.m_number, vm.selectedModule);
+            //        listComposite.Add(node);
+            //    }
+            //}
+        }
 
         #endregion
 

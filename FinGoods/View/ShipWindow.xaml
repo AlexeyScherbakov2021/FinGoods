@@ -13,6 +13,7 @@
         Style="{StaticResource WindowStyle}"
         WindowStartupLocation="CenterScreen"
         MinHeight="500"
+        x:Name="mainWin"
         Title="Состав отгрузки" Height="700" Width="800">
     <Window.DataContext>
         <vm:ShipWindowVM/>
@@ -46,6 +47,8 @@
     
 
     <DockPanel>
+        <FrameworkElement x:Name="proxy" Visibility="Collapsed" DataContext="{Binding}"/>
+        
         <UniformGrid DockPanel.Dock="Bottom" Columns="2" Margin="10" Background="#FFFBFBFB">
             <Button Content="OK" Margin="8" Style="{StaticResource ButtonStyleShadow}">
                 <Button.Command>
@@ -58,7 +61,7 @@
         <Border BorderThickness="1" BorderBrush="Gray" Margin="4" CornerRadius="3">
             <Grid Margin="10">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="180"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
@@ -67,6 +70,7 @@
                     <RowDefinition Height="8*"/>
                     <RowDefinition Height="8*"/>
                     <RowDefinition Height="17*"/>
+                    <RowDefinition Height="8*"/>
                     <!--<RowDefinition Height="0"/>-->
                     <RowDefinition Height="120*"/>
                 </Grid.RowDefinitions>
@@ -82,7 +86,7 @@
                     </Style>
                 </Grid.Resources>
 
-                <TextBlock Text="Счет" Margin="6,0"/>
+                <TextBlock Text="Договор/Спецификация(счет)" Margin="6,0"/>
                 <DockPanel  Grid.Column="1">
                     <ToggleButton Content="..." x:Name="toggle"  DockPanel.Dock="Right" Width="38" 
                                   Margin="0,4,12,4" ToolTip="Выбрать из списка ФП"/>
@@ -110,8 +114,8 @@
                 <TextBlock Text="Объект установки" Grid.Row="4" Margin="6,0"/>
                 <TextBox Text="{Binding Ship.c_objectInstall}" Grid.Row="4" Grid.Column="1" />
 
-                <!--<TextBlock Text="Счет" Grid.Row="4" Margin="6,0"/>
-                <TextBox Text="{Binding Ship.c_schet}" Grid.Row="4" Grid.Column="1" />-->
+                <TextBlock Text="Номер УПД" Grid.Row="5" Margin="6,0"/>
+                <TextBox Text="{Binding Ship.c_numberUPD}" Grid.Row="5" Grid.Column="1" />
 
                 <GroupBox Header="Состав отгрузки" Grid.Row="6" Grid.ColumnSpan="2" Margin="0,8,0,0" Padding="4"
                           BorderThickness="1" BorderBrush="Gray">
@@ -161,12 +165,26 @@
                                     <StackPanel Orientation="Horizontal" Margin="2">
                                         <fa:ImageAwesome Icon="Solid_LayerGroup" Width="16" Height="16" Foreground="Blue"/>
                                         <TextBlock Margin="3,0,0,0" Text="{Binding NodeName}"/>
+                                        <StackPanel.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem Header="Добавить изделие"/>
+                                                <MenuItem Header="Удалить набор" Command="{Binding DataContext.DeleteCommand, Source={x:Reference proxy}}"/>
+                                                <MenuItem Header="Перенести набор в другую отгрузку"/>
+                                            </ContextMenu>
+                                        </StackPanel.ContextMenu>
                                     </StackPanel>
                                 </HierarchicalDataTemplate>
                                 <HierarchicalDataTemplate DataType="{x:Type inf:NodeProd}" ItemsSource="{Binding Children}">
                                     <StackPanel Orientation="Horizontal" Margin="2">
                                         <fa:ImageAwesome Icon="Solid_Cogs" Width="16" Height="16" Foreground="Blue"/>
                                         <TextBlock Margin="3,0,0,0" Text="{Binding NodeName}"/>
+                                        <StackPanel.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem Header="Добавить модуль" Command="{Binding DataContext.AddModulToProdCommand, Source={x:Reference proxy}}"/>
+                                                <MenuItem Header="Удалить изделие" Command="{Binding DataContext.DeleteCommand, Source={x:Reference proxy}}"/>
+                                                <MenuItem Header="Перенести изделие в другую отгрузку"/>
+                                            </ContextMenu>
+                                        </StackPanel.ContextMenu>
                                     </StackPanel>
                                 </HierarchicalDataTemplate>
                                 <DataTemplate DataType="{x:Type inf:NodeModul}">
@@ -180,17 +198,19 @@
                                                 </MultiBinding>
                                             </TextBlock.Text>-->
                                         </TextBlock>
+                                        <StackPanel.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem Header="Удалить модуль" Command="{Binding DataContext.DeleteCommand, Source={x:Reference proxy}}"/>
+                                                <MenuItem Header="Перенести модуль в другую отгрузку"/>
+                                            </ContextMenu>
+                                        </StackPanel.ContextMenu>
                                     </StackPanel>
                                 </DataTemplate>
                             </TreeView.Resources>
                         </TreeView>
                     </DockPanel>
-
                 </GroupBox>
             </Grid>
         </Border>
-        
-
-
     </DockPanel>
 </Window>
