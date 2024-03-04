@@ -98,6 +98,7 @@ namespace FinGoods.ViewModels
 
             if(win.ShowDialog() == true)
             {
+                Ship.Copy(vm.Ship);
                 if (repoShip.Add(Ship))
                 {
                     listShip.Add(Ship);
@@ -105,7 +106,6 @@ namespace FinGoods.ViewModels
                     SelectShip = Ship;
                 }
             }
-
         }
 
         //--------------------------------------------------------------------------------
@@ -133,7 +133,6 @@ namespace FinGoods.ViewModels
         private bool CanDelShipCommand(object p) => SelectShip != null;
         private void OnDelShipCommandExecuted(object p)
         {
-
             if(MessageBox.Show($"Удалить «{SelectShip.c_number}»","Предупреждение", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
                 repoShip.Delete(SelectShip.id);

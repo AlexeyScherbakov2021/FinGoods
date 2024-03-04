@@ -4,6 +4,8 @@ using FinGoods.Repository;
 using FinGoods.View;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Data.Entity.Core.Metadata.Edm;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +16,20 @@ namespace FinGoods.ViewModels
 {
     internal class ModulWindowVM : Observable
     {
-        public Module module { get; set; } = new Module();
+        private Module _module = new Module();
+        public Module module { get => _module; set { Set(ref _module, value); } } 
+
+        public ObservableCollection<Module> listAddModules { get; set; } = new ObservableCollection<Module>();
+        
+        private bool _isEnable = true;
+        public bool isEnable { get => _isEnable; set { Set(ref _isEnable, value); } }
+
+        private string _HeigthRow = "*";
+        public string HeightRow { get => _HeigthRow; set { Set(ref _HeigthRow, value); } }
+
+        private Visibility _isVisible = Visibility.Collapsed;
+        public Visibility isVisible { get => _isVisible; set { Set(ref _isVisible, value); } }
+
         private readonly RepositoryMSSQL<ModuleType> repoMdulType = new RepositoryMSSQL<ModuleType>();
         public List<ModuleType> listModuleType { get; set; }
         private ModuleType selectedModule;
@@ -28,7 +43,17 @@ namespace FinGoods.ViewModels
 
         public ModulWindowVM(Module m)
         {
-            module.Copy(m);
+            if (m == null)
+            {
+                module = new Module();
+                isVisible = Visibility.Visible;
+            }
+            else
+            {
+                module.Copy(m);
+                HeightRow = "0";
+            }
+
             listModuleType = new List<ModuleType>(repoMdulType.Items.Where(it => it.idParent == null));
         }
 
@@ -56,6 +81,27 @@ namespace FinGoods.ViewModels
             {
                 selectedModule = (ModuleType)e.NewValue;
             }
+        }
+
+        //--------------------------------------------------------------------------------
+        // Команда OK
+        //--------------------------------------------------------------------------------
+        public ICommand AddCommand => new LambdaCommand(OnAddCommandExecuted, CanAddCommand);
+        private bool CanAddCommand(object p) => !string.IsNullOrEmpty( module.m_number);
+        private void OnAddCommandExecuted(object p)
+        {
+            isEnable = false;
+            listAddModules.Add(module);
+            Module newModule = new Module() 
+            { 
+                m_name = module.m_name,
+                m_dateCreate = module.m_dateCreate,
+                ModuleType = module.ModuleType,
+                m_numberFW = module.m_numberFW,
+                m_zip = module.m_zip,
+            };
+
+            module = newModule;
         }
 
         //--------------------------------------------------------------------------------

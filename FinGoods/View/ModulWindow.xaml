@@ -11,7 +11,7 @@
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Style="{StaticResource WindowStyle}"
         MinHeight="300" MinWidth="400"
-        Title="Модуль" Height="400" Width="500">
+        Title="Модуль" Height="400" Width="550">
     <Window.DataContext>
         <vm:ModulWindowVM/>
     </Window.DataContext>
@@ -19,16 +19,17 @@
     <DockPanel>
         <FrameworkElement x:Name="proxy" Visibility="Collapsed" DataContext="{Binding}"/>
 
-        <UniformGrid Columns="2" DockPanel.Dock="Bottom" Margin="8">
-            <Button Content="OK" Margin="4" Style="{StaticResource ButtonStyleShadow}" >
+        <UniformGrid DockPanel.Dock="Bottom" Margin="8" Rows="1">
+            <Button Content="OK" Margin="4" Style="{StaticResource ButtonStyleShadow}">
                 <Button.Command>
                     <cmd:CloseDialogCommand DialogResult="True"/>
                 </Button.Command>
             </Button>
+            <Button Content="Добавить" Visibility="{Binding isVisible}" Margin="4" Style="{StaticResource ButtonStyleShadow}" Command="{Binding AddCommand}" IsTabStop="False" Click="Button_Click"/>
             <Button Content="Отменить" Margin="4" IsCancel="True" Style="{StaticResource ButtonStyleShadow}"/>
         </UniformGrid>
 
-       
+
         <Border BorderBrush="Gray" BorderThickness="1" Margin="6" CornerRadius="3">
 
             <Grid Margin="4">
@@ -39,6 +40,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition/>
+                    <RowDefinition Height="{Binding HeightRow}"/>
                     <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
@@ -63,29 +65,42 @@
                     <Button Content="№" DockPanel.Dock="Right" Width="28" Margin="0,6,4,6" 
                             ToolTip="Генерировать номер" Command="{Binding GenNumCommand}"
                             Style="{StaticResource ButtonStyleShadow}"/>
-                    <TextBox Text="{Binding module.m_number}" Margin="4,6,0,6"/>
+                    <TextBox x:Name="NumberModul"  Text="{Binding module.m_number, UpdateSourceTrigger=PropertyChanged}" Margin="4,6,0,6"/>
                 </DockPanel>
 
-                <TextBlock Text="Наименование" Grid.Row="2" Grid.Column="0"/>
-                <TextBox Text="{Binding module.m_name}" Grid.Row="2" Grid.Column="1"/>
+                <ListBox Grid.Row="2" Grid.ColumnSpan="2" Background="Gainsboro" 
+                        DisplayMemberPath="m_number" Margin="4,0"
+                        ItemsSource="{Binding listAddModules}">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                </ListBox>
 
-                <TextBlock Text="Дата изготовления" Grid.Row="3" Grid.Column="0"/>
+
+                <TextBlock Text="Наименование" Grid.Row="3" Grid.Column="0"/>
+                <TextBox Text="{Binding module.m_name}" Grid.Row="3" Grid.Column="1" IsEnabled="{Binding isEnable}"/>
+
+                <TextBlock Text="Дата изготовления" Grid.Row="4" Grid.Column="0"/>
                 <!--<TextBox Text="{Binding module.m_dateCreate}" Grid.Row="3" Grid.Column="1"/>-->
                 <DatePicker SelectedDate="{Binding module.m_dateCreate}" Margin="4,2" 
-                        Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Padding="2,2,2,0">
+                             IsEnabled="{Binding isEnable}"
+                        Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" Padding="2,2,2,0">
                     <DatePicker.Resources>
                         <Style TargetType="TextBlock"/>
                     </DatePicker.Resources>
                 </DatePicker>
 
-                <TextBlock Text="Номер прошивки" Grid.Row="4" Grid.Column="0"/>
-                <TextBox Text="{Binding module.m_numberFW}" Grid.Row="4" Grid.Column="1"/>
+                <TextBlock Text="Номер прошивки" Grid.Row="5" Grid.Column="0"/>
+                <TextBox Text="{Binding module.m_numberFW}" Grid.Row="5" Grid.Column="1" Margin="4,6,4,6" IsEnabled="{Binding isEnable}"/>
 
-                <CheckBox Content="ЗИП" IsChecked="{Binding module.m_zip}" Grid.Row="5" Grid.Column="1" Margin="4,8"/>
+                <CheckBox Content="ЗИП" IsChecked="{Binding module.m_zip}" Grid.Row="6" Grid.Column="1" Margin="4,8" IsEnabled="{Binding isEnable}"/>
 
                 <TextBlock Text="Тип модуля" Grid.Row="0" Grid.Column="0"/>
                 <DockPanel  Grid.Column="1" Margin="0,6,4,6">
                     <ToggleButton x:Name="toggle" Grid.Column="1" Grid.ColumnSpan="2" DockPanel.Dock="Right"
+                                   IsEnabled="{Binding isEnable}"
                               VerticalContentAlignment="Center" Padding="2,0" IsChecked="{Binding isOpenPopup}"
                               Margin="0,2" FocusVisualStyle="{x:Null}" 
                               >
@@ -114,7 +129,8 @@
                             </TreeView.ItemTemplate>
                         </TreeView>
                     </Popup>
-                    <TextBox x:Name="forPopup" Text="{Binding module.ModuleType.mt_name}" IsReadOnly="True" Margin="4,2,0,2"/>
+                    <TextBox x:Name="forPopup" Text="{Binding module.ModuleType.mt_name}" IsReadOnly="True"
+                              IsEnabled="{Binding isEnable}" Margin="4,2,0,2"/>
                 </DockPanel>
                 <!--<Expander Name="exDim" Header="Тип модуля" VerticalContentAlignment="Top" Height="23" 
                                Grid.Row="0" Grid.Column="1" Grid.RowSpan="4"

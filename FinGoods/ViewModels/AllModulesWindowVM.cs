@@ -101,17 +101,32 @@ namespace FinGoods.ViewModels
         private bool CanAddModulCommand(object p) => true;
         private void OnAddModulCommandExecuted(object p)
         {
-            Module newMod = new Module();
+            Module newMod = null; // = new Module();
             ModulWindow win = new ModulWindow();
             ModulWindowVM vm = new ModulWindowVM(newMod);
             win.DataContext = vm;
             if (win.ShowDialog() == true)
             {
-                newMod.Copy(vm.module);
-                if (repo.Add(newMod, true))
+                foreach( var item in vm.listAddModules)
                 {
-                    listModules.Add(newMod);
-                    selectedModule = newMod;
+                    newMod = new Module();
+                    newMod.Copy(item);
+                    if (repo.Add(newMod, true))
+                    {
+                        listModules.Add(newMod);
+                        selectedModule = newMod;
+                    }
+                }
+
+                if(!string.IsNullOrEmpty( vm.module.m_number))
+                {
+                    newMod = new Module();
+                    newMod.Copy(vm.module);
+                    if (repo.Add(newMod, true))
+                    {
+                        listModules.Add(newMod);
+                        selectedModule = newMod;
+                    }
                 }
             }
         }
