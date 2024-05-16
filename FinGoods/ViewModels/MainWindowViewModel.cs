@@ -122,7 +122,16 @@ namespace FinGoods.ViewModels
             if(win.ShowDialog() == true)
             {
                 SelectShip.Copy(vm.Ship);
-                repoShip.Save();
+                try
+                {
+                    repoShip.Save();
+                }
+                catch
+                {
+                    MessageBox.Show($"Ошибка записи в базу данных. Возможно было дублирование заводского номера.",
+                        "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+
             }
         }
 
@@ -241,6 +250,10 @@ namespace FinGoods.ViewModels
                 win.ShowDialog();
             }
         }
+
+        //--------------------------------------------------------------------------------
+        // Команда Поиск карты заказа
+        //--------------------------------------------------------------------------------
         #endregion
 
     }

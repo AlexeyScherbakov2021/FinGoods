@@ -1,0 +1,37 @@
+﻿<UserControl x:Class="FinGoods.View.GrafikUS"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FinGoods.View"
+             xmlns:vm="clr-namespace:FinGoods.ViewModels"
+             mc:Ignorable="d" 
+             Background="Gainsboro" Width="1179" Height="542">
+    <UserControl.DataContext>
+        <vm:GrafikUCVM/>
+    </UserControl.DataContext>
+    <DockPanel >
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="4" Background="Gainsboro">
+            <TextBlock Text="Фильтр" Margin="6,0" VerticalAlignment="Center"/>
+            <TextBox Text="{Binding Filtr,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="400" VerticalAlignment="Center" Margin="0,4"/>
+        </StackPanel>
+        <!--<ListBox ItemsSource="{Binding listGrafikView}" SelectedItem="{Binding selectGrafik}" DisplayMemberPath="AllInf">
+        </ListBox>-->
+        <DataGrid ItemsSource="{Binding listGrafikView}"  SelectedItem="{Binding selectGrafik}" IsReadOnly="True"
+                  SelectionMode="Single" AutoGenerateColumns="False"
+                  Style="{StaticResource DataGridStyle}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Номер" Binding="{Binding number}"/>
+                <DataGridTextColumn Header="Покупатель" Binding="{Binding buyer}"/>
+                <DataGridTextColumn Header="Счет/Спецтф." Binding="{Binding specif}"/>
+                <DataGridTextColumn Header="№ ФП" Binding="{Binding numFP}"/>
+                <DataGridTextColumn Header="Карта заказа" Binding="{Binding cardOrder}"/>
+                <DataGridTextColumn Header="Заказ" Binding="{Binding order}"/>
+                <DataGridTextColumn Header="Наименование" Binding="{Binding name}"/>
+                <DataGridTextColumn Header="Заказчик" Binding="{Binding customer}"/>
+                <DataGridTextColumn Header="Объект установки" Binding="{Binding objInstall}"/>
+                <DataGridTextColumn Header="Опросный лист" Binding="{Binding oprList}" Width="200"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</UserControl>

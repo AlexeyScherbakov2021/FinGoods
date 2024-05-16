@@ -101,7 +101,18 @@
                 </DockPanel>
 
                 <TextBlock Text="Карта заказа" Grid.Row="1" Margin="6,0"/>
-                <TextBox Text="{Binding Ship.c_cardOrder}" Grid.Row="1" Grid.Column="1" />
+                <DockPanel  Grid.Column="1" Grid.Row="1">
+                    <ToggleButton Content="..." x:Name="toggleKZ"  DockPanel.Dock="Right" Width="38" 
+                                  Margin="0,4,12,4" ToolTip="Выбрать из Графика поставок"/>
+                    <Popup x:Name="popupKZ" Placement="Bottom" IsOpen="{Binding IsChecked, ElementName=toggleKZ}"
+                           StaysOpen="False" PlacementTarget="{Binding ElementName=forPopupKZ}"
+                           VerticalOffset="-1" PopupAnimation="Scroll">
+                        <Border BorderThickness="1" BorderBrush="Gray" >
+                            <local:GrafikUS x:Name="contractKZ" Width="800" Height="400" PreviewMouseDoubleClick="contractKZ_PreviewMouseDoubleClick" />
+                        </Border>
+                    </Popup>
+                    <TextBox x:Name="forPopupKZ" Text="{Binding Ship.c_cardOrder}" Grid.Row="1" Grid.Column="1" Margin="4,4,0,4"/>
+                </DockPanel>
 
 
                 <TextBlock Text="Дата отрузки" Grid.Row="2" Margin="6,0"/>

@@ -118,7 +118,7 @@ namespace FinGoods.ViewModels
                     }
                 }
 
-                if(!string.IsNullOrEmpty( vm.module.m_number))
+                if (!string.IsNullOrEmpty( vm.module.m_number))
                 {
                     newMod = new Module();
                     newMod.Copy(vm.module);
@@ -144,7 +144,15 @@ namespace FinGoods.ViewModels
             if (win.ShowDialog() == true)
             {
                 selectedModule.Copy(vm.module);
-                repo.Save();
+                try
+                {
+                    repo.Save();
+                }
+                catch
+                {
+                    MessageBox.Show($"Ошибка записи в базу данных. Возможно было дублирование номера {selectedModule.m_number} модуля.",
+                        "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
 
@@ -198,9 +206,19 @@ namespace FinGoods.ViewModels
                 ShipWindowVM vm = new ShipWindowVM(selectedModule.Shipment);
                 win.DataContext = vm;
                 win.ShowDialog();
+                
             }
         }
 
+        //--------------------------------------------------------------------------------
+        // Команда Перенести в другой заказ
+        //--------------------------------------------------------------------------------
+        //public ICommand MoveCommand => new LambdaCommand(OnMoveCommandExecuted, CanMoveCommand);
+        //private bool CanMoveCommand(object p) => selectedModule != null;
+        //private void OnMoveCommandExecuted(object p)
+        //{
+
+        //}
 
         #endregion
 

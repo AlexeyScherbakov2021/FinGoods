@@ -65,7 +65,6 @@ namespace FinGoods.Repository
 
         }
 
-
         public void Undelete(T item)
         {
             if (item is null || item.id <= 0)

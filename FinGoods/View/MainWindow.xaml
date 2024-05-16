@@ -18,7 +18,7 @@
 
     <DockPanel>
         <Border DockPanel.Dock="Left"  Background="LightGray" BorderThickness="1" BorderBrush="Gray">
-            <StackPanel Margin="0,30,0,0">
+            <StackPanel Margin="0,0,0,20" VerticalAlignment="Bottom">
                 <StackPanel.Resources>
                     <Style TargetType="{x:Type Button}" BasedOn="{StaticResource ResourceKey=ButtonStyleShadow}">
                         <Setter Property="Margin" Value="8"/>
@@ -35,6 +35,16 @@
                         <Setter Property="TextAlignment" Value="Center"/>
                     </Style>
                 </StackPanel.Resources>
+                <Image Source="/Styles/ngk-logo-clean-small.png" RenderTransformOrigin="0.5,0.5" Height="111" Width="482" Margin="-191,0,-142,150">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="270"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
                 <Button ToolTip="Работа с наборами" Command="{Binding OpenSetterCommand}">
                     <StackPanel Orientation="Horizontal" >
                         <fa:ImageAwesome Icon="Solid_LayerGroup" Width="30" Foreground="Blue" DockPanel.Dock="Left"/>
@@ -60,14 +70,15 @@
                     </DockPanel>
                 </Button>
                 <Button ToolTip="Закрыть программу" >
+
+                    <Button.Command>
+                        <cmd:CloseWindowCommand/>
+                    </Button.Command>
                     <StackPanel Orientation="Horizontal">
                         <fa:ImageAwesome Icon="Solid_PowerOff" Width="30" Foreground="Blue"/>
                         <TextBlock Text="Выход" VerticalAlignment="Center"/>
                     </StackPanel>
 
-                    <Button.Command>
-                        <cmd:CloseWindowCommand/>
-                    </Button.Command>
                 </Button>
             </StackPanel>
         </Border>
@@ -112,49 +123,49 @@
                 <inf:ScrollIntoViewBehavior/>
             </i:Interaction.Behaviors>
             <DataGrid.ColumnHeaderStyle>
-                    <Style TargetType="DataGridColumnHeader">
-                        <Setter Property="FontWeight" Value="Bold"/>
-                    </Style>
-                </DataGrid.ColumnHeaderStyle>
-                <DataGrid.InputBindings>
-                    <MouseBinding Gesture="LeftDoubleClick" Command="{Binding DataContext.EditShipCommand, ElementName=mainWindow}"/>
-                    <KeyBinding Key="Enter" Command="{Binding DataContext.EditShipCommand, ElementName=mainWindow}"/>
-                </DataGrid.InputBindings>
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Счет" Binding="{Binding c_schet}" Width="auto"/>
-                    <DataGridTextColumn Header="Карта заказа" Binding="{Binding c_cardOrder}" Width="auto"/>
-                    <DataGridTextColumn Header="Заказчик" Binding="{Binding c_customer}"/>
-                    <DataGridTextColumn Header="Дата отгрузки" Binding="{Binding c_dateOut, StringFormat=dd.MM.yyyy}"/>
-                    <DataGridTextColumn Header="Объект установки" Binding="{Binding c_objectInstall}" Width="auto"/>
-                </DataGrid.Columns>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+            <DataGrid.InputBindings>
+                <MouseBinding Gesture="LeftDoubleClick" Command="{Binding DataContext.EditShipCommand, ElementName=mainWindow}"/>
+                <KeyBinding Key="Enter" Command="{Binding DataContext.EditShipCommand, ElementName=mainWindow}"/>
+            </DataGrid.InputBindings>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Счет" Binding="{Binding c_schet}" Width="auto"/>
+                <DataGridTextColumn Header="Карта заказа" Binding="{Binding c_cardOrder}" Width="auto"/>
+                <DataGridTextColumn Header="Заказчик" Binding="{Binding c_customer}"/>
+                <DataGridTextColumn Header="Дата отгрузки" Binding="{Binding c_dateOut, StringFormat=dd.MM.yyyy}"/>
+                <DataGridTextColumn Header="Объект установки" Binding="{Binding c_objectInstall}" Width="auto"/>
+            </DataGrid.Columns>
 
-                <DataGrid.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Header="Добавить отгрузку" Command="{Binding DataContext.AddShipCommand, Source={x:Reference proxy}}">
-                            <MenuItem.Icon>
-                                    <fa:ImageAwesome Icon="Solid_Plus" Width="10" Foreground="Blue"/>
-                            </MenuItem.Icon>
-                        </MenuItem>
-                        <MenuItem Header="Редактировать отгрузку" Command="{Binding DataContext.EditShipCommand, Source={x:Reference proxy}}">
-                            <MenuItem.Icon>
-                                <fa:ImageAwesome Icon="Solid_PencilAlt" Width="10" Foreground="Blue"/>
-                            </MenuItem.Icon>
-                        </MenuItem>
-                        <MenuItem Header="Удалить отгрузку" Command="{Binding DataContext.DelShipCommand, Source={x:Reference proxy}}">
-                            <MenuItem.Icon>
-                                <fa:ImageAwesome Icon="Solid_Minus" Width="10" Foreground="Blue"/>
-                            </MenuItem.Icon>
-                        </MenuItem>
-                    </ContextMenu>
-                </DataGrid.ContextMenu>
-            </DataGrid>
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Добавить отгрузку" Command="{Binding DataContext.AddShipCommand, Source={x:Reference proxy}}">
+                        <MenuItem.Icon>
+                            <fa:ImageAwesome Icon="Solid_Plus" Width="10" Foreground="Blue"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Редактировать отгрузку" Command="{Binding DataContext.EditShipCommand, Source={x:Reference proxy}}">
+                        <MenuItem.Icon>
+                            <fa:ImageAwesome Icon="Solid_PencilAlt" Width="10" Foreground="Blue"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Удалить отгрузку" Command="{Binding DataContext.DelShipCommand, Source={x:Reference proxy}}">
+                        <MenuItem.Icon>
+                            <fa:ImageAwesome Icon="Solid_Minus" Width="10" Foreground="Blue"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+        </DataGrid>
 
-            <!--<Grid.ColumnDefinitions>
+        <!--<Grid.ColumnDefinitions>
                 <ColumnDefinition Width="28*"/>
                 <ColumnDefinition Width="50*"/>
             </Grid.ColumnDefinitions>-->
 
-            <!--<Grid Grid.Column="1" Background="Gainsboro">
+        <!--<Grid Grid.Column="1" Background="Gainsboro">
             </Grid>
 
             <GridSplitter Width="4" Background="Gray" BorderBrush="LightGray" BorderThickness="1" 

@@ -305,6 +305,38 @@ namespace FinGoods.ViewModels
         }
 
         //--------------------------------------------------------------------------------
+        // Команда Список заказов из ФП
+        //--------------------------------------------------------------------------------
+        public ICommand SelectGrafikCommand => new LambdaCommand(OnSelectGrafikCommandExecuted, CanSelectGrafikCommand);
+        private bool CanSelectGrafikCommand(object p) => true;
+        private void OnSelectGrafikCommandExecuted(object p)
+        {
+            var graf = (p as MouseButtonEventArgs).Source as GrafikExcel;
+            if (graf == null)
+                return;
+                //throw new Exception("Ошибка выбора заказа");
+
+            Ship.c_cardOrder = graf.cardOrder;
+            Ship.c_customer = graf.customer;
+            Ship.c_schet = graf.specif;
+            Ship.c_objectInstall = graf.objInstall;
+            Ship.c_questList = graf.oprList;
+
+            //foreach(var it in Ship.SetterOuts)
+            //{
+            //    foreach(var it2 in it.Products)
+            //    {
+            //        it2.g_questList = graf.oprList;
+            //    }
+            //}
+            //Ship.c_cardOrder = order.doc_name.Substring(0, 6);
+            //Ship.c_customer = order.cli_name;
+            //Ship.c_schet = order.PactNo;
+
+        }
+
+
+        //--------------------------------------------------------------------------------
         // Команда Поиск по номеру
         //--------------------------------------------------------------------------------
         public ICommand SearchCommand => new LambdaCommand(OnSearchCommandExecuted, CanSearchCommand);
