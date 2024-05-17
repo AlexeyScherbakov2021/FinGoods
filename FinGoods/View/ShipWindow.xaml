@@ -65,12 +65,13 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="8*"/>
-                    <RowDefinition Height="8*"/>
-                    <RowDefinition Height="8*"/>
-                    <RowDefinition Height="8*"/>
+                    <RowDefinition Height="9*"/>
+                    <RowDefinition Height="9*"/>
+                    <RowDefinition Height="14*"/>
+                    <RowDefinition Height="9*"/>
+                    <RowDefinition Height="9*"/>
                     <RowDefinition Height="17*"/>
-                    <RowDefinition Height="8*"/>
+                    <RowDefinition Height="9*"/>
                     <!--<RowDefinition Height="0"/>-->
                     <RowDefinition Height="120*"/>
                 </Grid.RowDefinitions>
@@ -114,21 +115,23 @@
                     <TextBox x:Name="forPopupKZ" Text="{Binding Ship.c_cardOrder}" Grid.Row="1" Grid.Column="1" Margin="4,4,0,4"/>
                 </DockPanel>
 
+                <TextBlock Text="Опросный лист" Grid.Row="2" Margin="6,0"/>
+                <TextBox Text="{Binding Ship.c_questList}" Grid.Row="2" Grid.Column="1" VerticalScrollBarVisibility="Auto"/>
 
-                <TextBlock Text="Дата отрузки" Grid.Row="2" Margin="6,0"/>
+                <TextBlock Text="Дата отрузки" Grid.Row="3" Margin="6,0"/>
                 <DatePicker SelectedDate="{Binding Ship.c_dateOut}" Margin="4,2,12,2"
-                        Grid.Row="2" Grid.Column="1" VerticalAlignment="Center"/>
+                        Grid.Row="3" Grid.Column="1" VerticalAlignment="Center"/>
 
-                <TextBlock Text="Заказчик" Grid.Row="3" Margin="6,0"/>
-                <TextBox Text="{Binding Ship.c_customer}" Grid.Row="3" Grid.Column="1" />
+                <TextBlock Text="Заказчик" Grid.Row="4" Margin="6,0"/>
+                <TextBox Text="{Binding Ship.c_customer}" Grid.Row="4" Grid.Column="1" />
 
-                <TextBlock Text="Объект установки" Grid.Row="4" Margin="6,0"/>
-                <TextBox Text="{Binding Ship.c_objectInstall}" Grid.Row="4" Grid.Column="1" />
+                <TextBlock Text="Объект установки" Grid.Row="5" Margin="6,0"/>
+                <TextBox Text="{Binding Ship.c_objectInstall}" Grid.Row="5" Grid.Column="1" />
 
-                <TextBlock Text="Номер УПД" Grid.Row="5" Margin="6,0"/>
-                <TextBox Text="{Binding Ship.c_numberUPD}" Grid.Row="5" Grid.Column="1" />
+                <TextBlock Text="Номер УПД" Grid.Row="6" Margin="6,0"/>
+                <TextBox Text="{Binding Ship.c_numberUPD}" Grid.Row="6" Grid.Column="1" />
 
-                <GroupBox Header="Состав отгрузки" Grid.Row="6" Grid.ColumnSpan="2" Margin="0,8,0,0" Padding="4"
+                <GroupBox Header="Состав отгрузки" Grid.Row="7" Grid.ColumnSpan="2" Margin="0,8,0,0" Padding="4"
                           BorderThickness="1" BorderBrush="Gray">
                     <DockPanel >
                         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,4,0,8">

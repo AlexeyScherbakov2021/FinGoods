@@ -75,7 +75,8 @@ namespace FinGoods.Models
         private string _c_customer;
 
         [StringLength(180)]
-        public string c_questList { get; set; }
+        public string c_questList { get => _c_questList; set { Set(ref _c_questList, value); } }
+        private string _c_questList;
 
         [StringLength(180)]
         public string c_schet { get => _c_schet; set { Set(ref _c_schet, value); } }
