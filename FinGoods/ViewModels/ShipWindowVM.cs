@@ -321,6 +321,7 @@ namespace FinGoods.ViewModels
             Ship.c_schet = graf.specif;
             Ship.c_objectInstall = graf.objInstall;
             Ship.c_questList = graf.oprList;
+            Ship.c_buyer = graf.buyer;
 
             //foreach(var it in Ship.SetterOuts)
             //{

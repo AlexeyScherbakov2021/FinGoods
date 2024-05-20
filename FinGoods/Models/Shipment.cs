@@ -30,6 +30,7 @@ namespace FinGoods.Models
             this.c_customer = ship.c_customer;
             this.c_dateOut = ship.c_dateOut;
             this.c_objectInstall = ship.c_objectInstall;
+            this.c_buyer = ship.c_buyer;
 
             if (SetterOuts == null)
                 SetterOuts = new ObservableCollection<SetterOut>();
@@ -66,7 +67,8 @@ namespace FinGoods.Models
         [StringLength(150)]
         public string c_number { get => _c_number; set { Set(ref _c_number, value); } }
 
-        public string c_objectInstall { get; set; }
+        public string c_objectInstall { get => _c_objectInstall; set { Set(ref _c_objectInstall, value); } }
+        private string _c_objectInstall;
 
         public DateTime? c_dateOut { get; set; }
 
@@ -90,6 +92,9 @@ namespace FinGoods.Models
         public string c_numberUPD { get => _c_numberUPD; set { Set(ref _c_numberUPD, value); } }
         private string _c_numberUPD;
 
+        [StringLength(150)]
+        public string c_buyer { get => _c_buyer; set { Set(ref _c_buyer, value); } }
+        private string _c_buyer;
 
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

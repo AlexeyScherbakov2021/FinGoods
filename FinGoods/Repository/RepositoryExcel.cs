@@ -86,7 +86,7 @@ namespace FinGoods.Repository
             //ObservableCollection<GrafikExcel> listResult = new ObservableCollection<GrafikExcel>();
             int row = 5;
 
-            using (XLWorkbook wb = new XLWorkbook(@"\\NGK-As-02\Department\Общие документы НГК\Карта заказов\График поставок к плану поставок март.xlsm"))
+            using (XLWorkbook wb = new XLWorkbook(@"\\NGK-As-02\Department\Общие документы НГК\Отгруженная продукция\Grafik_postavok 19.07.18.xlsm"))
             {
                 var ws = wb.Worksheets.Worksheet(1);
                 while (!ws.Cell(row, 1).Value.IsBlank)
@@ -100,8 +100,8 @@ namespace FinGoods.Repository
                     item.name = ws.Cell(row, 7).Value.ToString();
                     item.oprList = ws.Cell(row, 20).Value.ToString();
                     item.cardOrder = ws.Cell(row, 21).Value.ToString();
-                    item.customer = ws.Cell(row, 31).Value.ToString();
-                    item.objInstall = ws.Cell(row, 29).Value.ToString();
+                    item.customer = ws.Cell(row, 33).Value.ToString();
+                    item.objInstall = ws.Cell(row, 31).Value.ToString();
 
                     App.Current.Dispatcher.BeginInvoke((Action) delegate ()
                     {

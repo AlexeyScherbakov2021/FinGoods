@@ -67,6 +67,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="9*"/>
                     <RowDefinition Height="9*"/>
+                    <RowDefinition Height="9*"/>
                     <RowDefinition Height="14*"/>
                     <RowDefinition Height="9*"/>
                     <RowDefinition Height="9*"/>
@@ -125,13 +126,16 @@
                 <TextBlock Text="Заказчик" Grid.Row="4" Margin="6,0"/>
                 <TextBox Text="{Binding Ship.c_customer}" Grid.Row="4" Grid.Column="1" />
 
-                <TextBlock Text="Объект установки" Grid.Row="5" Margin="6,0"/>
-                <TextBox Text="{Binding Ship.c_objectInstall}" Grid.Row="5" Grid.Column="1" />
+                <TextBlock Text="Покупатель" Grid.Row="5" Margin="6,0"/>
+                <TextBox Text="{Binding Ship.c_buyer}" Grid.Row="5" Grid.Column="1" />
 
-                <TextBlock Text="Номер УПД" Grid.Row="6" Margin="6,0"/>
-                <TextBox Text="{Binding Ship.c_numberUPD}" Grid.Row="6" Grid.Column="1" />
+                <TextBlock Text="Объект установки" Grid.Row="6" Margin="6,0"/>
+                <TextBox Text="{Binding Ship.c_objectInstall}" Grid.Row="6" Grid.Column="1" />
 
-                <GroupBox Header="Состав отгрузки" Grid.Row="7" Grid.ColumnSpan="2" Margin="0,8,0,0" Padding="4"
+                <TextBlock Text="Номер УПД" Grid.Row="7" Margin="6,0"/>
+                <TextBox Text="{Binding Ship.c_numberUPD}" Grid.Row="7" Grid.Column="1" />
+
+                <GroupBox Header="Состав отгрузки" Grid.Row="8" Grid.ColumnSpan="2" Margin="0,8,0,0" Padding="4"
                           BorderThickness="1" BorderBrush="Gray">
                     <DockPanel >
                         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,4,0,8">

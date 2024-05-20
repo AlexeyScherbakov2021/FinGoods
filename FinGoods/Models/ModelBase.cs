@@ -143,6 +143,10 @@ namespace FinGoods.Models
                 .IsUnicode(false);
 
             modelBuilder.Entity<Shipment>()
+                .Property(e => e.c_buyer)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Shipment>()
                 .Property(e => e.c_questList)
                 .IsUnicode(false);
 
