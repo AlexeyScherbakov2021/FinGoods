@@ -155,6 +155,7 @@
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\LambdaCommand.cs" />
     <Compile Include="Converter\VisibilityEqualConverter.cs" />
+    <Compile Include="Infrastructure\DataGridMultiSelect.cs" />
     <Compile Include="Infrastructure\Node.cs" />
     <Compile Include="Infrastructure\LogFile.cs" />
     <Compile Include="Infrastructure\NodeModul.cs" />

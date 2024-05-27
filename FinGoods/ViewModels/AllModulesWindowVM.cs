@@ -12,6 +12,7 @@ using System.Windows;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Data;
+using System.Collections;
 
 namespace FinGoods.ViewModels
 {
@@ -33,6 +34,8 @@ namespace FinGoods.ViewModels
 
         CollectionViewSource _listModulesViewSource = new CollectionViewSource();
         public ICollectionView listModuleView => _listModulesViewSource?.View;
+
+        public IList SelectedItems { get; set; }
 
         private Module _selectedModule;
         public Module selectedModule { get => _selectedModule; set { Set(ref _selectedModule, value); } }

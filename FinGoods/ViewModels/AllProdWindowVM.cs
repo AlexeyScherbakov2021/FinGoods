@@ -12,6 +12,7 @@ using System.Windows;
 using FinGoods.Models;
 using System.ComponentModel;
 using System.Windows.Data;
+using System.Collections;
 
 namespace FinGoods.ViewModels
 {
@@ -56,7 +57,7 @@ namespace FinGoods.ViewModels
                 E.Accepted = false;
         }
 
-
+        public IList SelectedItems { get; set; }
 
         private Product _selectedProduct;
         public Product selectedProduct { get => _selectedProduct; set { Set(ref _selectedProduct, value); } }

@@ -70,7 +70,8 @@
         </StackPanel>
 
 
-        <DataGrid x:Name="dg" ItemsSource="{Binding listModuleView}" SelectedItem="{Binding selectedModule}" Margin="4"
+        <inf:DataGridMultiSelect x:Name="dg" ItemsSource="{Binding listModuleView}" SelectedItem="{Binding selectedModule}" Margin="4"
+                      SelectedItemsList="{Binding SelectedItems, Mode=TwoWay}"
                       Style="{StaticResource DataGridStyle}" AutoGenerateColumns="False" IsReadOnly="True">
             <i:Interaction.Behaviors>
                 <inf:ScrollIntoViewBehavior/>
@@ -118,6 +119,6 @@
                 </ContextMenu>
             </DataGrid.ContextMenu>
 
-        </DataGrid>
+        </inf:DataGridMultiSelect>
     </DockPanel>
 </Window>

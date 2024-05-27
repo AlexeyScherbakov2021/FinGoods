@@ -69,9 +69,9 @@
             <TextBox Text="{Binding Filtr,UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="4,0"/>
         </StackPanel>
 
-
-        <DataGrid x:Name="dg" ItemsSource="{Binding listProductView}" SelectedItem="{Binding selectedProduct}" Margin="4"
-                      Style="{StaticResource DataGridStyle}" AutoGenerateColumns="False" IsReadOnly="True">
+        <inf:DataGridMultiSelect x:Name="dg" ItemsSource="{Binding listProductView}" SelectedItem="{Binding selectedProduct}" Margin="4"
+                       SelectedItemsList="{Binding SelectedItems, Mode=TwoWay}"
+                      Style="{StaticResource DataGridStyle}"  AutoGenerateColumns="False" IsReadOnly="True">
             <DataGrid.ColumnHeaderStyle>
                 <Style TargetType="DataGridColumnHeader">
                     <Setter Property="FontWeight" Value="Bold"/>
@@ -119,6 +119,6 @@
                     </MenuItem>
                 </ContextMenu>
             </DataGrid.ContextMenu>
-        </DataGrid>
+        </inf:DataGridMultiSelect>
     </DockPanel>
 </Window>

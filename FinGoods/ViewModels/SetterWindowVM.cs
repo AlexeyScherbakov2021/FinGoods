@@ -40,7 +40,8 @@ namespace FinGoods.ViewModels
             win.DataContext = vm;
             if (win.ShowDialog() == true && vm.selectedProduct != null)
             {
-                setter.Products.Add(vm.selectedProduct);
+                foreach (Product it in vm.SelectedItems)
+                    setter.Products.Add(it);
             }
         }
 

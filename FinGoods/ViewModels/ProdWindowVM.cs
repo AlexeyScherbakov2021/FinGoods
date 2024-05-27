@@ -34,7 +34,7 @@ namespace FinGoods.ViewModels
         #region  Команды
 
         //--------------------------------------------------------------------------------
-        // Команда 
+        // Команда добавить модуль
         //--------------------------------------------------------------------------------
         public ICommand AddModulCommand => new LambdaCommand(OnAddModulCommandExecuted, CanAddModulCommand);
         private bool CanAddModulCommand(object p) => true;
@@ -45,7 +45,9 @@ namespace FinGoods.ViewModels
             win.DataContext = vm;
             if (win.ShowDialog() == true && vm.selectedModule != null)
             {
-                product.Modules.Add(vm.selectedModule);
+                foreach(Module it in vm.SelectedItems)
+                    product.Modules.Add(it);
+
                 //vm.selectedModule.Product = product;
 //                if(product.id > 0)
                 //repoModul.Save();
@@ -53,7 +55,7 @@ namespace FinGoods.ViewModels
         }
 
         //--------------------------------------------------------------------------------
-        // Команда 
+        // Команда Удалить модуль
         //--------------------------------------------------------------------------------
         public ICommand DelModulCommand => new LambdaCommand(OnDelModulCommandExecuted, CanDelModulCommand);
         private bool CanDelModulCommand(object p) => selectModul != null;

@@ -158,11 +158,16 @@ namespace FinGoods.ViewModels
             {
                 //vm.selectedProduct.g_number =
                 //    ProdWindowVM.CreateSerialNumber(vm.selectedProduct, Ship.c_number.Substring(0, 6));
-                Ship.Products.Add(vm.selectedProduct);
+                //Ship.Products.Add(vm.selectedProduct);
+                foreach(Product it in vm.SelectedItems)
+                    Ship.Products.Add(it);
+
+
                 RepositoryMSSQL<Shipment> repo = new RepositoryMSSQL<Shipment>();
                 repo.Save();
 
-                addNodeProd(vm.selectedProduct);
+                foreach (Product it in vm.SelectedItems)
+                    addNodeProd(it);
 
             }
         }
@@ -177,12 +182,18 @@ namespace FinGoods.ViewModels
 
             if (win.ShowDialog() == true)
             {
-                Ship.Modules.Add(vm.selectedModule);
+                foreach(Module it in vm.SelectedItems)
+                    Ship.Modules.Add(it);
+
                 RepositoryMSSQL<Shipment> repo = new RepositoryMSSQL<Shipment>();
                 repo.Save();
 
-                NodeModul node = new NodeModul(vm.selectedModule.m_name, vm.selectedModule.m_number, vm.selectedModule);
-                listComposite.Add(node);
+                foreach (Module it in vm.SelectedItems)
+                {
+                    NodeModul node = new NodeModul(it.m_name, it.m_number, it);
+                    listComposite.Add(node);
+                }
+
             }
         }
 
