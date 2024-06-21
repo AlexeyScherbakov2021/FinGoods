@@ -12,13 +12,19 @@ using System.Windows.Input;
 
 namespace FinGoods.ViewModels
 {
-    internal class ProdWindowVM
+    internal class ProdWindowVM : Observable
     {
         public Product product { get; set; }= new Product();
         private readonly RepositoryMSSQL<ProductType> repoGT = new RepositoryMSSQL<ProductType>();
         private readonly RepositoryMSSQL<Module> repoModul = new RepositoryMSSQL<Module>();
         public List<ProductType> listProdType { get; set; }
         public Module selectModul { get; set; }
+        private AllProdWindowVM parentVM;
+        private Visibility _isVisibleAdd = Visibility.Collapsed;
+        public Visibility isVisibleAdd { get => _isVisibleAdd; set { Set(ref _isVisibleAdd, value); } }
+
+        private Visibility _isVisibleOK = Visibility.Visible;
+        public Visibility isVisibleOK { get => _isVisibleOK; set { Set(ref _isVisibleOK, value); } }
 
         public ProdWindowVM()
         {
@@ -30,8 +36,27 @@ namespace FinGoods.ViewModels
             product.Copy(g);
         }
 
+        public ProdWindowVM(AllProdWindowVM parent)
+        {
+            isVisibleAdd = Visibility.Visible;
+            isVisibleOK = Visibility.Collapsed;
+            parentVM = parent;
+            listProdType = new List<ProductType>(repoGT.Items);
+        }
 
         #region  Команды
+        //--------------------------------------------------------------------------------
+        // Команда добавить изделие
+        //--------------------------------------------------------------------------------
+        public ICommand AddProdCommand => new LambdaCommand(OnAddProdCommandExecuted, CanAddProdCommand);
+        private bool CanAddProdCommand(object p) => true;
+        private void OnAddProdCommandExecuted(object p)
+        {
+            product.id = parentVM.AddNewProduct(product);
+            product.g_number = "";
+        }
+
+
 
         //--------------------------------------------------------------------------------
         // Команда добавить модуль
@@ -77,7 +102,6 @@ namespace FinGoods.ViewModels
         private bool CanGenNumCommand(object p) => product?.g_dateRegister != null;
         private void OnGenNumCommandExecuted(object p)
         {
-
             RepositoryMSSQL<SerialNumber> repoGen = new RepositoryMSSQL<SerialNumber>();
             var serialLine = repoGen.Items.Where(it => it.kind_number == KindNumber.Production
                     && it.year_number == product.g_dateRegister.Value.Year).FirstOrDefault();

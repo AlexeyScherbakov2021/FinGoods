@@ -15,11 +15,12 @@
     </Window.DataContext>
     <DockPanel>
         <UniformGrid Columns="2" DockPanel.Dock="Bottom" Margin="4">
-            <Button Content="OK" Margin="2" Style="{StaticResource ButtonStyleShadow}">
+            <Button Content="OK" Margin="2" Style="{StaticResource ButtonStyleShadow}"  Visibility="{Binding isVisibleOK}">
                 <Button.Command>
                     <cmd:CloseDialogCommand DialogResult="True"/>
                 </Button.Command>
             </Button>
+            <Button Content="Добавить" Margin="2" Visibility="{Binding isVisibleAdd}" Command="{Binding AddProdCommand}" Style="{StaticResource ButtonStyleShadow}"/>
             <Button Content="Отменить" Margin="2" IsCancel="True" Style="{StaticResource ButtonStyleShadow}"/>
         </UniformGrid>
 
@@ -142,6 +143,6 @@
                 </DockPanel>
             </Grid>
         </Border>
-        
+
     </DockPanel>
 </Window>

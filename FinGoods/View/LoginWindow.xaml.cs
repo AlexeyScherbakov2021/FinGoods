@@ -23,5 +23,6 @@ namespace FinGoods.View
         {
             InitializeComponent();
         }
+
     }
 }

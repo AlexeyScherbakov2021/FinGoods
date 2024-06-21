@@ -105,15 +105,16 @@ namespace FinGoods.ViewModels
         {
             bool res = true;
 
-            Product newProd = new Product();
+            //Product newProd = new Product();
             ProdWindow win = new ProdWindow();
-            ProdWindowVM vm = new ProdWindowVM(newProd);
+            ProdWindowVM vm = new ProdWindowVM(this);
             win.DataContext = vm;
             if (win.ShowDialog() == true)
             {
+                Product newProd = new Product();
                 newProd.Copy(vm.product);
 
-                if (newProd.id == 0 )
+                if (vm.product.id == 0 )
                     res = repo.Add(newProd, true);
 
                 if (res)
@@ -123,6 +124,24 @@ namespace FinGoods.ViewModels
                 }
             }
         }
+
+        public int AddNewProduct(Product prod)
+        {
+            bool res = true;
+            Product newProd = new Product();
+            newProd.Copy(prod);
+
+            if (newProd.id == 0)
+                res = repo.Add(newProd, true);
+
+            if (res)
+            {
+                listProduct.Add(newProd);
+                selectedProduct = newProd;
+            }
+            return newProd.id;
+        }
+
 
         //--------------------------------------------------------------------------------
         // Команда Редактировать 
