@@ -107,7 +107,7 @@ namespace FinGoods.ViewModels
 
             //Product newProd = new Product();
             ProdWindow win = new ProdWindow();
-            ProdWindowVM vm = new ProdWindowVM(this);
+            ProdWindowVM vm = new ProdWindowVM(this, win);
             win.DataContext = vm;
             if (win.ShowDialog() == true)
             {

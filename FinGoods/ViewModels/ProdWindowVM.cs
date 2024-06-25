@@ -20,6 +20,7 @@ namespace FinGoods.ViewModels
         public List<ProductType> listProdType { get; set; }
         public Module selectModul { get; set; }
         private AllProdWindowVM parentVM;
+        ProdWindow prodWin;
         private Visibility _isVisibleAdd = Visibility.Collapsed;
         public Visibility isVisibleAdd { get => _isVisibleAdd; set { Set(ref _isVisibleAdd, value); } }
 
@@ -36,11 +37,12 @@ namespace FinGoods.ViewModels
             product.Copy(g);
         }
 
-        public ProdWindowVM(AllProdWindowVM parent)
+        public ProdWindowVM(AllProdWindowVM parent, ProdWindow win)
         {
             isVisibleAdd = Visibility.Visible;
             isVisibleOK = Visibility.Collapsed;
             parentVM = parent;
+            prodWin = win;
             listProdType = new List<ProductType>(repoGT.Items);
         }
 
@@ -53,7 +55,9 @@ namespace FinGoods.ViewModels
         private void OnAddProdCommandExecuted(object p)
         {
             product.id = parentVM.AddNewProduct(product);
-            product.g_number = "";
+            product.g_numberBI = "";
+            product.g_numberUSIKP = "";
+            prodWin.setNumberSelection();
         }
 
 

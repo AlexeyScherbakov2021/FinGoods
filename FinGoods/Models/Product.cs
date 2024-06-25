@@ -39,10 +39,12 @@ namespace FinGoods.Models
         public string g_numberBox { get => _g_numberBox; set { Set(ref _g_numberBox, value); } }
 
         [StringLength(40)]
-        public string g_numberBI { get; set;}
+        public string g_numberBI { get => _g_numberBI; set { Set(ref _g_numberBI, value); } }
+        private string _g_numberBI;
 
         [StringLength(40)]
-        public string g_numberUSIKP { get; set;}
+        public string g_numberUSIKP { get => _g_numberUSIKP; set { Set(ref _g_numberUSIKP, value); } }
+        private string _g_numberUSIKP;
 
         [StringLength(40)]
         public string g_shunt { get; set; }

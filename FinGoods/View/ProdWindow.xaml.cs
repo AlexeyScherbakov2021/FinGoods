@@ -23,5 +23,12 @@ namespace FinGoods.View
         {
             InitializeComponent();
         }
+        public void setNumberSelection()
+        {
+            tbNumber.Focus();
+            tbNumber.CaretIndex = tbNumber.GetLineLength(0);
+            tbNumber.SelectAll();
+        }
     }
+
 }
